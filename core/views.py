@@ -1,5 +1,10 @@
 from django.shortcuts import render
 
-# This view now renders the homepage using the base layout and home.html
+# =======================================================
+# CORE VIEWS
+# =======================================================
+
+# Render the homepage using the base layout and the home.html template.
+# This acts as the main landing page for the site.
 def home(request):
     return render(request, 'core/home.html')

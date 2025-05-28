@@ -37,6 +37,28 @@ body {
     color: #ffc107;
 }
 
+/* ------------------------------- Navbar Link Underline Hover ------------------------------- */
+/* Add a golden underline on hover for navigation clarity */
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #ffc107;
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
 /* ------------------------------- Footer Styling ------------------------------- */
 /* Style the footer for spacing, readability, and layout clarity */
 footer {
@@ -55,6 +77,13 @@ footer {
 
 
 
+
+
+
+
+
+
+
 /* =======================================================
    HOME PAGE
    ======================================================= */
@@ -64,6 +93,14 @@ footer {
 main .text-center {
     margin-top: 3rem;
 }
+
+
+
+
+
+
+
+
 
 
 /* =======================================================
