@@ -19,4 +19,7 @@ urlpatterns = [
 
     # Route to dashboard page for logged-in users
     path('dashboard/', views.dashboard_view, name='dashboard'),
+
+    # Route to profile page for logged-in users
+    path('profile/', views.profile_view, name='profile'),
 ]

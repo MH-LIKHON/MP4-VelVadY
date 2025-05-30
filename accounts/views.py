@@ -35,7 +35,7 @@ def login_view(request):
         if user is not None:
             login(request, user)  # Logs the user in and creates a session
             messages.success(request, "Welcome back!")
-            return redirect("home")  # Adjust this to the correct landing page
+            return redirect("dashboard")  # Adjust this to the correct landing page
         else:
             messages.error(request, "Invalid email or password. Please try again.")
 
@@ -97,3 +97,16 @@ def logout_view(request):
 @login_required
 def dashboard_view(request):
     return render(request, "accounts/dashboard.html")
+
+
+
+
+
+# =======================================================
+# PROFILE VIEW
+# =======================================================
+
+# ------------------------------- Shows current user's profile information -------------------------------
+@login_required
+def profile_view(request):
+    return render(request, "accounts/profile.html")
