@@ -94,6 +94,83 @@ main .text-center {
     margin-top: 3rem;
 }
 
+/* ------------------------------- Welcome Section ------------------------------- */
+.hero-section {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0e0e0;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    color: #555;
+}
+
+
+
+
+
+
+
+
+/* =======================================================
+   REGISTER PAGE
+   ======================================================= */
+
+/* ------------------------------- Login Layout ------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+/* =======================================================
+   REGISTER PAGE
+   ======================================================= */
+
+/* ------------------------------- Register Layout ------------------------------- */
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+form label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+form .form-check {
+    margin-top: 1rem;
+}
+
+form button[type="submit"] {
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+
 
 
 

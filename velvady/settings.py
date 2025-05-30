@@ -12,24 +12,29 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# =======================================================
+# BASE DIRECTORY
+# =======================================================
+
+# I am using BASE_DIR to construct full paths relative to the project root
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# =======================================================
+# DEVELOPMENT MODE SETTINGS
+# =======================================================
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-y*=bo#@*w%d%mnv6lnq4m#t%7vp1v#xq^v6m%=v&%83m0f1-rk"
-
-# SECURITY WARNING: don't run with debug turned on in production!
+# WARNING: Do not use DEBUG or this key in production
 DEBUG = True
-
+SECRET_KEY = "django-insecure-y*=bo#@*w%d%mnv6lnq4m#t%7vp1v#xq^v6m%=v&%83m0f1-rk"
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# =======================================================
+# INSTALLED APPLICATIONS
+# =======================================================
 
+# These are the built-in Django apps and custom apps used in this project
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -38,14 +43,20 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-     'core',
-     'accounts',
+    # Custom project apps
+    "core",
+    "accounts",
 ]
 
-# Use the custom user model defined in the 'accounts' app
+# I am setting Django to use my custom user model from the 'accounts' app
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
+# =======================================================
+# MIDDLEWARE CONFIGURATION
+# =======================================================
+
+# Middleware is used to process requests globally before reaching a view
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -56,12 +67,24 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+# =======================================================
+# URL CONFIGURATION
+# =======================================================
+
+# The root URLConf points to the top-level routing file
 ROOT_URLCONF = "velvady.urls"
 
+
+# =======================================================
+# TEMPLATE CONFIGURATION
+# =======================================================
+
+# Django will load HTML templates from all app directories
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [],  # No custom template folders needed for now
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -73,12 +96,20 @@ TEMPLATES = [
     },
 ]
 
+
+# =======================================================
+# WSGI CONFIGURATION
+# =======================================================
+
+# This sets the entry point for running the project via WSGI server
 WSGI_APPLICATION = "velvady.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# =======================================================
+# DATABASE CONFIGURATION
+# =======================================================
 
+# I am using SQLite for development. Can be replaced with PostgreSQL for deployment
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -87,15 +118,19 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+# =======================================================
+# PASSWORD VALIDATION FOR USER SECURITY
+# =======================================================
 
+# I am enforcing strong password rules for the site to meet MP4 distinction-level security expectations
+# These validators ensure the password is not too short, not too common, and not entirely numeric
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 12},  # I have raised the minimum length to 12 characters for added security
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -106,24 +141,39 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+# =======================================================
+# INTERNATIONALISATION SETTINGS
+# =======================================================
 
+# I am keeping default English and UTC time zone for a UK-based project
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# =======================================================
+# STATIC FILES CONFIGURATION
+# =======================================================
 
+# Static files such as CSS and JavaScript are served from this URL
 STATIC_URL = "static/"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+# =======================================================
+# PRIMARY KEY FIELD TYPE
+# =======================================================
+
+# I am setting the default type for primary keys on all models
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# =======================================================
+# SESSION SECURITY SETTINGS
+# =======================================================
+
+# I am limiting session lifetime to 30 minutes of inactivity to protect user data
+SESSION_COOKIE_AGE = 1800  # 30 minutes in seconds
+
+# This setting ensures users are logged out when they close the browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
