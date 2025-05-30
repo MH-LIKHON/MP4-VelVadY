@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block title %}Dashboard | VelVady{% endblock %}
+
+{% block content %}
+<!-- ============================ -->
+<!--       DASHBOARD PAGE         -->
+<!-- ============================ -->
+
+<div class="text-center">
+    <h1>Welcome to your Dashboard, {{ user.first_name }}!</h1>
+    <p>This is your personal dashboard. More features coming soon.</p>
+
+    <!-- Logout button here since dashboard is private -->
+    <a href="{% url 'logout' %}" class="btn btn-danger mt-3">Logout</a>
+</div>
+{% endblock %}

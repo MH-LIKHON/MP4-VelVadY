@@ -16,4 +16,7 @@ urlpatterns = [
 
     # Route to log the user out and redirect them
     path('logout/', views.logout_view, name='logout'),
+
+    # Route to dashboard page for logged-in users
+    path('dashboard/', views.dashboard_view, name='dashboard'),
 ]

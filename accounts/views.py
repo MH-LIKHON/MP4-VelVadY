@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserRegistrationForm
+from django.contrib.auth.decorators import login_required
 
 
 # =======================================================
@@ -10,6 +11,9 @@ from .forms import CustomUserRegistrationForm
 
 # ------------------------------- File Overview -------------------------------
 # This file defines the views for login, registration, and logout user actions.
+
+
+
 
 
 # =======================================================
@@ -36,6 +40,9 @@ def login_view(request):
             messages.error(request, "Invalid email or password. Please try again.")
 
     return render(request, 'accounts/login.html')
+
+
+
 
 
 # =======================================================
@@ -65,6 +72,9 @@ def register_view(request):
     return render(request, 'accounts/register.html', {"form": form})
 
 
+
+
+
 # =======================================================
 # LOGOUT VIEW
 # =======================================================
@@ -74,3 +84,16 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out successfully.")
     return redirect("home")  # Adjust 'home' if using a different landing page
+
+
+
+
+
+# =======================================================
+# DASHBOARD VIEW
+# =======================================================
+
+# ------------------------------- Renders the dashboard for logged-in users -------------------------------
+@login_required
+def dashboard_view(request):
+    return render(request, "accounts/dashboard.html")
