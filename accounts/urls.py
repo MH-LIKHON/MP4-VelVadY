@@ -22,4 +22,5 @@ urlpatterns = [
 
     # Route to profile page for logged-in users
     path('profile/', views.profile_view, name='profile'),
+    path('profile/edit/', views.profile_update_view, name='profile_edit'),
 ]

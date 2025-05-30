@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+{% block title %}Edit Profile | VelVady{% endblock %}
+
+{% block content %}
+<!-- ============================ -->
+<!--       PROFILE EDIT PAGE      -->
+<!-- ============================ -->
+
+<div class="container my-5">
+    <h2>Edit Your Profile</h2>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.address.label_tag }}
+            {{ form.address }}
+            {{ form.address.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-custom">Save Changes</button>
+        <a href="{% url 'profile' %}" class="btn btn-custom">Cancel</a>
+    </form>
+</div>
+{% endblock %}

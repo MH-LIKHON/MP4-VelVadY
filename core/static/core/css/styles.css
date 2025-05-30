@@ -24,6 +24,22 @@ body {
     width: auto;
 }
 
+/* ------------------------------- Button Styling ------------------------------- */
+/* Custom Button Styling */
+.btn-custom {
+  background-color: #494949;
+  color: #ffffff;
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect with your gold color */
+.btn-custom:hover,
+.btn-custom:focus {
+  background-color: #d4af37;
+  color: #000000;
+}
+
 /* ------------------------------- Top Bar Social Icons ------------------------------- */
 /* Set colour and size for the top bar social icons */
 .top-bar .social-icons a {

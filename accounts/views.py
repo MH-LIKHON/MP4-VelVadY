@@ -3,6 +3,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserRegistrationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .forms import ProfileUpdateForm
+from .models import CustomUser
 
 
 # =======================================================
@@ -53,7 +57,7 @@ def login_view(request):
 def register_view(request):
     # Prevent logged-in users from accessing the registration page
     if request.user.is_authenticated:
-        return redirect("home")  # Change to 'dashboard' if needed
+        return redirect("dashboard")  # Change to 'dashboard' if needed
 
     # Clean up session flag if it exists
     request.session.pop('new_account', None)
@@ -110,3 +114,21 @@ def dashboard_view(request):
 @login_required
 def profile_view(request):
     return render(request, "accounts/profile.html")
+
+# ------------------------------- Handles profile update form submission and display -------------------------------
+@login_required
+def profile_update_view(request):
+    user = get_object_or_404(CustomUser, pk=request.user.pk)
+
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect('profile')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileUpdateForm(instance=user)
+
+    return render(request, 'accounts/profile_update.html', {'form': form})
