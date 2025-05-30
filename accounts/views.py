@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserRegistrationForm
 
 
@@ -8,7 +8,15 @@ from .forms import CustomUserRegistrationForm
 # ACCOUNTS VIEWS
 # =======================================================
 
-# Renders the login page and handles authentication for users attempting to log in
+# ------------------------------- File Overview -------------------------------
+# This file defines the views for login, registration, and logout user actions.
+
+
+# =======================================================
+# LOGIN VIEW
+# =======================================================
+
+# ------------------------------- Handles user login -------------------------------
 def login_view(request):
     if request.session.pop('new_account', None):
         messages.success(request, "Your account has been created. You can now log in.")
@@ -30,7 +38,11 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 
-# Handles registration form submission, user creation, and error reporting
+# =======================================================
+# REGISTER VIEW
+# =======================================================
+
+# ------------------------------- Handles new user registration -------------------------------
 def register_view(request):
     # Prevent logged-in users from accessing the registration page
     if request.user.is_authenticated:
@@ -51,3 +63,14 @@ def register_view(request):
         form = CustomUserRegistrationForm()  # Instantiates an empty form for GET requests
 
     return render(request, 'accounts/register.html', {"form": form})
+
+
+# =======================================================
+# LOGOUT VIEW
+# =======================================================
+
+# ------------------------------- Logs the user out and clears session -------------------------------
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect("home")  # Adjust 'home' if using a different landing page

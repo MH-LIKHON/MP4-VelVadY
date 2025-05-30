@@ -83,6 +83,22 @@
     </header>
 
     <!-- ============================ -->
+    <!--       FLASH MESSAGES         -->
+    <!-- ============================ -->
+
+    {% if messages %}
+        <div class="d-flex justify-content-center mt-3">
+            <div class="w-75">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- ============================ -->
     <!--         MAIN SECTION         -->
     <!-- ============================ -->
     
@@ -119,6 +135,18 @@
     <!-- ============================ -->
     <!-- JavaScript bundle for Bootstrap functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Automatically dismiss alert messages after 5 seconds
+        window.setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.classList.add('fade');
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 500); // Remove from DOM
+            });
+        }, 2500); // 5 Sec
+    </script>
 
     {% block extra_js %}{% endblock %}
 </body>
