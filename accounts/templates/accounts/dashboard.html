@@ -3,15 +3,85 @@
 {% block title %}Dashboard | VelVady{% endblock %}
 
 {% block content %}
+
 <!-- ============================ -->
-<!--       DASHBOARD PAGE         -->
+<!--         DASHBOARD PAGE       -->
 <!-- ============================ -->
 
-<div class="text-center">
-    <h1>Welcome to your Dashboard, {{ user.first_name }}!</h1>
-    <p>This is your personal dashboard. More features coming soon.</p>
+<div class="container my-5">
 
-    <!-- Logout button here since dashboard is private -->
-    <a href="{% url 'logout' %}" class="btn btn-custom">Logout</a>
+    <!-- ------------------------------- Welcome Message ------------------------------- -->
+
+    <h2 class="text-center fw-bold mb-4">Welcome back, {{ user.first_name }}!</h2>
+
+    <!-- ------------------------------- Action Buttons / Quick Links ------------------------------- -->
+
+    <div class="row justify-content-center g-4">
+
+        <!-- Button to view profile -->
+        <div class="col-md-4 text-center">
+            <a href="{% url 'profile' %}" class="btn btn-custom w-100 py-3">View Profile</a>
+        </div>
+
+        <!-- Button to edit profile -->
+        <div class="col-md-4 text-center">
+            <a href="{% url 'profile_edit' %}" class="btn btn-custom w-100 py-3">Edit Profile</a>
+        </div>
+
+        <!-- Button to browse services -->
+        <div class="col-md-4 text-center">
+            <a href="{% url 'services' %}" class="btn btn-custom w-100 py-3">Browse Services</a>
+        </div>
+
+        <!-- Button to log out -->
+        <div class="col-md-4 text-center">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100 py-3">Logout</a>
+        </div>
+
+    </div>
+
+    <!-- ------------------------------- Dashboard User Stats ------------------------------- -->
+
+    <div class="row justify-content-center mt-5">
+
+        <!-- Active Subscriptions -->
+        <div class="col-md-4 text-center">
+            <!-- Card links to subscriptions page -->
+            <a href="#" class="text-decoration-none text-dark">
+                <div class="dashboard-card bg-light border rounded shadow-sm p-4">
+                    <i class="fas fa-bolt fa-2x text-primary mb-2"></i>
+                    <h4 class="fw-bold">Active Subscriptions</h4>
+                    <p class="mb-0">{{ active_subscriptions }}</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Last Order Date -->
+        <div class="col-md-4 text-center">
+            <!-- Card links to order history page -->
+            <a href="#" class="text-decoration-none text-dark">
+                <div class="dashboard-card bg-light border rounded shadow-sm p-4">
+                    <i class="fas fa-clock fa-2x text-success mb-2"></i>
+                    <h4 class="fw-bold">Last Purchase</h4>
+                    <p class="mb-0">{{ last_order_date }}</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Remaining Credits -->
+        <div class="col-md-4 text-center">
+            <!-- Card links to credits page -->
+            <a href="#" class="text-decoration-none text-dark">
+                <div class="dashboard-card bg-light border rounded shadow-sm p-4">
+                    <i class="fas fa-coins fa-2x text-warning mb-2"></i>
+                    <h4 class="fw-bold">Remaining Credits</h4>
+                    <p class="mb-0">{{ remaining_credits }}</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
 </div>
+
 {% endblock %}

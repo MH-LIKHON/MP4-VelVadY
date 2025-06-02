@@ -7,6 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from .forms import ProfileUpdateForm
 from .models import CustomUser
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
+
+
 
 
 # =======================================================
@@ -26,6 +31,11 @@ from .models import CustomUser
 
 # ------------------------------- Handles user login -------------------------------
 def login_view(request):
+    # Redirect logged-in users away from the login page
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
+    # Check for new account flag to display success message
     if request.session.pop('new_account', None):
         messages.success(request, "Your account has been created. You can now log in.")
 
@@ -37,9 +47,9 @@ def login_view(request):
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-            login(request, user)  # Logs the user in and creates a session
+            login(request, user)
             messages.success(request, "Welcome back!")
-            return redirect("dashboard")  # Adjust this to the correct landing page
+            return redirect("dashboard")
         else:
             messages.error(request, "Invalid email or password. Please try again.")
 
@@ -97,10 +107,20 @@ def logout_view(request):
 # DASHBOARD VIEW
 # =======================================================
 
-# ------------------------------- Renders the dashboard for logged-in users -------------------------------
-@login_required
-def dashboard_view(request):
-    return render(request, "accounts/dashboard.html")
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/dashboard.html'
+
+    # ------------------------------- Add user-specific dashboard context -------------------------------
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Placeholder data for future model integration
+        context['active_subscriptions'] = 2
+        context['last_order_date'] = '28 May 2025'
+        context['remaining_credits'] = 18
+
+        return context
 
 
 

@@ -12,12 +12,19 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+
+
+
+
 # =======================================================
 # BASE DIRECTORY
 # =======================================================
 
 # I am using BASE_DIR to construct full paths relative to the project root
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
 
 
 # =======================================================
@@ -28,6 +35,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = True
 SECRET_KEY = "django-insecure-y*=bo#@*w%d%mnv6lnq4m#t%7vp1v#xq^v6m%=v&%83m0f1-rk"
 ALLOWED_HOSTS = []
+
+
+
 
 
 # =======================================================
@@ -52,6 +62,9 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
+
+
+
 # =======================================================
 # MIDDLEWARE CONFIGURATION
 # =======================================================
@@ -68,12 +81,18 @@ MIDDLEWARE = [
 ]
 
 
+
+
+
 # =======================================================
 # URL CONFIGURATION
 # =======================================================
 
 # The root URLConf points to the top-level routing file
 ROOT_URLCONF = "velvady.urls"
+
+
+
 
 
 # =======================================================
@@ -97,12 +116,18 @@ TEMPLATES = [
 ]
 
 
+
+
+
 # =======================================================
 # WSGI CONFIGURATION
 # =======================================================
 
 # This sets the entry point for running the project via WSGI server
 WSGI_APPLICATION = "velvady.wsgi.application"
+
+
+
 
 
 # =======================================================
@@ -116,6 +141,9 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+
 
 
 # =======================================================
@@ -141,6 +169,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
+
 # =======================================================
 # INTERNATIONALISATION SETTINGS
 # =======================================================
@@ -152,6 +183,9 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+
+
 # =======================================================
 # STATIC FILES CONFIGURATION
 # =======================================================
@@ -160,12 +194,18 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 
+
+
+
 # =======================================================
 # PRIMARY KEY FIELD TYPE
 # =======================================================
 
 # I am setting the default type for primary keys on all models
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
 
 
 # =======================================================
@@ -177,3 +217,17 @@ SESSION_COOKIE_AGE = 1800  # 30 minutes in seconds
 
 # This setting ensures users are logged out when they close the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+
+
+
+# =======================================================
+# LOGIN / LOGOUT REDIRECTION
+# =======================================================
+
+# After login, redirect user to dashboard
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'
+
+# Optional: Where to redirect after logout
+LOGOUT_REDIRECT_URL = '/accounts/login/'
