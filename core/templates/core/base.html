@@ -4,91 +4,119 @@
 <html lang="en">
 
 <head>
-    <!-- ============================ -->
-    <!--     TAGS & LINKS SECTION     -->
-    <!-- ============================ -->
-    <!-- This section includes meta tags, Bootstrap, icons, and my custom styles -->
 
+    <!-- ============================ -->
+    <!--        TAGS & LINKS          -->
+    <!-- ============================ -->
+
+    <!-- Meta tags and stylesheet links -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token }}">
 
     <title>{% block title %}VelVady{% endblock %}</title>
 
-    <!-- Including Bootstrap for layout and responsive design -->
+    <!-- Bootstrap CSS for layout and responsiveness -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome for icon usage -->
+    <!-- Font Awesome for icon support -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Linking to my custom stylesheet if needed -->
+    <!-- Custom project-wide styles -->
     <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
 
     {% block extra_head %}{% endblock %}
+
 </head>
 
 <body>
+
     <!-- ============================ -->
-    <!--       HEADER SECTION         -->
+    <!--           HEADER             -->
     <!-- ============================ -->
 
-    <!-- This is the header content container -->
     <header>
-        <!-- Top Bar with Social Media Icons -->
+
+        <!-- ------------------------------- Top Bar with Social Media Icons ------------------------------- -->
+
         <div class="top-bar py-2 bg-dark text-white">
             <div class="container d-flex justify-content-center">
                 <div class="social-icons d-flex gap-3">
-                    <!-- These are the core social/contact icons for VelVady -->
+
+                    <!-- Email icon -->
                     <a href="mailto:info@velvady.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+
+                    <!-- Facebook icon -->
                     <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+
+                    <!-- Instagram icon -->
                     <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+
+                    <!-- LinkedIn icon -->
                     <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+
+                    <!-- YouTube icon -->
                     <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+
+                    <!-- TikTok icon -->
                     <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://x.com" target="_blank" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></i></a>
+
+                    <!-- Twitter/X icon -->
+                    <a href="https://x.com" target="_blank" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>
+
                 </div>
             </div>
         </div>
 
-        <!-- Main Navigation Bar -->
+        <!-- ------------------------------- Main Navigation Bar ------------------------------- -->
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <!-- Brand Logo -->
+
+                <!-- Brand logo linking to home -->
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <img src="{% static 'core/images/velvady_logo.png' %}" alt="VelVady Logo" class="navbar-logo">
                 </a>
 
-                <!-- Mobile nav toggle -->
+                <!-- Mobile nav toggle button -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Right side nav links -->
+                <!-- Right-aligned navigation links -->
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
+
+                        <!-- Home link -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
+
+                        <!-- Login link -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>
+
+                        <!-- Register link -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'register' %}">Register</a>
                         </li>
+
                     </ul>
                 </div>
+
             </div>
         </nav>
+
     </header>
 
-    <!-- ============================ -->
-    <!--       FLASH MESSAGES         -->
-    <!-- ============================ -->
+    <!-- ------------------------------- Flash Messages ------------------------------- -->
 
     {% if messages %}
         <div class="container mt-3">
             {% for message in messages %}
+                <!-- Alert message shown to user -->
                 <div class="alert 
                     alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} 
                     alert-dismissible fade show text-center" role="alert">
@@ -99,56 +127,57 @@
     {% endif %}
 
     <!-- ============================ -->
-    <!--         MAIN SECTION         -->
+    <!--         MAIN CONTENT         -->
     <!-- ============================ -->
-    
-    <!-- This is the main content container -->
+
     <main class="container my-5">
         {% block content %}
-        <!-- Each page will inject its specific content here -->
+        <!-- Page-specific content will be injected here -->
         {% endblock %}
     </main>
 
+    <!-- ============================ -->
+    <!--            FOOTER            -->
+    <!-- ============================ -->
 
-    <!-- ============================ -->
-    <!--       FOOTER SECTION         -->
-    <!-- ============================ -->
-    
-    <!-- This is the footer content container -->
     <footer class="bg-light text-center p-3">
-        <!-- Brand Logo -->
+
+        <!-- ------------------------------- Footer Logo ------------------------------- -->
+
         <div>
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'core/images/velvady_logo.png' %}" alt="VelVady Logo" class="navbar-logo">
             </a>
         </div>
 
-        <!-- Rights -->
+        <!-- ------------------------------- Copyright ------------------------------- -->
+
         <div>
             <p class="mb-0">&copy; 2025 VelVady | All rights reserved</p>
         </div>
+
     </footer>
 
+    <!-- ============================ -->
+    <!--     JS & BOOTSTRAP SCRIPTS   -->
+    <!-- ============================ -->
 
-    <!-- ============================ -->
-    <!--    JS & BOOTSTRAP SECTION    -->
-    <!-- ============================ -->
-    <!-- JavaScript bundle for Bootstrap functionality -->
+    <!-- Bootstrap bundle JS for interactive elements -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Automatically dismiss alert messages after 5 seconds
+        // Automatically dismiss alert messages after 2.5 seconds
         window.setTimeout(function () {
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(function(alert) {
                 alert.classList.add('fade');
                 alert.classList.remove('show');
-                setTimeout(() => alert.remove(), 500); // Remove from DOM
+                setTimeout(() => alert.remove(), 500);
             });
-        }, 2500); // 5 Sec
+        }, 2500);
     </script>
 
     {% block extra_js %}{% endblock %}
-</body>
 
+</body>
 </html>

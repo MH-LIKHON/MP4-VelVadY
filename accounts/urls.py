@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 # =======================================================
 # ACCOUNTS APP ROUTES
@@ -23,4 +24,8 @@ urlpatterns = [
     # Route to profile page for logged-in users
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.profile_update_view, name='profile_edit'),
+
+    # Password change route
+    path('password/change/', views.CustomPasswordChangeView.as_view(), name='password_change'),
+    path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
 ]

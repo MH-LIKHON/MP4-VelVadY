@@ -132,3 +132,23 @@ def profile_update_view(request):
         form = ProfileUpdateForm(instance=user)
 
     return render(request, 'accounts/profile_update.html', {'form': form})
+
+
+
+
+
+# =======================================================
+# PASSWORD CHANGE VIEW
+# =======================================================
+
+# ------------------------------- Allows user to change password -------------------------------
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'accounts/password_change.html'  # Custom template for password change form
+    success_url = reverse_lazy('password_change_done')  # Where to redirect after successful change
+
+    def form_valid(self, form):
+        messages.success(self.request, "Your password has been changed successfully.")
+        return super().form_valid(form)

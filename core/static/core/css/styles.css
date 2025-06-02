@@ -3,6 +3,7 @@
    ======================================================= */
 
 /* ------------------------------- Global Resets ------------------------------- */
+
 /* Reset margin, padding, and box model to ensure consistent styling across browsers */
 * {
     margin: 0;
@@ -11,6 +12,7 @@
 }
 
 /* ------------------------------- Body Styling ------------------------------- */
+
 /* Apply background colour and font for overall site appearance */
 body {
     background-color: #cacaca;
@@ -18,6 +20,7 @@ body {
 }
 
 /* ------------------------------- Logo Styling ------------------------------- */
+
 /* Resize the logo displayed in the navigation bar */
 .navbar-logo {
     height: 50px;
@@ -25,11 +28,13 @@ body {
 }
 
 /* ------------------------------- Button Styling ------------------------------- */
+
 /* Custom Button Styling */
 .btn-custom {
   background-color: #494949;
   color: #ffffff;
-  border: none;
+  border: none;  
+  font-weight: 500; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

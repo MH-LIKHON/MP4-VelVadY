@@ -5,26 +5,36 @@
 {% block content %}
 
 <!-- ============================ -->
-<!--       REGISTER PAGE         -->
+<!--         REGISTER PAGE        -->
 <!-- ============================ -->
 
 <section class="velvady-auth-wrapper">
     <div class="container">
+
+        <!-- ------------------------------- Page Layout Container ------------------------------- -->
+
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
+
+                <!-- ------------------------------- Page Heading ------------------------------- -->
 
                 <div class="text-center mb-4">
                     <h2 class="fw-bold">Create a VelVady Account</h2>
                     <p class="text-muted">Fill in the form below to register.</p>
                 </div>
 
+                <!-- ------------------------------- Success and Error Messages ------------------------------- -->
+
                 {% if messages %}
                     {% for message in messages %}
+                        <!-- Alert shown to the user -->
                         <div class="alert alert-{{ message.tags }} text-center" role="alert">
                             {{ message }}
                         </div>
                     {% endfor %}
                 {% endif %}
+
+                <!-- ------------------------------- Registration Form ------------------------------- -->
 
                 <form method="POST" novalidate>
                     {% csrf_token %}
@@ -32,17 +42,27 @@
                     <!-- Field rendering loop -->
                     {% for field in form %}
                         <div class="mb-3">
+                            <!-- Label for the field -->
                             <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+
+                            <!-- Form input widget -->
                             {{ field }}
+
+                            <!-- Help text if available -->
                             {% if field.help_text %}
                                 <div class="form-text">{{ field.help_text }}</div>
                             {% endif %}
+
+                            <!-- Display any field-specific validation errors -->
                             {% for error in field.errors %}
                                 <div class="text-danger small">{{ error }}</div>
                             {% endfor %}
                         </div>
                     {% endfor %}
 
+                    <!-- ------------------------------- Submit Button ------------------------------- -->
+
+                    <!-- Button to submit the registration form -->
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-custom">Register</button>
                     </div>

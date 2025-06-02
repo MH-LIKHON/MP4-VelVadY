@@ -5,36 +5,50 @@
 {% block content %}
 
 <!-- ============================ -->
-<!--         LOGIN PAGE           -->
+<!--          LOGIN PAGE          -->
 <!-- ============================ -->
 
 <section class="velvady-auth-wrapper">
+
+    <!-- ------------------------------- Container for login form ------------------------------- -->
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
+
+                <!-- ------------------------------- Page Heading ------------------------------- -->
 
                 <div class="text-center mb-4">
                     <h2 class="fw-bold">Login to Your Account</h2>
                     <p class="text-muted">Enter your credentials below.</p>
                 </div>
 
+                <!-- ------------------------------- Login Form ------------------------------- -->
+
                 <form method="POST" novalidate>
                     {% csrf_token %}
 
                     <!-- Email Field -->
                     <div class="mb-3">
+                        <!-- Label for email address -->
                         <label for="email" class="form-label">Email address</label>
+
+                        <!-- Input field for user email -->
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
 
                     <!-- Password Field -->
                     <div class="mb-3">
+                        <!-- Label for password -->
                         <label for="password" class="form-label">Password</label>
+
+                        <!-- Input field for user password -->
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="d-grid mt-4">
+                        <!-- Button to submit login form -->
                         <button type="submit" class="btn btn-custom">Login</button>
                     </div>
                 </form>

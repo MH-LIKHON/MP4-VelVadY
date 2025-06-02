@@ -3,14 +3,20 @@
 {% block title %}Profile | VelVady{% endblock %}
 
 {% block content %}
+
 <!-- ============================ -->
-<!--       PROFILE PAGE           -->
+<!--         PROFILE PAGE         -->
 <!-- ============================ -->
 
 <div class="container my-5">
-    <h2>Your Profile</h2>
 
-    <table class="table table-bordered w-50 mx-auto mt-4">
+    <!-- ------------------------------- Page Heading ------------------------------- -->
+
+    <h2 class="mb-4">Your Profile</h2>
+
+    <!-- ------------------------------- User Details Table ------------------------------- -->
+
+    <table class="table table-bordered w-50 mx-auto">
         <tbody>
             <tr>
                 <th>First Name</th>
@@ -27,12 +33,18 @@
         </tbody>
     </table>
 
-    <div class="text-center mt-4">
+    <!-- ------------------------------- Action Buttons ------------------------------- -->
+     
+    <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+        <!-- Button to edit profile details -->
         <a href="{% url 'profile_edit' %}" class="btn btn-custom">Edit Profile</a>
-    </div>
 
-    <div class="text-center mt-4">
+        <!-- Button to change account password -->
+        <a href="{% url 'password_change' %}" class="btn btn-custom">Change Password</a>
+
+        <!-- Button to return to the user dashboard -->
         <a href="{% url 'dashboard' %}" class="btn btn-custom">Back to Dashboard</a>
     </div>
 </div>
+
 {% endblock %}
