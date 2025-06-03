@@ -46,6 +46,7 @@ body {
 }
 
 /* ------------------------------- Top Bar Social Icons ------------------------------- */
+
 /* Set colour and size for the top bar social icons */
 .top-bar .social-icons a {
     color: white;
@@ -59,12 +60,14 @@ body {
 }
 
 /* ------------------------------- Navbar Link Underline Hover ------------------------------- */
+
 /* Add a golden underline on hover for navigation clarity */
 .navbar-nav .nav-link {
     position: relative;
     transition: color 0.3s ease;
 }
 
+/* Animated underline on navbar links */
 .navbar-nav .nav-link::after {
     content: '';
     position: absolute;
@@ -76,11 +79,13 @@ body {
     transition: width 0.3s ease;
 }
 
+/* Expand underline to full width on hover */
 .navbar-nav .nav-link:hover::after {
     width: 100%;
 }
 
 /* ------------------------------- Footer Styling ------------------------------- */
+
 /* Style the footer for spacing, readability, and layout clarity */
 footer {
     background-color: #f8f9fa;
@@ -110,12 +115,15 @@ footer {
    ======================================================= */
 
 /* ------------------------------- Homepage Layout ------------------------------- */
+
 /* Add vertical spacing to centre content on landing page */
 main .text-center {
     margin-top: 3rem;
 }
 
 /* ------------------------------- Welcome Section ------------------------------- */
+
+/* Add vertical spacing to centre content on landing page */
 .hero-section {
     min-height: 80vh;
     display: flex;
@@ -124,14 +132,126 @@ main .text-center {
     background-color: #e0e0e0;
 }
 
+/* Hero title */
 .hero-section h1 {
     font-size: 3rem;
     font-weight: bold;
 }
 
+/* Hero paragraph */
 .hero-section p {
     font-size: 1.25rem;
     color: #555;
+}
+
+/* ------------------------------- Featured Services ------------------------------- */
+
+/* This styles the base dark button inside service cards */
+.card .btn.btn-dark {
+    background-color: #212529;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* On hover, the dark button becomes gold */
+.card .btn.btn-dark:hover {
+    background-color: #d4af37;
+    color: #212529;
+}
+
+/* Animate the card */
+.featured-services .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animate the card on hover: lift and add shadow */
+.featured-services .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ------------------------------- Why Choose VelVady ------------------------------- */
+
+/* This applies default colour and transition effect to icons and headings */
+.why-choose i,
+.why-choose h5 {
+    color: #fff;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* On hover, the icon and title text glow gold */
+.why-choose .col-md-3:hover i,
+.why-choose .col-md-3:hover h5 {
+    color: #d4af37;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+/* ------------------------------- Made on VelVady ------------------------------- */
+
+/* This adds a smooth transition to all gallery images */
+.gallery-image {
+transition: transform 0.4s ease, box-shadow 0.4s ease;
+border-radius: 8px;
+}
+
+/* On hover, the image slightly zooms and lifts with a shadow */
+.gallery-image:hover {
+transform: scale(1.05);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ------------------------------- What Our Users Say ------------------------------- */
+
+/* Enlarges the testimonial profile image and adds animation */
+.card-body img.rounded-circle {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Slight zoom effect on hover */
+.card:hover img.rounded-circle {
+    transform: scale(1.05);
+}
+
+/* ------------------------------- Help & Resources ------------------------------- */
+
+/* This sets the default icon colour in the Help & Resources section */
+.help-section i {
+    color: #494949;
+    transition: color 0.3s ease;
+}
+
+/* When the card is hovered, the icon changes to gold */
+.help-section .card:hover i {
+    color: #d4af37;
+}
+
+/* This customises the default outline-primary buttons to match VelVady's palette */
+.help-section .btn-outline-primary {
+    color: #494949;
+    border-color: #494949;
+    transition: all 0.3s ease;
+}
+
+/* On hover, the button becomes gold with white text */
+.help-section .btn-outline-primary:hover {
+    background-color: #212529;
+    color: #fff;
+    border-color: #d4af37;
+}
+
+/* ------------------------------- CTA ------------------------------- */
+
+/* CTA section backgorund*/
+.cta-section {
+    background-color: #ffc107; 
+    color: #000;
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 
 

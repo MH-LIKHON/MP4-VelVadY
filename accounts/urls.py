@@ -14,6 +14,9 @@ from django.views.generic import TemplateView
 # ------------------------------- This file defines the routes for login, register, and logout -------------------------------
 
 urlpatterns = [
+    # Route to the home page
+    path('', TemplateView.as_view(template_name='core/home.html'), name='home'),
+    
     # Route to the login page
     path('login/', views.login_view, name='login'),
 

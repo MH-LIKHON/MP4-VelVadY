@@ -29,7 +29,7 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <!-- ============================ -->
     <!--           HEADER             -->
@@ -130,11 +130,11 @@
     <!--         MAIN CONTENT         -->
     <!-- ============================ -->
 
-    <main class="container my-5">
+    <div class="flex-grow-1">
         {% block content %}
         <!-- Page-specific content will be injected here -->
         {% endblock %}
-    </main>
+    </div>
 
     <!-- ============================ -->
     <!--            FOOTER            -->

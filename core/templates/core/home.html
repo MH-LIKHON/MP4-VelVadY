@@ -1,25 +1,400 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
+
+{% load static %}
 
 {% block title %}Home | VelVady{% endblock %}
 
 {% block content %}
 
 <!-- ============================ -->
-<!--         LANDING HERO         -->
+<!--       HERO VIDEO SECTION     -->
 <!-- ============================ -->
 
-<section class="d-flex align-items-center justify-content-center" style="height: 80vh; background-color: #e0e0e0;">
-    
-    <!-- ------------------------------- Hero Content Block ------------------------------- -->
-    
-    <div class="text-center">
-        <!-- Main Welcome Heading -->
-        <h1 class="display-4 fw-bold mb-3">Welcome to VelVadY</h1>
+<section class="position-relative w-100 vh-100 overflow-hidden">
 
-        <!-- Subheading introduction for new visitors -->
-        <p class="lead text-muted">This is the first page users will see</p>
+    <!-- ------------------------------- Local Background Video ------------------------------- -->
+    <video autoplay muted loop playsinline
+        class="position-absolute top-0 start-0 w-100 h-100"
+        style="object-fit: cover; z-index: 0;">
+        <source src="{% static 'core/videos/hero.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- ------------------------------- Dark Overlay ------------------------------- -->
+    <div class="position-absolute top-0 start-0 w-100 h-100"
+        style="background-color: rgba(0, 0, 0, 0.6); z-index: 1;"></div>
+
+    <!-- ------------------------------- Centred Hero Content ------------------------------- -->
+    <div class="position-absolute top-50 start-50 translate-middle text-center text-white px-3 px-md-5 w-100"
+        style="z-index: 2; max-width: 900px;">
+        <h1 class="display-4 fw-bold mb-3">Unlock Your Creative Potential</h1>
+        <p class="lead mb-4">Discover, connect, and launch services that make a difference — all in one place.</p>
+
+        <!-- ------------------------------- Hero Buttons ------------------------------- -->
+        <div class="d-grid gap-3 d-md-flex justify-content-center">
+            <a href="{% url 'services' %}" class="btn btn-custom btn-lg">Explore Services</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">Join VelVady</a>
+        </div>
     </div>
-    
+
+</section>
+
+<!-- ============================ -->
+<!--       SEARCH & FILTER        -->
+<!-- ============================ -->
+
+<div class="container py-5">
+
+    <!-- ------------------------------- Section Title ------------------------------- -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Find the Right Service</h2>
+        <p class="text-muted">Browse by category or search by keywords.</p>
+    </div>
+
+    <!-- ------------------------------- Search & Filter Row ------------------------------- -->
+    <div class="row align-items-center justify-content-center gx-2 gy-3">
+
+        <!-- ------------------------------- Search Input ------------------------------- -->
+        <div class="col-12 col-md-6">
+            <form method="get" action="{% url 'services' %}">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search for services...">
+                    <button class="btn-custom" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ------------------------------- Category Filters ------------------------------- -->
+        <div class="col-12 col-md-6 text-center text-md-start">
+            <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                <a href="?category=design" class="btn btn-outline-dark btn-sm">Design</a>
+                <a href="?category=business" class="btn btn-outline-dark btn-sm">Business</a>
+                <a href="?category=tech" class="btn btn-outline-dark btn-sm">Tech</a>
+                <a href="?category=writing" class="btn btn-outline-dark btn-sm">Writing</a>
+                <a href="?category=marketing" class="btn btn-outline-dark btn-sm">Marketing</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================ -->
+<!--         FEATURED GRID        -->
+<!-- ============================ -->
+
+<section class="bg-light py-5">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="container text-center mb-5">
+        <h2 class="fw-bold">Featured Services</h2>
+        <p class="text-muted">Explore some of our most popular offerings on VelVady</p>
+    </div>
+
+    <!-- ------------------------------- Cards Grid ------------------------------- -->
+
+    <div class="container featured-services">
+        <div class="row g-4">
+
+            <!-- Sample Service Card 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'core/images/service_design.jpg' %}" class="card-img-top" alt="Logo Design">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Logo Design</h5>
+                        <p class="card-text">Custom professional logos delivered in 48 hours by vetted designers.</p>
+                        <a href="#" class="btn btn-dark mt-auto">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Service Card 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'core/images/service_voice.jpg' %}" class="card-img-top" alt="Social Media Management">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Social Media Management</h5>
+                        <p class="card-text">Let a dedicated expert handle your social channels and grow your brand.</p>
+                        <a href="#" class="btn btn-dark mt-auto">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Service Card 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'core/images/service_code.jpg' %}" class="card-img-top" alt="Website Development">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Website Development</h5>
+                        <p class="card-text">Responsive, scalable websites built using Django or modern frameworks.</p>
+                        <a href="#" class="btn btn-dark mt-auto">View</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ============================ -->
+<!--         FEATURES ROW         -->
+<!-- ============================ -->
+
+<section class="why-choose py-5 bg-dark text-white">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="container text-center mb-5">
+        <h2 class="fw-bold">Why Choose VelVady?</h2>
+        <p class="text-light">We empower creators, freelancers, and professionals to work securely and effectively</p>
+    </div>
+
+    <!-- ------------------------------- Icons Row ------------------------------- -->
+
+    <div class="container">
+        <div class="row text-center g-4">
+
+            <!-- Feature 1: Secure Payments -->
+            <div class="col-md-3">
+                <i class="fas fa-lock fa-2x mb-3"></i>
+                <h5>Secure Payments</h5>
+                <p class="text-light">All transactions are protected with encrypted gateways.</p>
+            </div>
+
+            <!-- Feature 2: Instant Access -->
+            <div class="col-md-3">
+                <i class="fas fa-bolt fa-2x mb-3"></i>
+                <h5>Instant Access</h5>
+                <p class="text-light">Start working with freelancers immediately after checkout.</p>
+            </div>
+
+            <!-- Feature 3: Vetted Experts -->
+            <div class="col-md-3">
+                <i class="fas fa-user-check fa-2x mb-3"></i>
+                <h5>Vetted Experts</h5>
+                <p class="text-light">Every service provider is manually reviewed for quality and reliability.</p>
+            </div>
+
+            <!-- Feature 4: 24/7 Support -->
+            <div class="col-md-3">
+                <i class="fas fa-headset fa-2x mb-3"></i>
+                <h5>24/7 Support</h5>
+                <p class="text-light">We are here whenever you need us — day or night.</p>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ============================ -->
+<!--        GALLERY SECTION       -->
+<!-- ============================ -->
+
+<section class="py-5 bg-light gallery-section py-5">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="container text-center mb-5">
+        <h2 class="fw-bold">Made on VelVady</h2>
+        <p class="text-muted">A peek at what our talented community delivers every day</p>
+    </div>
+
+    <!-- ------------------------------- Gallery Grid ------------------------------- -->
+
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Gallery Image 1 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery1.jpg' %}" alt="Gallery Image 1"  class="img-fluid gallery-image">
+            </div>
+
+            <!-- Gallery Image 2 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery2.jpg' %}" alt="Gallery Image 2"  class="img-fluid gallery-image">
+            </div>
+
+            <!-- Gallery Image 3 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery3.jpg' %}" alt="Gallery Image 3"  class="img-fluid gallery-image">
+            </div>
+
+            <!-- Gallery Image 4 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery4.jpg' %}" alt="Gallery Image 4"  class="img-fluid gallery-image">
+            </div>
+
+            <!-- Gallery Image 5 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery5.jpg' %}" alt="Gallery Image 5"  class="img-fluid gallery-image">
+            </div>
+
+            <!-- Gallery Image 6 -->
+            <div class="col-sm-6 col-md-4">
+                <img src="{% static 'core/images/gallery6.jpg' %}" alt="Gallery Image 6" c class="img-fluid gallery-image">
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ============================ -->
+<!--     TESTIMONIALS SECTION     -->
+<!-- ============================ -->
+
+<section class="py-5 bg-dark text-white">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="container text-center mb-5">
+        <h2 class="fw-bold">What Our Users Say</h2>
+        <p class="text-light">Real stories from freelancers and clients who have grown with VelVady</p>
+    </div>
+
+    <!-- ------------------------------- Testimonials Row ------------------------------- -->
+
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+
+            <!-- Testimonial 1 -->
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
+                        <p class="card-text">VelVady helped me turn my side hustle into a full-time business. I love how smooth everything is.</p>
+                        <hr class="bg-light">
+                        <img src="{% static 'core/images/user1.jpg' %}" alt="User 1" class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0">Amira K.</h6>
+                        <small>Web Developer</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
+                        <p class="card-text">I found my design team through VelVady. They nailed it — quick, professional, and secure.</p>
+                        <hr class="bg-light">
+                        <img src="{% static 'core/images/user2.jpg' %}" alt="User 2" class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0">Jordan R.</h6>
+                        <small>Startup Founder</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
+                        <p class="card-text">Selling templates on VelVady is effortless. My passive income has grown every month.</p>
+                        <hr class="bg-light">
+                        <img src="{% static 'core/images/user3.jpg' %}" alt="User 3" class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0">Sara P.</h6>
+                        <small>Digital Seller</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ============================ -->
+<!--     HELP & RESOURCES SECTION     -->
+<!-- ============================ -->
+
+<section class="py-5 bg-light help-section">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="container text-center mb-5">
+        <h2 class="fw-bold">Help & Resources</h2>
+        <p class="text-muted">Get the most out of VelVady with step-by-step guidance and tools</p>
+    </div>
+
+    <!-- ------------------------------- Resource Cards Row ------------------------------- -->
+
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+
+            <!-- Card 1 -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-rocket fa-2x mb-3"></i>
+                        <h5 class="card-title">Getting Started</h5>
+                        <p class="card-text">Step-by-step guide to launch your service or hire with confidence.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-briefcase fa-2x mb-3"></i>
+                        <h5 class="card-title">Hiring Tips</h5>
+                        <p class="card-text">Learn how to choose the right freelancer and avoid common mistakes.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-question-circle fa-2x mb-3"></i>
+                        <h5 class="card-title">FAQs</h5>
+                        <p class="card-text">Have questions? Find answers to common topics about the platform.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">Visit Help</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-blog fa-2x mb-3"></i>
+                        <h5 class="card-title">VelVady Blog</h5>
+                        <p class="card-text">Read success stories, tips, and news about freelancing and business.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">Go to Blog</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ============================ -->
+<!--         CTA SECTION          -->
+<!-- ============================ -->
+
+<section class="cta-section">
+
+    <!-- ------------------------------- Final Call to Action ------------------------------- -->
+
+    <div class="container">
+        <h2 class="fw-bold mb-3">Ready to unlock your potential?</h2>
+        <p class="lead mb-4">Join VelVady today and discover opportunities that move you forward.</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg fw-semibold px-4">Join Now</a>
+            <a href="{% url 'services' %}" class="btn btn-custom btn-lg fw-semibold px-4 btn-lg fw-semibold px-4">Explore Services</a>
+        </div>
+    </div>
+
 </section>
 
 {% endblock %}
