@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
+from products.views import product_list_view
 
 
 
@@ -11,8 +12,7 @@ from django.views.generic import TemplateView
 # ACCOUNTS APP ROUTES
 # =======================================================
 
-# ------------------------------- This file defines the routes for login, register, and logout -------------------------------
-
+# This file defines the routes
 urlpatterns = [
     # Route to the home page
     path('', TemplateView.as_view(template_name='core/home.html'), name='home'),
@@ -38,5 +38,5 @@ urlpatterns = [
     path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
 
     # Password change services
-    path('services/', TemplateView.as_view(template_name='core/services.html'), name='services'),
+    path('services/', product_list_view, name='services'),
 ]

@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block title %}Browse Services | VelVady{% endblock %}
+
+{% block content %}
+
+<!-- ============================ -->
+<!--        SERVICE CATALOG       -->
+<!-- ============================ -->
+
+<div class="container my-5">
+
+    <!-- ------------------------------- Section Header ------------------------------- -->
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Explore Our Digital Services</h2>
+        <p class="text-muted">Handpicked freelance services to elevate your work and business</p>
+    </div>
+
+    <!-- ------------------------------- Services Grid ------------------------------- -->
+
+    <div class="row g-4">
+
+        {% for service in services %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+
+                <!-- Service Image -->
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                {% else %}
+                    <img src="{% static 'core/images/default_service.jpg' %}" class="card-img-top" alt="Default image">
+                {% endif %}
+
+                <!-- Service Details -->
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold">{{ service.title }}</h5>
+                    <p class="card-text">£{{ service.price }}</p>
+                    <a href="{% url 'service_detail' slug=service.slug %}" class="btn btn-custom mt-2">View Details</a>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">No services available at the moment.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

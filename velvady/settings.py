@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
 
 
 
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     # Custom project apps
     "core",
     "accounts",
+    "products",
 ]
 
 # I am setting Django to use my custom user model from the 'accounts' app
@@ -134,13 +137,17 @@ WSGI_APPLICATION = "velvady.wsgi.application"
 # DATABASE CONFIGURATION
 # =======================================================
 
-# I am using SQLite for development. Can be replaced with PostgreSQL for deployment
+# Use SQLite by default for development and testing
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# If a DATABASE_URL is defined in the environment, use it instead (e.g. for PostgreSQL on Heroku)
+if os.environ.get("DATABASE_URL"):
+    DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 
 
@@ -231,3 +238,17 @@ LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 
 # Optional: Where to redirect after logout
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+
+
+
+# =======================================================
+# MEDIA FILES
+# =======================================================
+
+# This defines the base URL for serving user-uploaded media (e.g. service images)
+MEDIA_URL = '/media/'
+
+# This sets the directory where uploaded files will be stored during development
+MEDIA_ROOT = BASE_DIR / 'media'

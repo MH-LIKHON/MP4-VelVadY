@@ -263,13 +263,13 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 
 
 
-
 /* =======================================================
    REGISTER PAGE
    ======================================================= */
 
 /* ------------------------------- Register Layout ------------------------------- */
 
+/* Style all input, textarea, and select elements inside forms */
 form input,
 form textarea,
 form select {
@@ -281,16 +281,19 @@ form select {
     box-sizing: border-box;
 }
 
+/* Style labels above form fields for clear identification */
 form label {
     font-weight: 500;
     margin-bottom: 6px;
     display: block;
 }
 
+/* Apply spacing above checkbox or radio input containers */
 form .form-check {
     margin-top: 1rem;
 }
 
+/* Style the main submit button within the form */
 form button[type="submit"] {
     font-weight: 500;
     font-size: 1rem;
@@ -308,7 +311,7 @@ form button[type="submit"] {
 
 
 /* =======================================================
-   DASHBOARD PAGE STYLING
+   DASHBOARD SECTION
    ======================================================= */
 
 /* ------------------------------- Stat Card Styling ------------------------------- */
@@ -322,6 +325,104 @@ form button[type="submit"] {
 .dashboard-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+/* =======================================================
+   PRODUCTS SECTION
+   ======================================================= */
+
+/* ------------------------------- Service Card Hover ------------------------------- */
+
+/* Makes each card fill the same vertical space */
+.card.h-100 {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Allows the card body to stretch and align content consistently */
+.card.h-100 .card-body {
+    flex-grow: 1;
+}
+
+/* Add hover elevation effect for interactivity */
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+/* ------------------------------- Review Card Styling ------------------------------- */
+
+/* Styles each user review as a card with spacing */
+.service-detail-page .card {
+    background-color: #f9f9f9;
+    border-left: 4px solid #d4af37;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Sets spacing and tone for review titles */
+.service-detail-page .card h6 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #494949;
+}
+
+/* Styles the review comment */
+.service-detail-page .card p.card-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Styles the date under each review */
+.service-detail-page small.text-muted {
+    font-size: 0.8rem;
+}
+
+/* ------------------------------- Review Form Button ------------------------------- */
+
+/* Submit Review: starts dark grey */
+.service-detail-page button[type="submit"] {
+    background-color: #494949;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+/* On hover, Submit Review becomes gold */
+.service-detail-page button[type="submit"]:hover {
+    background-color: #d4af37;
+    color: #212529;
+}
+
+
+/* ------------------------------- Buy Now Button ------------------------------- */
+
+/* Custom gold Buy Now button */
+.btn-buy-now {
+    background-color: #d4af37;
+    color: #212529;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    border-radius: 6px;
+}
+
+/* On hover, Buy Now turns dark grey */
+.btn-buy-now:hover {
+    background-color: #494949;
+    color: #ffffff;
 }
 
 
