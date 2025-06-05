@@ -39,7 +39,7 @@ class Service(models.Model):
         Returns a human-readable string representation of the service object,
         which will appear in admin panels and other debug outputs.
         """
-        return self.title
+        return self.get_full_name() or self.email
 
 
 
