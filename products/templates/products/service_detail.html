@@ -128,7 +128,9 @@
                                         <a href="{% url 'service_list' %}" class="btn btn-outline-secondary px-4">←</a>
 
                                         <!-- Buy Now -->
-                                        <a href="#" class="btn-buy-now px-4">Buy Now</a>
+                                        <button type="button" class="btn btn-buy-now w-md-auto buy-now-button" data-service-id="{{ service.id }}">
+                                            Buy Now
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -137,10 +139,13 @@
 
                             <div class="row align-items-center mt-3">
                                 <div class="col-12 col-md-6 text-md-start mb-2 mb-md-0">
-                                    <a href="{% url 'service_list' %}" class="btn btn-outline-secondary w-100">← Back to Explore</a>
+                                    <a href="{% url 'service_list' %}" class="btn btn-outline-secondary">←</a>
                                 </div>
                                 <div class="col-12 col-md-6 text-md-end">
-                                    <a href="#" class="btn-buy-now w-100">Buy Now</a>
+                                    <!-- Logged in Buy Now Button -->
+                                    <button type="button" class="btn btn-buy-now w-md-auto buy-now-button" data-service-id="{{ service.id }}">
+                                        Buy Now
+                                    </button>
                                 </div>
                             </div>
                         {% endif %}
@@ -154,5 +159,57 @@
     </div>
 
 </div>
+
+<!-- ------------------------------- Stripe Checkout Script ------------------------------- -->
+
+<!-- This script includes Stripe.js, which enables secure Stripe Checkout functionality -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    // Initialise Stripe using the public key passed from the backend
+    const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+
+    // Locate all Buy Now buttons on the page (useful if multiple services are listed)
+    const checkoutButtons = document.querySelectorAll('.buy-now-button');
+
+    // Loop through each button and bind a click event
+    checkoutButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            // Prevent the default form or link behaviour
+            e.preventDefault();
+
+            // Extract the service ID from the button’s data attribute
+            const serviceId = this.getAttribute('data-service-id');
+
+            // Send a POST request to the backend to create a Stripe Checkout session
+            fetch(`/products/create-checkout-session/${serviceId}/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+            })
+
+            // Process the JSON response from the backend
+            .then(response => response.json())
+            .then(session => {
+                // If a valid session ID is returned, redirect to Stripe’s hosted checkout page
+                if (session.id) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                } else {
+                    // If session creation failed, show an error alert
+                    console.error("Stripe session error:", session);
+                    alert("Could not start checkout. Try again.");
+                }
+            })
+
+            // Catch any network or processing errors
+            .catch(error => {
+                console.error("Checkout error:", error);
+                alert("Something went wrong.");
+            });
+        });
+    });
+</script>
 
 {% endblock %}

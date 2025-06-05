@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block title %}Payment Cancelled | VelVady{% endblock %}
+
+{% block content %}
+
+<!-- ============================ -->
+<!--      PAYMENT CANCELLED      -->
+<!-- ============================ -->
+
+<div class="container text-center my-5">
+    <h2 class="fw-bold text-danger mb-3">Payment Cancelled</h2>
+        <p>Your payment was cancelled. You have not been charged.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-custom mt-3">Back to Services</a>
+</div>
+
+{% endblock %}

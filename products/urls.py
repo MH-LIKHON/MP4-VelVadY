@@ -1,6 +1,7 @@
-from django.urls import path
 from . import views
+from django.urls import path
 from .views import product_list_view
+from .views import create_checkout_session
 
 # =======================================================
 # URL PATTERNS FOR PRODUCTS APP
@@ -17,4 +18,7 @@ urlpatterns = [
 
     # This routes to exolore services page
     path('accounts/services/', product_list_view, name='service_list'),
+
+    # This routes to stripe checkout services
+    path('create-checkout-session/<int:service_id>/', create_checkout_session, name='create_checkout_session'),
 ]

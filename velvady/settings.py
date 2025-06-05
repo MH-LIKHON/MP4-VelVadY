@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+from dotenv import load_dotenv
+load_dotenv()
 import os
 
 
@@ -247,8 +249,22 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 # MEDIA FILES
 # =======================================================
 
-# This defines the base URL for serving user-uploaded media (e.g. service images)
+# This defines the base URL for serving user-uploaded media
 MEDIA_URL = '/media/'
 
 # This sets the directory where uploaded files will be stored during development
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+
+
+# =======================================================
+# STRIPE
+# =======================================================
+
+# Public key for stripe
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+
+# Secret key for stripe
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
