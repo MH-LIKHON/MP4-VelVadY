@@ -12,23 +12,20 @@
 
 <div class="container my-5">
 
-    <!-- ------------------------------- Service Info Card ------------------------------- -->
-
+    <!-- ervice Info Card -->
     <div class="row justify-content-center">
         <div class="col-md-8">
 
             <div class="card shadow-sm border-0">
 
-                <!-- ------------------------------- Service Image ------------------------------- -->
-
+                <!-- Service Image -->
                 {% if service.image %}
                     <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
                 {% else %}
                     <img src="{% static 'core/images/default_service.jpg' %}" class="card-img-top" alt="Default Image">
                 {% endif %}
 
-                <!-- ------------------------------- Service Content ------------------------------- -->
-
+                <!-- Service Content -->
                 <div class="card-body">
 
                     <!-- Title -->
@@ -54,14 +51,9 @@
 
                     <!-- Price -->
                     <h4 class="text-success mb-4">£{{ service.price }}</h4>
-
-                    <!-- ============================ -->
-                    <!--         USER REVIEWS         -->
-                    <!-- ============================ -->
-
+                
+                    <!-- Reviews List -->
                     <div class="service-detail-page">
-
-                        <!-- ------------------------------- Reviews List ------------------------------- -->
 
                         <div class="mb-4">
                             <h4 class="mb-3">User Reviews</h4>
@@ -108,8 +100,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- ------------------------------- Review Submission Form ------------------------------- -->
-
+                        <!-- Review Submission Form -->
                         {% if user.is_authenticated %}
                             <div class="mt-4">
                                 <h5 class="mb-3">Leave a Review</h5>
@@ -118,31 +109,45 @@
                                     {% csrf_token %}
                                     {{ review_form.as_p }}
 
-                                    <!-- ------------------------------- Button Row ------------------------------- -->
-
+                                    <!-- Before log in button row -->
                                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
                                         <!-- Submit Review -->
                                         <button type="submit" class="btn btn-dark px-4">Submit Review</button>
 
-                                        <!-- Back to Explore -->
+                                        <!-- Back to Explore button -->
                                         <a href="{% url 'service_list' %}" class="btn btn-outline-secondary px-4">←</a>
 
-                                        <!-- Buy Now -->
+                                        <!-- Buy Now button -->
                                         <button type="button" class="btn btn-buy-now w-md-auto buy-now-button" data-service-id="{{ service.id }}">
                                             Buy Now
                                         </button>
                                     </div>
                                 </form>
                             </div>
-                        {% else %}
-                            <p class="mt-3">You must <a href="{% url 'login' %}">log in</a> to leave a review.</p>
 
+                        {% else %}
+
+                            <!-- Review button -->
+                            <p class="mt-3">
+                                You must 
+                                <a href="{% url 'login' %}" 
+                                class="btn btn-outline-secondary btn-sm px-2 py-0 align-middle" 
+                                style="vertical-align: baseline;">
+                                    Log In
+                                </a> 
+                                to leave a review.
+                            </p>
+
+                            <!-- After log in buttons -->
                             <div class="row align-items-center mt-3">
+
+                                <!-- Back button -->
                                 <div class="col-12 col-md-6 text-md-start mb-2 mb-md-0">
                                     <a href="{% url 'service_list' %}" class="btn btn-outline-secondary">←</a>
                                 </div>
                                 <div class="col-12 col-md-6 text-md-end">
-                                    <!-- Logged in Buy Now Button -->
+
+                                    <!-- Logged In and Buy Now Button -->
                                     <button type="button" class="btn btn-buy-now w-md-auto buy-now-button" data-service-id="{{ service.id }}">
                                         Buy Now
                                     </button>
@@ -166,22 +171,29 @@
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
-    // Initialise Stripe using the public key passed from the backend
+    // =======================================================
+    // STRIPE CHECKOUT INTEGRATION
+    // =======================================================
+
+    // Initialise Stripe using the publishable key from the backend
     const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
 
-    // Locate all Buy Now buttons on the page (useful if multiple services are listed)
+    // Select all buttons with the 'buy-now-button' class
     const checkoutButtons = document.querySelectorAll('.buy-now-button');
 
-    // Loop through each button and bind a click event
+    // Attach click listeners to each Buy Now button
     checkoutButtons.forEach(button => {
         button.addEventListener('click', function (e) {
-            // Prevent the default form or link behaviour
             e.preventDefault();
 
-            // Extract the service ID from the button’s data attribute
+            // -------------------------------
+            // Extract Service ID from Button
+            // -------------------------------
             const serviceId = this.getAttribute('data-service-id');
 
-            // Send a POST request to the backend to create a Stripe Checkout session
+            // -------------------------------
+            // Send POST Request to Create Session
+            // -------------------------------
             fetch(`/products/create-checkout-session/${serviceId}/`, {
                 method: "POST",
                 headers: {
@@ -189,24 +201,28 @@
                     "X-CSRFToken": "{{ csrf_token }}"
                 },
             })
-
-            // Process the JSON response from the backend
-            .then(response => response.json())
+            .then(response => {
+                // If user is not logged in, they will be redirected to login page
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return;
+                }
+                return response.json();
+            })
             .then(session => {
-                // If a valid session ID is returned, redirect to Stripe’s hosted checkout page
-                if (session.id) {
+                // If the session was created successfully, redirect to Stripe
+                if (session && session.id) {
                     return stripe.redirectToCheckout({ sessionId: session.id });
-                } else {
-                    // If session creation failed, show an error alert
-                    console.error("Stripe session error:", session);
+                } else if (session && session.error) {
+                    // Show user-friendly message if Stripe returns an error
                     alert("Could not start checkout. Try again.");
+                    console.error("Stripe session error:", session.error);
                 }
             })
-
-            // Catch any network or processing errors
             .catch(error => {
-                console.error("Checkout error:", error);
-                alert("Something went wrong.");
+                // Handle any unexpected error in the checkout process
+                console.error("Checkout request failed:", error);
+                alert("Something went wrong. Please try again.");
             });
         });
     });

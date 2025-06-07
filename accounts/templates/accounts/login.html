@@ -10,21 +10,18 @@
 
 <section class="velvady-auth-wrapper">
 
-    <!-- ------------------------------- Container for login form ------------------------------- -->
-
+    <!-- Container for login form -->
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
 
-                <!-- ------------------------------- Page Heading ------------------------------- -->
-
+                <!-- Page Heading -->
                 <div class="text-center mb-4">
                     <h2 class="fw-bold">Login to Your Account</h2>
                     <p class="text-muted">Enter your credentials below.</p>
                 </div>
 
-                <!-- ------------------------------- Login Form ------------------------------- -->
-
+                <!-- Login Form -->
                 <form method="POST" novalidate>
                     {% csrf_token %}
 
@@ -57,5 +54,16 @@
         </div>
     </div>
 </section>
+
+<!-- ------------------------------- Registration Prompt ------------------------------- -->
+
+<div class="text-center mt-4">
+    <p class="mb-0 fs-5">
+        <span class="text-muted">New to VelVady?</span>
+        <a href="{% url 'register' %}" class="btn btn-outline-light btn-md ms-3">
+            Create an Account
+        </a>
+    </p>
+</div>
 
 {% endblock %}

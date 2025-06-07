@@ -1,8 +1,7 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import User
 from django.db import models
-from django.utils.text import slugify
 from django.conf import settings
+from django.utils.text import slugify
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 
@@ -69,3 +68,31 @@ class Review(models.Model):
     # Show reviewer and rating when listing reviews in admin
     def __str__(self):
         return f"{self.user.username} - {self.rating}★"
+    
+
+
+
+
+    # =======================================================
+# PURCHASE MODEL
+# =======================================================
+
+# Stores each successful service purchase
+class Purchase(models.Model):
+    """
+    Represents a record of a completed service purchase by a user via Stripe.
+    """
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
+    stripe_session_id = models.CharField(max_length=255, unique=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+        verbose_name = 'Purchase'
+        verbose_name_plural = 'Purchases'
+
+    def __str__(self):
+        return f'{self.user.username} purchased {self.service.title} for £{self.amount_paid}'

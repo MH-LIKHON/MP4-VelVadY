@@ -10,10 +10,16 @@
 
 <div class="container my-5 text-center">
     <h1 class="display-5 fw-bold text-success">🎉 Thank You for Your Purchase!</h1>
-        <p class="lead mt-3">
-            Your payment was successful. A confirmation email has been sent to your inbox.
-        </p>
-    <a href="{% url 'profile' %}" class="btn btn-custom mt-4 px-5 py-2">
+
+    <p class="lead mt-3">
+        Your payment has been successfully processed, and your service is now unlocked.
+    </p>
+
+    <p class="mb-4">
+        A confirmation email has been sent to <strong>{{ user.email }}</strong> with your receipt and order details.
+    </p>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-custom mt-4 px-5 py-2">
         Go to Your Dashboard
     </a>
 </div>

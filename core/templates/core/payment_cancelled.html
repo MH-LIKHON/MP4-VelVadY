@@ -9,9 +9,19 @@
 <!-- ============================ -->
 
 <div class="container text-center my-5">
-    <h2 class="fw-bold text-danger mb-3">Payment Cancelled</h2>
-        <p>Your payment was cancelled. You have not been charged.</p>
-    <a href="{% url 'product_list' %}" class="btn btn-custom mt-3">Back to Services</a>
+    <h2 class="fw-bold text-danger mb-3">❌ Payment Cancelled</h2>
+
+    <p class="lead">
+        Your payment has been cancelled, and you have not been charged.
+    </p>
+
+    <p class="mb-4">
+        You can choose a different service or try again when you are ready.
+    </p>
+
+    <a href="{% url 'product_list' %}" class="btn btn-custom mt-3 px-4 py-2">
+        Return to Services
+    </a>
 </div>
 
 {% endblock %}

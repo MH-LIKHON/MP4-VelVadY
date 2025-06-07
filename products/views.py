@@ -5,10 +5,13 @@ from .forms import ReviewForm
 from django.urls import reverse
 from django.conf import settings
 from .models import Service, Review
-from django.shortcuts import render
-from django.http import JsonResponse
+from .models import Service, Purchase
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
 DOMAIN = os.getenv("DOMAIN", "http://127.0.0.1:8000")
@@ -77,51 +80,39 @@ def service_detail_view(request, slug):
 # STRIPE CHECKOUT SESSION
 # =======================================================
 
-# Used to exempt this view from CSRF protection for POST testing
-from django.views.decorators.csrf import csrf_exempt
+# Creates a Stripe Checkout Session for logged-in users only
 
-# Used to fetch secret key and build full URLs
-from django.conf import settings
-
-# Used to return JSON or error responses
-from django.http import JsonResponse, HttpResponseBadRequest
-
-# Stripe API client
-import stripe
-
-# Import the Service model to fetch the relevant service for checkout
-from .models import Service
-
-# Set the Stripe secret key using the settings file
-stripe.api_key = settings.STRIPE_SECRET_KEY
-
-# This view creates a Stripe Checkout Session for a selected service
 @csrf_exempt
 def create_checkout_session(request, service_id):
     """
-    Handles a POST request to initialise a Stripe Checkout Session for a specific service.
-    Redirects the user to Stripe’s secure hosted checkout page.
+    Ensures that only authenticated users can initiate the Stripe Checkout process.
+    If the user is not logged in, they are redirected to the login page with a return path.
     """
+
+    # Redirect unauthenticated users to login page
+    if not request.user.is_authenticated:
+        return redirect_to_login(request.get_full_path())
 
     # Only allow POST requests to create a checkout session
     if request.method != "POST":
         return HttpResponseBadRequest("Invalid request method")
 
     try:
-        # Attempt to retrieve the service using the provided ID
+        # Attempt to retrieve the service
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         service = Service.objects.get(id=service_id)
 
-        # Use your actual deployment domain here (GitHub Codespaces domain or localhost)
+        # Use your actual deployment domain here
         domain_url = DOMAIN
 
-        # Create the Stripe Checkout Session with price and product details
+        # Create the Stripe Checkout Session with product details
         session = stripe.checkout.Session.create(
-            payment_method_types=["card"],     # Accept card payments
-            mode="payment",                    # One-time payment mode
+            payment_method_types=["card"],
+            mode="payment",
             line_items=[{
                 "price_data": {
-                    "currency": "gbp",         # Currency for the payment
-                    "unit_amount": int(service.price * 100),  # Convert pounds to pence
+                    "currency": "gbp",
+                    "unit_amount": int(service.price * 100),
                     "product_data": {
                         "name": service.title,
                         "description": service.description,
@@ -129,25 +120,73 @@ def create_checkout_session(request, service_id):
                 },
                 "quantity": 1,
             }],
-
-            # Redirect after successful payment
-            success_url = f"{DOMAIN}/thank-you/",
-
-            # Redirect if payment is cancelled
-            cancel_url = f"{DOMAIN}/cancelled/",
+            metadata={
+                "service_id": service.id
+            },
+            success_url=f"{domain_url}/thank-you/?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{domain_url}/cancelled/",
         )
 
-        # Optional: log session info for debugging
+        # Optional: log session info
         print("Stripe session created:", session.url)
 
-        # Return the session ID to the frontend so Stripe.js can redirect
+        # Return session ID to frontend
         return JsonResponse({'id': session.id})
 
     except Service.DoesNotExist:
-        # If service ID is invalid or not found
         return HttpResponseBadRequest("Service not found")
 
     except Exception as e:
-        # Log any other error for debugging
         print("Stripe error:", e)
         return JsonResponse({'error': 'Could not start checkout. Try again.'}, status=500)
+    
+
+
+
+
+# =======================================================
+# STRIPE CHECKOUT SUCCESS HANDLER
+# =======================================================
+
+# Handles post-payment success logic and saves purchase
+@login_required
+def checkout_success(request):
+    """
+    Handles a successful Stripe checkout by retrieving the session,
+    verifying the payment, and recording the purchase in the database.
+    """
+
+    session_id = request.GET.get('session_id')
+
+    if not session_id:
+        # No session ID found in query string
+        return redirect('home')
+
+    try:
+        # Retrieve the Stripe session
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        # Get line items to extract service details
+        line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
+        line_item = line_items.data[0]
+
+        # Get metadata added during checkout (e.g. service_id)
+        service_id = session.metadata.get('service_id')
+        amount_paid = session.amount_total / 100  # Stripe uses cents
+
+        # Prevent duplicate purchases
+        if not Purchase.objects.filter(stripe_session_id=session_id).exists():
+            Purchase.objects.create(
+                user=request.user,
+                service_id=service_id,
+                amount_paid=amount_paid,
+                stripe_session_id=session_id
+            )
+
+        return render(request, 'products/checkout_success.html', {
+            'session': session
+        })
+
+    except Exception as e:
+        print(f"Stripe error: {e}")
+        return redirect('home')

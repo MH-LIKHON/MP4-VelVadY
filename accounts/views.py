@@ -1,14 +1,15 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .forms import CustomUserRegistrationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from .forms import ProfileUpdateForm
 from .models import CustomUser
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.urls import reverse_lazy
+from products.models import Purchase
 from django.views.generic import TemplateView
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate, login, logout
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import ProfileUpdateForm, CustomUserRegistrationForm
 
 
 
@@ -29,13 +30,17 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
 
-    # Display account creation success message if flagged in session
+    # Displays a message if the user was redirected from a Stripe checkout attempt
+    if 'next' in request.GET and 'checkout-session' in request.GET['next']:
+        messages.info(request, "Please log in or create an account to continue with your purchase.")
+
+    # Shows account creation success message if flagged in session
     if request.session.pop('new_account', None):
         messages.success(request, "Your account has been created. You can now log in.")
 
-    # Handle Login Form Submission
+    # Handle login form submission
     if request.method == "POST":
-        # Extract email and password from submitted form data
+        # Extract submitted email and password
         email = request.POST.get("email")
         password = request.POST.get("password")
 
@@ -43,15 +48,24 @@ def login_view(request):
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-            # Log the user in and redirect to dashboard with welcome message
+            # Log the user in and show welcome message
             login(request, user)
             messages.success(request, "Welcome back!")
+
+            # Safely handle redirection based on original destination
+            next_url = request.GET.get('next')
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                # Block redirecting to sensitive POST-only Stripe routes
+                if not next_url.startswith("/products/create-checkout-session/"):
+                    return redirect(next_url)
+
+            # Default fallback if no safe redirect target
             return redirect("dashboard")
         else:
-            # Show error if authentication fails
+            # If login fails, show error
             messages.error(request, "Invalid email or password. Please try again.")
 
-    #  Display Login Page
+    # Display the login form
     return render(request, 'accounts/login.html')
 
 
@@ -128,26 +142,29 @@ def logout_view(request):
 # DASHBOARD VIEW
 # =======================================================
 
-# Handles dashboard view for users
+# Handles user dashboard and displays purchase history
 class DashboardView(LoginRequiredMixin, TemplateView):
     # Specifies the HTML template to render for the dashboard
     template_name = 'accounts/dashboard.html'
 
-    # Add user-specific dashboard context
+    # Adds user-specific context data including purchase records
     def get_context_data(self, **kwargs):
         """
-        Extends the default context with mock user data.
-        This is placeholder content until real models are integrated.
+        Extends the default dashboard context to include actual purchase history
+        alongside placeholder values for subscription and credit tracking.
         """
-        # Get the base context from the parent view
+        # Get the base context from the parent TemplateView
         context = super().get_context_data(**kwargs)
 
-        # Add mock values to simulate subscription and order data
+        # Query all purchases made by the currently logged-in user
+        user_purchases = Purchase.objects.filter(user=self.request.user).select_related('service')
+
+        # Add real purchases and dashboard mock data to context
+        context['purchases'] = user_purchases
         context['active_subscriptions'] = 2
         context['last_order_date'] = '28 May 2025'
         context['remaining_credits'] = 18
 
-        # Return
         return context
 
 
