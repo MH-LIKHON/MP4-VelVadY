@@ -25,27 +25,23 @@
                 <form method="POST" novalidate>
                     {% csrf_token %}
 
+                    <!-- Preserve redirect path (if coming from Stripe Buy Now flow) -->
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+
                     <!-- Email Field -->
                     <div class="mb-3">
-                        <!-- Label for email address -->
                         <label for="email" class="form-label">Email address</label>
-
-                        <!-- Input field for user email -->
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
 
                     <!-- Password Field -->
                     <div class="mb-3">
-                        <!-- Label for password -->
                         <label for="password" class="form-label">Password</label>
-
-                        <!-- Input field for user password -->
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="d-grid mt-4">
-                        <!-- Button to submit login form -->
                         <button type="submit" class="btn btn-custom">Login</button>
                     </div>
                 </form>

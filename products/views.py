@@ -8,6 +8,7 @@ from .models import Service, Review
 from .models import Service, Purchase
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
@@ -80,32 +81,19 @@ def service_detail_view(request, slug):
 # STRIPE CHECKOUT SESSION
 # =======================================================
 
-# Creates a Stripe Checkout Session for logged-in users only
-
-@csrf_exempt
+@require_POST
+@login_required
 def create_checkout_session(request, service_id):
     """
-    Ensures that only authenticated users can initiate the Stripe Checkout process.
-    If the user is not logged in, they are redirected to the login page with a return path.
+    Creates a Stripe Checkout Session for logged-in users only.
     """
 
-    # Redirect unauthenticated users to login page
-    if not request.user.is_authenticated:
-        return redirect_to_login(request.get_full_path())
-
-    # Only allow POST requests to create a checkout session
-    if request.method != "POST":
-        return HttpResponseBadRequest("Invalid request method")
-
     try:
-        # Attempt to retrieve the service
         stripe.api_key = settings.STRIPE_SECRET_KEY
         service = Service.objects.get(id=service_id)
 
-        # Use your actual deployment domain here
         domain_url = DOMAIN
 
-        # Create the Stripe Checkout Session with product details
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
             mode="payment",
@@ -127,10 +115,6 @@ def create_checkout_session(request, service_id):
             cancel_url=f"{domain_url}/cancelled/",
         )
 
-        # Optional: log session info
-        print("Stripe session created:", session.url)
-
-        # Return session ID to frontend
         return JsonResponse({'id': session.id})
 
     except Service.DoesNotExist:
@@ -183,9 +167,7 @@ def checkout_success(request):
                 stripe_session_id=session_id
             )
 
-        return render(request, 'products/checkout_success.html', {
-            'session': session
-        })
+        return redirect('thank_you')
 
     except Exception as e:
         print(f"Stripe error: {e}")

@@ -1,4 +1,5 @@
 from .models import CustomUser
+from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy
 from products.models import Purchase
@@ -30,43 +31,52 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
 
-    # Displays a message if the user was redirected from a Stripe checkout attempt
+    # Display message if the user came from a Stripe route
     if 'next' in request.GET and 'checkout-session' in request.GET['next']:
         messages.info(request, "Please log in or create an account to continue with your purchase.")
 
-    # Shows account creation success message if flagged in session
+    # Show registration success message
     if request.session.pop('new_account', None):
         messages.success(request, "Your account has been created. You can now log in.")
 
-    # Handle login form submission
+    # Handle login form
     if request.method == "POST":
-        # Extract submitted email and password
         email = request.POST.get("email")
         password = request.POST.get("password")
-
-        # Attempt to authenticate user with provided credentials
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-            # Log the user in and show welcome message
             login(request, user)
             messages.success(request, "Welcome back!")
 
-            # Safely handle redirection based on original destination
             next_url = request.GET.get('next')
-            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
-                # Block redirecting to sensitive POST-only Stripe routes
-                if not next_url.startswith("/products/create-checkout-session/"):
-                    return redirect(next_url)
 
-            # Default fallback if no safe redirect target
+            # Handle Stripe special case: avoid redirecting to a POST-only route
+            if next_url and next_url.startswith("/products/create-checkout-session/"):
+                try:
+                    # Extract service ID from the path
+                    service_id = next_url.strip("/").split("/")[-1]
+                    # Import Service model and get the slug
+                    from products.models import Service
+                    service = Service.objects.get(id=service_id)
+                    # Redirect to safe slug-based view
+                    return redirect("service_detail", slug=service.slug)
+                except Exception:
+                    # Fallback if service is not found
+                    return redirect("product_list")
+
+            # Safe redirect to intended destination
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                return redirect(next_url)
+
+            # Final fallback
             return redirect("dashboard")
+
         else:
-            # If login fails, show error
             messages.error(request, "Invalid email or password. Please try again.")
 
-    # Display the login form
     return render(request, 'accounts/login.html')
+
 
 
 

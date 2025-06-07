@@ -171,10 +171,6 @@
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
-    // =======================================================
-    // STRIPE CHECKOUT INTEGRATION
-    // =======================================================
-
     // Initialise Stripe using the publishable key from the backend
     const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
 
@@ -186,14 +182,10 @@
         button.addEventListener('click', function (e) {
             e.preventDefault();
 
-            // -------------------------------
             // Extract Service ID from Button
-            // -------------------------------
             const serviceId = this.getAttribute('data-service-id');
 
-            // -------------------------------
             // Send POST Request to Create Session
-            // -------------------------------
             fetch(`/products/create-checkout-session/${serviceId}/`, {
                 method: "POST",
                 headers: {
@@ -204,6 +196,8 @@
             .then(response => {
                 // If user is not logged in, they will be redirected to login page
                 if (response.redirected) {
+                    // If redirected to login, add a flag to return and auto-trigger checkout
+                    localStorage.setItem("autoCheckout", serviceId);
                     window.location.href = response.url;
                     return;
                 }
@@ -226,6 +220,31 @@
             });
         });
     });
+
+    // If we stored a flag before login, trigger it now
+    const autoServiceId = localStorage.getItem("autoCheckout");
+
+    if (autoServiceId) {
+        localStorage.removeItem("autoCheckout");
+
+        // Trigger the exact same fetch manually
+        fetch(`/products/create-checkout-session/${autoServiceId}/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+        })
+        .then(response => response.json())
+        .then(session => {
+            if (session && session.id) {
+                stripe.redirectToCheckout({ sessionId: session.id });
+            }
+        })
+        .catch(error => {
+            console.error("Auto-checkout error:", error);
+        });
+    }
 </script>
 
 {% endblock %}
