@@ -8,20 +8,27 @@
 <!--      PAYMENT CANCELLED      -->
 <!-- ============================ -->
 
+<!-- Payment cancelled message -->
 <div class="container text-center my-5">
+
+    <!-- Heading to inform the user of the failed payment -->
     <h2 class="fw-bold text-danger mb-3">❌ Payment Cancelled</h2>
 
+    <!-- Short description confirming no payment was taken -->
     <p class="lead">
         Your payment has been cancelled, and you have not been charged.
     </p>
 
+    <!-- Follow-up message encouraging user to retry or choose a different service -->
     <p class="mb-4">
         You can choose a different service or try again when you are ready.
     </p>
 
+    <!-- Button to redirect the user back to the available services page -->
     <a href="{% url 'product_list' %}" class="btn btn-custom mt-3 px-4 py-2">
         Return to Services
     </a>
+
 </div>
 
 {% endblock %}

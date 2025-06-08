@@ -551,6 +551,34 @@ input, textarea, select {
     transition: transform 0.3s ease;
 }
 
+/* Make every card fill full height and align content consistently */
+.card.h-100 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Crop all images to same height and aspect ratio */
+.card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+/* Push button to the bottom */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* Card body alignment */
+.card-body .btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
 /* ------------------------------- Review Card Styling ------------------------------- */
 
 /* Styles each user review as a card with spacing */

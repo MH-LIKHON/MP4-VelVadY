@@ -5,9 +5,9 @@
     "fields": {
       "title": "Logo Design",
       "slug": "logo-design",
-      "description": "Clean, modern branding tailored to your vision.",
-      "price": "45.00",
-      "image": "",
+      "description": "Your logo is the face of your brand - it sets the tone for how clients perceive your business. With this service, you will receive a clean, distinctive logo design tailored to your unique identity and values. We begin by understanding your brand’s personality, vision, and target audience. From there, we craft design concepts that are versatile and memorable. Whether you need something elegant and timeless or bold and modern, we adapt our approach to fit your goals. Final files are delivered in multiple formats suitable for print, web, and social media - ensuring full flexibility for any platform.",
+      "price": "50.00",
+      "image": "products/logo-design.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -17,11 +17,11 @@
     "model": "products.service",
     "pk": 2,
     "fields": {
-      "title": "YouTube Video Editing",
-      "slug": "youtube-editing",
-      "description": "Short-form videos with captions, transitions, and audio syncing.",
-      "price": "60.00",
-      "image": "",
+      "title": "Business Card Design",
+      "slug": "business-card",
+      "description": "A professionally designed business card still makes a powerful impression. This service delivers a custom layout that reflects your personal brand while remaining clean and functional. We use industry-standard dimensions and bleed margins, ensuring your card is ready for both local and online printers. From minimalist to bold designs, every detail is carefully aligned with your logo, colours, and typography. You will receive both print-ready and digital-friendly formats to suit any networking opportunity.",
+      "price": "50.00",
+      "image": "products/business-card.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -32,10 +32,10 @@
     "pk": 3,
     "fields": {
       "title": "CV & Cover Letter Boost",
-      "slug": "cv-boost",
-      "description": "Professional formatting and keyword targeting for applications.",
-      "price": "35.00",
-      "image": "",
+      "slug": "cv-cover",
+      "description": "Applying for jobs is a competitive process - we help you stand out with a CV and cover letter that are tailored, structured, and optimised. Your documents will be professionally formatted to highlight your strengths, qualifications, and achievements. We incorporate recruiter-friendly keywords and layout strategies to increase visibility in applicant tracking systems (ATS). Whether you are a graduate or a seasoned professional, this boost package is designed to help you secure more interviews with confidence.",
+      "price": "100.00",
+      "image": "products/cv-cover.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -47,9 +47,9 @@
     "fields": {
       "title": "LinkedIn Makeover",
       "slug": "linkedin-optimise",
-      "description": "Optimise your profile for recruiters with SEO-friendly headlines and summaries.",
-      "price": "40.00",
-      "image": "",
+      "description": "Your LinkedIn profile is your digital handshake. This makeover service transforms your presence into a polished, compelling personal brand. We rewrite your headline, summary, and key sections to ensure they’re engaging, keyword-rich, and aligned with your career goals. We also guide you on optimising your experience, skills, and banner imagery. The result is a professional profile that increases visibility, encourages networking, and attracts recruiters.",
+      "price": "50.00",
+      "image": "products/linkedin-optimise.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -59,11 +59,11 @@
     "model": "products.service",
     "pk": 5,
     "fields": {
-      "title": "Resume + LinkedIn Combo",
-      "slug": "resume-package",
-      "description": "Get both your CV and LinkedIn profile upgraded for maximum visibility.",
-      "price": "65.00",
-      "image": "",
+      "title": "Brand Identity",
+      "slug": "brand-identity",
+      "description": "A strong brand identity goes beyond just a logo — it communicates your values, builds trust, and creates consistency across all touchpoints. This package includes a bespoke logo, colour palette, font selection, visual language, and a detailed style guide. We ensure your brand elements work cohesively across digital and print materials. Whether you are starting from scratch or rebranding, this service lays the foundation for long-term recognition and success.",
+      "price": "500.00",
+      "image": "products/brand-identity.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -73,11 +73,11 @@
     "model": "products.service",
     "pk": 6,
     "fields": {
-      "title": "Custom Landing Page",
-      "slug": "web-landing-page",
-      "description": "Responsive HTML/CSS page with CTA integration for products or promotions.",
-      "price": "120.00",
-      "image": "",
+      "title": "Website Review",
+      "slug": "website-review",
+      "description": "Is your website performing at its best? This professional review offers detailed feedback across layout, user experience (UX), content flow, and speed. We assess how intuitive your site is for visitors, how well it communicates your message, and how effectively it converts. Our feedback is clear, practical, and tailored to your platform - whether it’s built in WordPress, Wix, or custom code. Expect actionable suggestions that can help improve performance and user satisfaction right away.",
+      "price": "150.00",
+      "image": "products/website-review.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -89,9 +89,9 @@
     "fields": {
       "title": "Productivity Coaching",
       "slug": "productivity-coach",
-      "description": "Personalised guidance to optimise habits and work-life balance.",
-      "price": "90.00",
-      "image": "",
+      "description": "Feeling overwhelmed or stuck in a rut? This coaching session offers clarity, structure, and personalised guidance to help you manage your time and boost focus. You will work with a coach to identify your habits, remove distractions, and build effective routines. The service is ideal for entrepreneurs, students, and busy professionals looking to regain control of their schedule. Sessions are conversational, practical, and fully tailored to your lifestyle and goals.",
+      "price": "150.00",
+      "image": "products/productivity-coach.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -103,9 +103,9 @@
     "fields": {
       "title": "Email Campaign Setup",
       "slug": "email-setup",
-      "description": "Create and automate newsletters using Mailchimp or Brevo.",
-      "price": "75.00",
-      "image": "",
+      "description": "This service helps you connect with your audience through powerful email marketing - whether you are promoting services, sharing news, or nurturing leads. We design responsive, visually engaging templates and set up automation using Mailchimp or Brevo. You will also receive support with campaign structure, content suggestions, and segmentation. Everything is designed to increase engagement and reduce time spent managing emails manually.",
+      "price": "100.00",
+      "image": "products/email-setup.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -117,9 +117,9 @@
     "fields": {
       "title": "Business Pitch Deck",
       "slug": "pitch-deck-design",
-      "description": "Visually stunning investor-ready presentations in PDF or PowerPoint.",
+      "description": "Whether you are pitching for investment or presenting your business to a new audience, a sharp, visually clean deck makes a difference. This service delivers a complete, professionally designed presentation in PowerPoint or PDF format. We focus on strong structure, compelling storytelling, and cohesive branding. You provide the content, and we transform it into slides that capture attention and build trust with your audience.",
       "price": "85.00",
-      "image": "",
+      "image": "products/pitch-deck-design.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -129,11 +129,11 @@
     "model": "products.service",
     "pk": 10,
     "fields": {
-      "title": "Podcast Audio Editing",
-      "slug": "podcast-editing",
-      "description": "Clean up audio, add intro/outro, remove noise and filler.",
-      "price": "55.00",
-      "image": "",
+      "title": "Interview Coaching",
+      "slug": "interview-coaching",
+      "description": "If you dread interviews or feel underprepared, this session helps you present yourself clearly, confidently, and authentically. We will cover common interview questions, body language, storytelling, and handling tricky moments. Sessions can be tailored to job roles, industries, or specific challenges you face. You will finish with a stronger sense of your value and practical techniques to improve your performance.",
+      "price": "150.00",
+      "image": "products/interview-coaching.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -145,9 +145,9 @@
     "fields": {
       "title": "Canva Social Templates",
       "slug": "canva-templates",
-      "description": "Editable Canva templates for Instagram, Facebook, and stories.",
+      "description": "Looking to post consistently without designing from scratch each time? This package includes ready-made Canva templates that are on-brand and easy to use. You will receive editable templates for Instagram posts, stories, or carousel slides. Each is designed with balance, spacing, and audience engagement in mind. This is ideal for content creators, freelancers, or small business owners who want to save time while maintaining a polished feed.",
       "price": "30.00",
-      "image": "",
+      "image": "products/canva-templates.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
@@ -159,23 +159,23 @@
     "fields": {
       "title": "Instagram Growth Review",
       "slug": "ig-audit",
-      "description": "Profile, content, and engagement strategy review by growth marketers.",
-      "price": "25.00",
-      "image": "",
+      "description": "Want to grow your Instagram presence but unsure what to change? This review offers detailed feedback on your profile, content strategy, and engagement methods. You will receive a custom report that analyses your bio, grid layout, use of hashtags, content frequency, and call-to-actions. We also suggest tools and tactics to drive measurable improvements. It is suitable for creators, professionals, or brands looking to refine their presence and increase reach.",
+      "price": "100.00",
+      "image": "products/ig-audit.jpg",
       "is_active": true,
       "created_at": "2025-06-01T00:00:00Z",
       "updated_at": "2025-06-01T00:00:00Z"
     }
   },
-    {
+  {
     "model": "products.service",
     "pk": 13,
     "fields": {
       "title": "SEO Blog Article",
       "slug": "seo-blog-article",
-      "description": "Optimised blog content (800–1200 words) written with your target keywords and tone.",
-      "price": "48.00",
-      "image": "",
+      "description": "Boost your website’s traffic and authority with a well-crafted blog article tailored to your audience and keyword targets. This service includes research, original writing (800–1200 words), SEO integration, and formatting guidance. We maintain a natural tone while ensuring the article ranks well in search engines. Great for agencies, startups, and entrepreneurs who want regular content without compromising on quality.",
+      "price": "250.00",
+      "image": "products/seo-blog-article.jpg",
       "is_active": true,
       "created_at": "2025-06-02T00:00:00Z",
       "updated_at": "2025-06-02T00:00:00Z"
@@ -187,9 +187,9 @@
     "fields": {
       "title": "Virtual Admin Assistant (3 hrs)",
       "slug": "virtual-assistant-3hr",
-      "description": "Remote admin help for email management, research, and calendar coordination.",
-      "price": "36.00",
-      "image": "",
+      "description": "Free up your schedule with flexible, on-demand admin support - perfect for entrepreneurs, teams, and remote workers. Tasks may include email triage, online research, calendar coordination, data entry, or document formatting. You decide the priorities, and we deliver within the 3-hour time block. Support is provided remotely, with full confidentiality and clarity on what’s delivered.",
+      "price": "300.00",
+      "image": "products/virtual-assistant-3hr.jpg",
       "is_active": true,
       "created_at": "2025-06-02T00:00:00Z",
       "updated_at": "2025-06-02T00:00:00Z"
@@ -199,11 +199,11 @@
     "model": "products.service",
     "pk": 15,
     "fields": {
-      "title": "Notion Workspace Setup",
-      "slug": "notion-workspace",
-      "description": "Custom dashboards for task management, goal tracking, and personal productivity in Notion.",
-      "price": "55.00",
-      "image": "",
+      "title": "Portfolio Review",
+      "slug": "portfolio-review",
+      "description": "Your portfolio is your proof of work - and this service ensures it presents your talents in the best possible light. We review your layout, structure, project selection, tone, and overall clarity. Whether you are a designer, developer, writer, or creative, the feedback is specific and focused on making your work more persuasive and appealing. You will walk away with a plan to improve impact and storytelling across your portfolio.",
+      "price": "150.00",
+      "image": "products/portfolio-review.jpg",
       "is_active": true,
       "created_at": "2025-06-02T00:00:00Z",
       "updated_at": "2025-06-02T00:00:00Z"

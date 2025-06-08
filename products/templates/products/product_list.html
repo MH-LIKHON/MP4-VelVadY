@@ -12,15 +12,13 @@
 
 <div class="container my-5">
 
-    <!-- ------------------------------- Section Header ------------------------------- -->
-
+    <!-- Section Header -->
     <div class="text-center mb-5">
         <h2 class="fw-bold">Explore Our Digital Services</h2>
         <p class="text-muted">Handpicked freelance services to elevate your work and business</p>
     </div>
 
-    <!-- ------------------------------- Services Grid ------------------------------- -->
-
+    <!-- Services Grid -->
     <div class="row g-4">
 
         {% for service in services %}
@@ -43,6 +41,8 @@
 
             </div>
         </div>
+
+        <!-- No Service -->
         {% empty %}
         <div class="col-12 text-center">
             <p class="text-muted">No services available at the moment.</p>
