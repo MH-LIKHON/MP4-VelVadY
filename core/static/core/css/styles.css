@@ -308,13 +308,11 @@ form button[type="submit"] {
 
 
 
-
-
 /* =======================================================
    DASHBOARD SECTION
    ======================================================= */
 
-/* ------------------------------- Dashboard Card Styling ------------------------------- */
+/* ------------------------------- Dashboard Styling ------------------------------- */
 
 /* Gives all dashboard cards consistent spacing and layout */
 .dashboard-card {
@@ -335,15 +333,11 @@ form button[type="submit"] {
     margin-bottom: 3.5rem !important;
 }
 
-/* ------------------------------- Dashboard Container Spacing ------------------------------- */
-
 /* Controls padding above and below major dashboard sections */
 .container.my-5 {
     margin-top: 3rem !important;
     margin-bottom: 3rem !important;
 }
-
-/* ------------------------------- Dashboard Buttons ------------------------------- */
 
 /* Pill-shaped button base style */
 .btn-pill {
@@ -362,6 +356,7 @@ form button[type="submit"] {
     color: #fff;
 }
 
+/* Primary dark pill button hover */
 .btn-pill-primary:hover {
     background-color: #d4af37;
     color: #212529;
@@ -403,12 +398,100 @@ form button[type="submit"] {
     transition: all 0.3s ease;
 }
 
+/* Circular red logout button hover */
 .btn-logout-circle:hover {
     background-color: #dc3545;
     color: #fff;
     transform: scale(1.05);
 }
 
+/* ------------------------------- Profile Styling ------------------------------- */
+
+/* Card stylies */
+.card {
+    border-radius: 0.75rem;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Area styles */
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Makes the role badge gold and aligned to VelVady theme */
+.badge.bg-dark {
+    background-color: #d4af37 !important;
+    color: #212529;
+    font-weight: 600;
+    padding: 0.4em 0.75em;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+/* Adds margin between the card and the buttons */
+.profile-actions {
+    margin-top: 2.5rem;
+    gap: 1rem;
+}
+
+/* Ensures vertical text alignment in button remains visually centred */
+.profile-actions .btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+/* ------------------------------- Profile Update Styling ------------------------------- */
+
+/* This class gives all buttons a modern rounded pill shape */
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    line-height: 1.2;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* This styles the primary (black) pill buttons used for key actions */
+.btn-pill-primary {
+    background-color: #212529;
+    color: #fff;
+}
+
+/* When hovered, the primary button turns gold and the text becomes dark */
+.btn-pill-primary:hover {
+    background-color: #d4af37;
+    color: #212529;
+    transform: translateY(-2px);
+}
+
+/* This is the base outline style used for secondary pill buttons */
+.btn-pill-outline {
+    background-color: transparent;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+}
+
+/* On hover, the outline button becomes filled black with white text */
+.btn-pill-outline:hover {
+    background-color: #212529;
+    color: #fff;
+    transform: translateY(-2px);
+}
 
 
 
