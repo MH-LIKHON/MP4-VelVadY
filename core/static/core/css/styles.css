@@ -314,19 +314,100 @@ form button[type="submit"] {
    DASHBOARD SECTION
    ======================================================= */
 
-/* ------------------------------- Stat Card Styling ------------------------------- */
+/* ------------------------------- Dashboard Card Styling ------------------------------- */
 
-/* Enable smooth transition effects on stat cards */
+/* Gives all dashboard cards consistent spacing and layout */
 .dashboard-card {
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease;
+    border-radius: 0.75rem;
+    background-color: #fff;
 }
 
-/* Add hover elevation effect for interactivity */
+/* Hover effect for elevation */
 .dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Adds vertical gap between button row and cards below */
+.button-block-spacing {
+    margin-top: 3.5rem !important;
+    margin-bottom: 3.5rem !important;
+}
+
+/* ------------------------------- Dashboard Container Spacing ------------------------------- */
+
+/* Controls padding above and below major dashboard sections */
+.container.my-5 {
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* ------------------------------- Dashboard Buttons ------------------------------- */
+
+/* Pill-shaped button base style */
+.btn-pill {
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Primary dark pill button */
+.btn-pill-primary {
+    background-color: #212529;
+    color: #fff;
+}
+
+.btn-pill-primary:hover {
+    background-color: #d4af37;
+    color: #212529;
+    transform: translateY(-2px);
+}
+
+/* Styled pill for admin panel access (visible only to superusers) */
+.btn-admin-pill {
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #d4af37;
+    color: #212529;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover effect: invert to dark background */
+.btn-admin-pill:hover {
+    background-color: #212529;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Circular red logout button */
+.btn-logout-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-logout-circle:hover {
+    background-color: #dc3545;
+    color: #fff;
+    transform: scale(1.05);
+}
 
 
 

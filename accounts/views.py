@@ -157,23 +157,36 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     # Specifies the HTML template to render for the dashboard
     template_name = 'accounts/dashboard.html'
 
-    # Adds user-specific context data including purchase records
+    # Adds user-specific context data including purchase records and metrics
     def get_context_data(self, **kwargs):
         """
-        Extends the default dashboard context to include actual purchase history
-        alongside placeholder values for subscription and credit tracking.
+        Prepares the dashboard view context with user's purchase history
+        and key metrics like total services, total amount spent, and last order date.
         """
+        from django.db.models import Sum
+
         # Get the base context from the parent TemplateView
         context = super().get_context_data(**kwargs)
 
-        # Query all purchases made by the currently logged-in user
-        user_purchases = Purchase.objects.filter(user=self.request.user).select_related('service')
+        # Get all purchases by the current user
+        user = self.request.user
+        purchases = Purchase.objects.filter(user=user).select_related('service')
 
-        # Add real purchases and dashboard mock data to context
-        context['purchases'] = user_purchases
-        context['active_subscriptions'] = 2
-        context['last_order_date'] = '28 May 2025'
-        context['remaining_credits'] = 18
+        # Calculate total services purchased
+        total_services = purchases.count()
+
+        # Calculate total amount spent (use 0 if none)
+        total_spent = purchases.aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
+
+        # Get the timestamp of the latest purchase
+        latest_purchase = purchases.order_by('-timestamp').first()
+        last_order_date = latest_purchase.timestamp if latest_purchase else None
+
+        # Pass values into the template context
+        context['purchases'] = purchases
+        context['total_services'] = total_services
+        context['total_spent'] = total_spent
+        context['last_order_date'] = last_order_date
 
         return context
 
