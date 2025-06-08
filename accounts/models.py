@@ -88,7 +88,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # Fields required when creating a superuser
     REQUIRED_FIELDS = ["first_name", "last_name", "address"]
 
-    def __str__(self):
+    def get_full_name(self):
+        """
+        Returns the user's full name by combining first and last name.
+        """
+        return f"{self.first_name} {self.last_name}".strip()
 
-        # Returns the email as the string representation of the user
+    def __str__(self):
+        """
+        Returns the email as the string representation of the user.
+        """
         return self.email

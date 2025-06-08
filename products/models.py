@@ -38,7 +38,7 @@ class Service(models.Model):
         Returns a human-readable string representation of the service object,
         which will appear in admin panels and other debug outputs.
         """
-        return self.get_full_name() or self.email
+        return self.title
 
 
 
@@ -67,13 +67,13 @@ class Review(models.Model):
 
     # Show reviewer and rating when listing reviews in admin
     def __str__(self):
-        return f"{self.user.username} - {self.rating}★"
+        return f"{self.user.get_full_name() or self.user.email} - {self.rating}★"
     
 
 
 
 
-    # =======================================================
+# =======================================================
 # PURCHASE MODEL
 # =======================================================
 
@@ -95,4 +95,4 @@ class Purchase(models.Model):
         verbose_name_plural = 'Purchases'
 
     def __str__(self):
-        return f'{self.user.username} purchased {self.service.title} for £{self.amount_paid}'
+        return f'{self.user.get_full_name() or self.user.email} purchased {self.service.title} for £{self.amount_paid}'

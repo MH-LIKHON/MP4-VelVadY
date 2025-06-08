@@ -111,7 +111,7 @@ def create_checkout_session(request, service_id):
             metadata={
                 "service_id": service.id
             },
-            success_url=f"{domain_url}/thank-you/?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url = domain_url + "/products/thank-you/?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=f"{domain_url}/cancelled/",
         )
 
@@ -133,6 +133,11 @@ def create_checkout_session(request, service_id):
 # =======================================================
 
 # Handles post-payment success logic and saves purchase
+# =======================================================
+# STRIPE CHECKOUT SUCCESS HANDLER
+# =======================================================
+
+# Handles post-payment success logic and saves purchase
 @login_required
 def checkout_success(request):
     """
@@ -141,34 +146,51 @@ def checkout_success(request):
     """
 
     session_id = request.GET.get('session_id')
+    print("🟡 STEP 1: Entered checkout_success view")
+    print(f"🟡 Received session_id: {session_id}")
 
     if not session_id:
         # No session ID found in query string
+        print("❌ STEP 2: session_id is missing from request")
         return redirect('home')
 
     try:
+        # Set API key
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        print("🟢 STEP 3: Stripe API key set")
+
         # Retrieve the Stripe session
         session = stripe.checkout.Session.retrieve(session_id)
+        print(f"✅ STEP 4: Stripe session retrieved: {session.id}")
 
         # Get line items to extract service details
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         line_item = line_items.data[0]
+        print(f"✅ STEP 5: Line items retrieved. Description: {line_item.description}")
 
         # Get metadata added during checkout (e.g. service_id)
         service_id = session.metadata.get('service_id')
         amount_paid = session.amount_total / 100  # Stripe uses cents
+        print(f"🟢 STEP 6: Metadata extracted - service_id: {service_id}, amount_paid: {amount_paid}")
 
         # Prevent duplicate purchases
         if not Purchase.objects.filter(stripe_session_id=session_id).exists():
+            service = Service.objects.get(id=service_id)
+            print(f"🟢 STEP 7: Service object retrieved: {service.title}")
+
             Purchase.objects.create(
                 user=request.user,
-                service_id=service_id,
+                service=service,
                 amount_paid=amount_paid,
                 stripe_session_id=session_id
             )
 
+            print("✅ STEP 8: Purchase object successfully created and saved")
+        else:
+            print("⚠️ STEP 7: Purchase already exists for this session_id")
+
         return redirect('thank_you')
 
     except Exception as e:
-        print(f"Stripe error: {e}")
+        print(f"❌ STEP X: Exception occurred - {e}")
         return redirect('home')
