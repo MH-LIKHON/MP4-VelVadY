@@ -19,4 +19,7 @@ urlpatterns = [
 
     # Route to cancelled payment page
     path('cancelled/', views.payment_cancelled_view, name='payment_cancelled'),
+
+    # Route to contact page
+    path('contact/', views.contact_view, name='contact'),
 ]

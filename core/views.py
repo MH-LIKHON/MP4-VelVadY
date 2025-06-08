@@ -1,6 +1,12 @@
+from .forms import ContactForm
+from django.contrib import messages
 from django.shortcuts import render
 from products.models import Purchase
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+
+
+
 
 
 # =======================================================
@@ -13,6 +19,42 @@ def home(request):
     Renders the homepage using the base layout.
     """
     return render(request, 'core/home.html')
+
+
+
+
+
+# =======================================================
+# CONTACT VIEWS
+# =======================================================
+
+# Contact views
+def contact_view(request):
+    """
+    Handles both displaying and processing of the contact form.
+    Renders the form on GET request and processes the submission on POST.
+    """
+    
+    # Handle POST Request
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        # If the submitted form is valid, show success and reset
+        if form.is_valid():
+            form.save()
+            # Normally, we would send an email here or store the message
+            messages.success(request, "We’ve received your message. A member of our team will be in touch shortly.")
+            return redirect('contact')
+        else:
+            # If the form is invalid, show errors
+            messages.error(request, 'Please correct the errors below.')
+
+    else:
+        # Show a blank form when first visiting the page
+        form = ContactForm()
+
+    # Render the Template
+    return render(request, 'core/contact.html', {'form': form})
 
 
 

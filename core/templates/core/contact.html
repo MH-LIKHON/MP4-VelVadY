@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Contact Us | VelVady{% endblock %}
+
+{% block content %}
+
+<!-- ============================ -->
+<!--         CONTACT PAGE         -->
+<!-- ============================ -->
+
+<div class="container my-5">
+
+    <!-- Page Title -->
+    <h1 class="text-center mb-4">Contact Us</h1>
+
+    <!-- Instruction Text -->
+    <p class="text-center text-muted mb-4">
+        If you have any questions or need assistance, feel free to reach out using the form below.
+    </p>
+
+    <!-- Contact Form Container -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Form tag with CSRF protection -->
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <!-- Django form rendered field by field with Bootstrap styling -->
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                    {{ form.message.errors }}
+                </div>
+
+                <!-- Submit button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-custom px-4">Send Message</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
