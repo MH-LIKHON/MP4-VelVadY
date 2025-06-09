@@ -13,10 +13,32 @@
 <div class="container my-5">
 
     <!-- Section Header -->
-    <div class="text-center mb-5">
+    <div class="text-center mb-4">
         <h2 class="fw-bold">Explore Our Digital Services</h2>
         <p class="text-muted">Handpicked freelance services to elevate your work and business</p>
     </div>
+
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'services' %}" class="mb-4">
+        <div class="input-group mx-auto" style="max-width: 400px;">
+            <input 
+                type="search" 
+                name="q" 
+                class="form-control" 
+                placeholder="Search services..." 
+                value="{{ query|default:'' }}" 
+                aria-label="Search services"
+            >
+            <button type="submit" class="btn btn-custom">Search</button>
+        </div>
+    </form>
+
+    <!-- Search Results -->
+    {% if query %}
+        <p class="text-muted mb-3 text-center">
+            Showing {{ services.count }} result{{ services.count|pluralize }} for "<strong>{{ query }}</strong>"
+        </p>
+    {% endif %}
 
     <!-- Services Grid -->
     <div class="row g-4">
@@ -42,10 +64,9 @@
             </div>
         </div>
 
-        <!-- No Service -->
         {% empty %}
         <div class="col-12 text-center">
-            <p class="text-muted">No services available at the moment.</p>
+            <p class="text-muted">No services match your search criteria.</p>
         </div>
         {% endfor %}
 

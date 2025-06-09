@@ -1,21 +1,18 @@
 import os
 import stripe
-from .models import Service
 from .forms import ReviewForm
+from django.db.models import Q
 from django.urls import reverse
 from django.conf import settings
-from .models import Service, Review
-from .models import Service, Purchase
-from django.shortcuts import render, redirect
+from .models import Service, Review, Purchase
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 DOMAIN = os.getenv("DOMAIN", "http://127.0.0.1:8000")
 
@@ -26,13 +23,39 @@ DOMAIN = os.getenv("DOMAIN", "http://127.0.0.1:8000")
 # PRODUCT LIST VIEW
 # =======================================================
 
-# Views for product lists
 def product_list_view(request):
-    # This queries all services marked as active from the database
+    """
+    Displays a list of active services.
+    Supports optional filtering by search query (title or description)
+    and category.
+    """
+
+    # Get the search query and category from GET parameters
+    query = request.GET.get('q')
+    category = request.GET.get('category')
+
+    # Start with all active services
     services = Service.objects.filter(is_active=True)
 
-    # This renders the product list template with the list of services as context
-    return render(request, 'products/product_list.html', {'services': services})
+    # Filter by search query if provided
+    if query:
+        services = services.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    # Filter by category if provided
+    if category:
+        services = services.filter(category__iexact=category)
+
+    # Prepare context for template
+    context = {
+        'services': services,
+        'query': query,
+        'category': category,
+    }
+
+    # Render the product list template with filtered services
+    return render(request, 'products/product_list.html', context)
 
 
 
@@ -175,8 +198,6 @@ def checkout_success(request):
                 amount_paid=amount_paid,
                 stripe_session_id=session_id
             )
-
-            # --- START: Send Order Confirmation Email ---
 
             # Prepare email subject and sender
             subject = f"Order Confirmation - {service.title}"

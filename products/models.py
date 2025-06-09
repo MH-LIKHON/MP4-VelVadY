@@ -22,6 +22,22 @@ class Service(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # New category field with predefined choices for MP4 distinction
+    CATEGORY_CHOICES = [
+        ('Design', 'Design'),
+        ('Business', 'Business'),
+        ('Tech', 'Tech'),
+        ('Writing', 'Writing'),
+        ('Marketing', 'Marketing'),
+    ]
+
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        default='Design',
+        help_text='Select a category for this service.'
+    )
+
     # Automatically generates a slug from the title if one is not set
     def save(self, *args, **kwargs):
         """

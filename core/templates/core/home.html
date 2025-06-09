@@ -66,12 +66,13 @@
 
         <!-- Category Filters -->
         <div class="col-12 col-md-6 text-center text-md-start">
-            <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
-                <a href="?category=design" class="btn btn-outline-dark btn-sm">Design</a>
-                <a href="?category=business" class="btn btn-outline-dark btn-sm">Business</a>
-                <a href="?category=tech" class="btn btn-outline-dark btn-sm">Tech</a>
-                <a href="?category=writing" class="btn btn-outline-dark btn-sm">Writing</a>
-                <a href="?category=marketing" class="btn btn-outline-dark btn-sm">Marketing</a>
+            <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+                <a href="{% url 'services' %}" class="btn btn-outline-secondary {% if not category %}active{% endif %}">All</a>
+                <a href="{% url 'services' %}?category=Design" class="btn btn-outline-secondary {% if category == 'Design' %}active{% endif %}">Design</a>
+                <a href="{% url 'services' %}?category=Business" class="btn btn-outline-secondary {% if category == 'Business' %}active{% endif %}">Business</a>
+                <a href="{% url 'services' %}?category=Tech" class="btn btn-outline-secondary {% if category == 'Tech' %}active{% endif %}">Tech</a>
+                <a href="{% url 'services' %}?category=Writing" class="btn btn-outline-secondary {% if category == 'Writing' %}active{% endif %}">Writing</a>
+                <a href="{% url 'services' %}?category=Marketing" class="btn btn-outline-secondary {% if category == 'Marketing' %}active{% endif %}">Marketing</a>
             </div>
         </div>
 

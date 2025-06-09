@@ -284,9 +284,27 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 
 
 
+/* =======================================================
+   LOGIN PAGE
+   ======================================================= */
 
+/* ------------------------------- Forgot Password Link Styling ------------------------------- */
 
+/* Base style */
+a.forgot-password-link.text-decoration-none.text-muted {
+  color: #6c757d !important;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
 
+/* Hover and focus state */
+a.forgot-password-link.text-decoration-none.text-muted:hover,
+a.forgot-password-link.text-decoration-none.text-muted:focus {
+  color: #d4af37 !important;
+  transform: scale(1.05);
+  text-decoration: none;
+  cursor: pointer;
+}
 
 
 
