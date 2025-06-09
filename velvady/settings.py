@@ -14,8 +14,8 @@ import os
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
+
 load_dotenv()
-print("EMAIL:", os.getenv("EMAIL_HOST_USER"))
 
 
 
@@ -37,14 +37,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEVELOPMENT MODE SETTINGS
 # =======================================================
 
-# WARNING: Do not use DEBUG or this key in production
-DEBUG = True
-SECRET_KEY = "django-insecure-y*=bo#@*w%d%mnv6lnq4m#t%7vp1v#xq^v6m%=v&%83m0f1-rk"
-ALLOWED_HOSTS = [
-    'didactic-parakeet-v945gq97vgj2pgrg-8000.app.github.dev',
-    'localhost',
-    '127.0.0.1',
-]
+# Development settings
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = ['velvady-app-b7f67234cb3b.herokuapp.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://didactic-parakeet-v945gq97vgj2pgrg-8000.app.github.dev',
@@ -149,17 +145,10 @@ WSGI_APPLICATION = "velvady.wsgi.application"
 # DATABASE CONFIGURATION
 # =======================================================
 
-# Use SQLite by default for development and testing
+# PostSQL
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
-
-# If a DATABASE_URL is defined in the environment, use it instead (e.g. for PostgreSQL on Heroku)
-if os.environ.get("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 
 
@@ -210,7 +199,10 @@ USE_TZ = True
 # =======================================================
 
 # Static files such as CSS and JavaScript are served from this URL
-STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
