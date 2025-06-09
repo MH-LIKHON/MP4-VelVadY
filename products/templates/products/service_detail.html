@@ -20,7 +20,7 @@
 
                 <!-- Service Image -->
                 {% if service.image %}
-                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                    <img src="{{ service.image }}" class="card-img-top" alt="{{ service.title }}">
                 {% else %}
                     <img src="{% static 'core/images/default_service.jpg' %}" class="card-img-top" alt="Default Image">
                 {% endif %}
