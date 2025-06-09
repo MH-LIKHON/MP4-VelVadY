@@ -19,6 +19,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Secret key for stripe
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
 
 
 
@@ -299,9 +302,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Public key for stripe
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
-
-# Secret key for stripe
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 
 
