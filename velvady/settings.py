@@ -11,11 +11,32 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import sys
+import logging
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
 
 
 
