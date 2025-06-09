@@ -251,6 +251,9 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 # MEDIA FILES
 # =======================================================
 
+# Static files such as CSS and JavaScript are served from this URL
+STATIC_URL = '/static/'
+
 # This defines the base URL for serving user-uploaded media
 MEDIA_URL = '/media/'
 
