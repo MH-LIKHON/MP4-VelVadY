@@ -1,0 +1,60 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation - VelVady</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 40px 0;">
+
+    <!-- ============================ -->
+    <!--   ORDER CONFIRMATION EMAIL   -->
+    <!-- ============================ -->
+
+    <!-- Main container table -->
+    <table align="center" width="600" style="background-color: #ffffff; border-radius: 8px; border: 1px solid #e0e0e0;">
+
+        <tr>
+            <td align="center" style="padding: 30px 20px;">
+
+                <!-- VelVady Logo -->
+                <img src="https://drive.google.com/uc?export=view&id=1hnJixKnOTzZsISkwfCvGD1scogc0nT-s" alt="VelVady Logo" width="80">
+
+                <!-- Order Confirmation Header -->
+                <h2 style="margin-top: 20px; color: #212529;">Thank you for your order!</h2>
+
+                <!-- Personalised message -->
+                <p style="font-size: 15px; color: #555;">
+                    Hello {{ user.get_full_name|default:user.email }},
+                    <br><br>
+                    We have received your order for <strong>{{ service.title }}</strong>.
+                    <br>
+                    Amount Paid: <strong>£{{ amount_paid }}</strong>
+                    <br>
+                    Order Date: {{ purchase.timestamp|date:"j M Y H:i" }}
+                </p>
+
+                <!-- Dashboard link message -->
+                <p style="font-size: 14px; color: #777; margin-top: 20px;">
+                    You can view your order details and access your services on your dashboard.
+                    <br>
+                    <a href="https://your-site-url.com/accounts/dashboard" style="color: #d4af37; font-weight: bold;">
+                        Go to your dashboard
+                    </a>
+                </p>
+
+                <!-- Footer and legal -->
+                <p style="font-size: 12px; margin-top: 30px; color: #aaa;">
+                    Thank you for choosing VelVady.
+                    <br>
+                    <a href="https://your-site-url.com/terms" style="color: #888;">Terms & Conditions</a>
+                </p>
+
+            </td>
+        </tr>
+
+    </table>
+
+</body>
+</html>
+{% endautoescape %}

@@ -4,6 +4,9 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from products.models import Purchase
 from django.views.generic import TemplateView
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -106,10 +109,27 @@ def register_view(request):
 
         # Validate form input
         if form.is_valid():
-            # Save the user and flag session for login success message
-            form.save()
+            # Save the user to the database
+            user = form.save()
+
+            # Prepare email details
+            subject = 'Welcome to VelVady'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = user.email
+            context = {'user': user}
+            html_content = render_to_string('accounts/welcome_email.html', context)
+
+            # Create the email
+            email = EmailMultiAlternatives(subject, '', from_email, [to_email])
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+            # Flag session to show login success message
             request.session['new_account'] = True
+
+            # Redirect the user to the login page after registration
             return redirect("login")
+
         else:
             # Show error message if form is invalid
             messages.error(request, "Please correct the errors below.")
@@ -263,3 +283,59 @@ class CustomPasswordChangeView(PasswordChangeView):
         """
         messages.success(self.request, "Your password has been changed successfully.")
         return super().form_valid(form)
+
+
+
+
+
+# =======================================================
+# PASSWORD RESET VIEW
+# =======================================================
+
+# Sends email using both plain text and HTML templates
+class CustomPasswordResetView(PasswordResetView):
+    """
+    Overrides send_mail() to send both HTML and plain versions of password reset email.
+    """
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        subject = render_to_string(subject_template_name, context).strip()
+        body = render_to_string(email_template_name, context)
+
+        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+
+        if html_email_template_name:
+            html_email = render_to_string(html_email_template_name, context)
+            email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.send()
+
+
+
+
+
+# =======================================================
+# THANK YOU VIEW
+# =======================================================
+
+@login_required
+def thank_you_view(request):
+    """
+    Renders the thank you page displaying the user's latest purchase summary.
+    Redirects to home if no purchase found.
+    """
+    # Get the latest purchase for the logged-in user
+    purchase = Purchase.objects.filter(user=request.user).order_by('-timestamp').first()
+
+    if not purchase:
+        # No purchase found, redirect to home page
+        return redirect('home')
+
+    # Pass purchase and user info to the template context
+    context = {
+        'purchase': purchase,
+        'user': request.user,
+    }
+
+    # Render the thank you template with the context
+    return render(request, 'core/thank_you.html', context)

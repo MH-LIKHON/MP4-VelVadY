@@ -1,7 +1,9 @@
 from .forms import ContactForm
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib import messages
 from products.models import Purchase
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -34,7 +36,7 @@ def contact_view(request):
     Handles both displaying and processing of the contact form.
     Renders the form on GET request and processes the submission on POST.
     """
-    
+
     # Handle POST Request
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -42,7 +44,25 @@ def contact_view(request):
         # If the submitted form is valid, show success and reset
         if form.is_valid():
             form.save()
-            # Normally, we would send an email here or store the message
+
+            # Extract user input from the validated form
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # Compose the subject line and full message body
+            subject = f"New Contact Message from {name}"
+            full_message = f"You have received a new message from {name} ({email}):\n\n{message}"
+
+            # Send the email to the admin address configured in settings.py
+            send_mail(
+                subject=subject,
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+
             messages.success(request, "We’ve received your message. A member of our team will be in touch shortly.")
             return redirect('contact')
         else:
@@ -122,3 +142,13 @@ def custom_404(request, exception=None):
     Handles 404 errors with a custom template and proper status code.
     """
     return render(request, 'core/404.html', status=404)
+
+
+
+
+
+# =======================================================
+# CONTACT FORM EMAIL SENDING LOGIC
+# =======================================================
+
+# This section sends an email to the site admin when the contact form is submitted

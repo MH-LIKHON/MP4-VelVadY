@@ -7,6 +7,8 @@ from django.conf import settings
 from .models import Service, Review
 from .models import Service, Purchase
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
@@ -139,7 +141,7 @@ def checkout_success(request):
     Handles a successful Stripe checkout by retrieving the session,
     verifying the payment, and recording the purchase in the database.
     """
-    
+
     session_id = request.GET.get('session_id')
 
     if not session_id:
@@ -147,35 +149,68 @@ def checkout_success(request):
         return redirect('home')
 
     try:
-        # Set API key
+        # Set API key for Stripe API calls
         stripe.api_key = settings.STRIPE_SECRET_KEY
 
-        # Retrieve the Stripe session
+        # Retrieve the Stripe checkout session object by session_id
         session = stripe.checkout.Session.retrieve(session_id)
 
-        # Get line items to extract service details
+        # Retrieve line items for the session to get service details
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         line_item = line_items.data[0]
 
-        # Get metadata added during checkout (e.g. service_id)
+        # Extract service_id from metadata (set during checkout creation)
         service_id = session.metadata.get('service_id')
-        amount_paid = session.amount_total / 100  # Stripe uses cents
+        amount_paid = session.amount_total / 100  # Convert pence to pounds
 
-        # Prevent duplicate purchases
+        # Check if purchase already exists to avoid duplicates
         if not Purchase.objects.filter(stripe_session_id=session_id).exists():
+            # Get the Service object from database
             service = Service.objects.get(id=service_id)
 
-            Purchase.objects.create(
+            # Create Purchase record for this successful transaction
+            purchase = Purchase.objects.create(
                 user=request.user,
                 service=service,
                 amount_paid=amount_paid,
                 stripe_session_id=session_id
             )
 
-        # Return to thank you page
+            # --- START: Send Order Confirmation Email ---
+
+            # Prepare email subject and sender
+            subject = f"Order Confirmation - {service.title}"
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = request.user.email  # Send to logged-in user email
+
+            # Prepare context for rendering email template
+            context = {
+                'user': request.user,
+                'purchase': purchase,
+                'service': service,
+                'amount_paid': amount_paid,
+            }
+
+            # Render HTML content from the email template
+            html_content = render_to_string('accounts/order_confirmation_email.html', context)
+
+            # Create the email message object
+            email = EmailMultiAlternatives(subject, '', from_email, [to_email])
+
+            # Attach the HTML content as alternative
+            email.attach_alternative(html_content, "text/html")
+
+            # Send the email
+            email.send()
+
+            # --- END: Send Order Confirmation Email ---
+
+        # Redirect user to thank you page after success
         return redirect('thank_you')
 
     except Exception as e:
+        # Log or print the exception (optional)
+        print(f"Error in checkout_success: {e}")
 
-        # Return to home page
+        # Redirect to home page on failure
         return redirect('home')

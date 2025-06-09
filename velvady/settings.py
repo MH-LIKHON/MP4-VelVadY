@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
+import os
 import dj_database_url
+from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
-import os
+print("EMAIL:", os.getenv("EMAIL_HOST_USER"))
+
 
 
 
@@ -38,7 +40,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # WARNING: Do not use DEBUG or this key in production
 DEBUG = True
 SECRET_KEY = "django-insecure-y*=bo#@*w%d%mnv6lnq4m#t%7vp1v#xq^v6m%=v&%83m0f1-rk"
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'didactic-parakeet-v945gq97vgj2pgrg-8000.app.github.dev',
+    'localhost',
+    '127.0.0.1',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://didactic-parakeet-v945gq97vgj2pgrg-8000.app.github.dev',
+]
 
 
 
@@ -276,3 +286,21 @@ STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 
 # Secret key for stripe
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
+
+
+
+
+# =======================================================
+# EMAIL CONFIGURATION
+# =======================================================
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
