@@ -14,8 +14,6 @@ from django.contrib.auth import views as auth_views
 # =======================================================
 
 urlpatterns = [
-    # Route to the home page
-    path('', TemplateView.as_view(template_name='core/home.html'), name='home'),
 
     # Route to the login page
     path('login/', views.login_view, name='login'),
