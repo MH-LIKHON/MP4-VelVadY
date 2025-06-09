@@ -16,6 +16,7 @@ import logging
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
 
 load_dotenv()
 
@@ -266,11 +267,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # LOGIN / LOGOUT REDIRECTION
 # =======================================================
 
-# After login, redirect user to dashboard
-LOGIN_REDIRECT_URL = '/accounts/dashboard/'
+# Redirect to dashboard after login
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 
-# Optional: Where to redirect after logout
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+# Redirect to homepage after logout
+LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 
 
