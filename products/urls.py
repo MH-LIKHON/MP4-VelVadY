@@ -24,7 +24,4 @@ urlpatterns = [
 
     # Route for thank you on checkout success
     path('thank-you/', views.checkout_success, name='checkout_success'),
-
-    # Alias for Stripe success redirect
-    path('thank-you/', views.thank_you_view, name='thank_you_alias'),
 ]

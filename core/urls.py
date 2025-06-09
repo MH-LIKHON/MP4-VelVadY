@@ -22,4 +22,7 @@ urlpatterns = [
 
     # Alias for Stripe or external links using /terms
     path('terms/', views.terms_and_policy),
+
+    # Thank you links
+    path('thank-you/', views.thank_you_view, name='thank_you_alias'),
 ]
