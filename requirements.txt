@@ -8,3 +8,4 @@ Pillow==11.1.0
 sqlparse==0.5.3
 Jinja2==3.1.6
 MarkupSafe==3.0.2
+whitenoise
