@@ -14,15 +14,12 @@ urlpatterns = [
     # Route the base URL to the homepage view
     path('', views.home, name='home'),
 
-    # Route to thank you page
-    path("thank-you/", views.thank_you_view, name="thank_you"),
-
-    # Route to cancelled payment page
-    path('cancelled/', views.payment_cancelled_view, name='payment_cancelled'),
-
     # Route to contact page
     path('contact/', views.contact_view, name='contact'),
 
     # Route to t&c page
     path('legal/', views.terms_and_policy, name='terms_and_policy'),
+
+    # Alias for Stripe or external links using /terms
+    path('terms/', views.terms_and_policy),
 ]
