@@ -200,7 +200,7 @@ USE_TZ = True
 # =======================================================
 
 # Static files such as CSS and JavaScript are served from this URL
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 
 
@@ -254,6 +254,14 @@ MEDIA_URL = '/media/'
 
 # This sets the directory where uploaded files will be stored during development
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# This tells Django where to find static files in development
+STATICFILES_DIRS = [
+    BASE_DIR / 'core' / 'static',
+]
+
+# This is used only when running collectstatic for deployment
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 

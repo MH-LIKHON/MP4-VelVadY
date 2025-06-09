@@ -1,9 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
-from django import forms
-from .models import CustomUser
+from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 
@@ -17,9 +17,9 @@ from django.contrib.auth.forms import UserCreationForm
 class CustomUserRegistrationForm(UserCreationForm):
     # Additional field for terms and conditions agreement
     terms = forms.BooleanField(
-        label="I agree to the Terms and Conditions",
-        error_messages={"required": "You must agree to the terms to register."}
-    )
+    label=mark_safe('I agree to the <a href="/legal/" target="_blank">Terms & Privacy</a>'),
+    error_messages={"required": "You must agree to the terms to register."}
+)
 
     class Meta:
         model = CustomUser

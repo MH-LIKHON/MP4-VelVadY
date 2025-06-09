@@ -22,4 +22,7 @@ urlpatterns = [
 
     # Route to contact page
     path('contact/', views.contact_view, name='contact'),
+
+    # Route to t&c page
+    path('legal/', views.terms_and_policy, name='terms_and_policy'),
 ]

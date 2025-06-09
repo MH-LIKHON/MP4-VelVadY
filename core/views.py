@@ -1,6 +1,6 @@
 from .forms import ContactForm
-from django.contrib import messages
 from django.shortcuts import render
+from django.contrib import messages
 from products.models import Purchase
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -92,3 +92,33 @@ def payment_cancelled_view(request):
     No charges are processed.
     """
     return render(request, 'core/payment_cancelled.html')
+
+
+
+
+
+# =======================================================
+# LEGAL: Terms and Privacy
+# =======================================================
+
+# Renders the Terms & Privacy page
+def terms_and_policy(request):
+    """
+    Displays the combined Terms & Conditions and Privacy Policy.
+    """
+    return render(request, 'core/terms_and_policy.html')
+
+
+
+
+
+# =======================================================
+# TEMPORARY: 404 page preview route (for testing only)
+# =======================================================
+
+# Renders 404 page
+def custom_404(request, exception=None):
+    """
+    Handles 404 errors with a custom template and proper status code.
+    """
+    return render(request, 'core/404.html', status=404)
