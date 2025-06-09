@@ -21,6 +21,8 @@ load_dotenv()
 
 # Secret key for stripe
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-placeholder")
+
 
 
 
@@ -134,7 +136,7 @@ ROOT_URLCONF = "velvady.urls"
 # TEMPLATE CONFIGURATION
 # =======================================================
 
-# Django will load HTML templates from all app directories
+# Django will load HTML templates from all app directoriesSECRET_KEY
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
