@@ -93,6 +93,8 @@ INSTALLED_APPS = [
     "core",
     "accounts",
     "products",
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 # I am setting Django to use my custom user model from the 'accounts' app
@@ -323,3 +325,19 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+
+
+# =======================================================
+# CLOUDINARY MEDIA STORAGE
+# =======================================================
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
