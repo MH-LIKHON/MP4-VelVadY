@@ -8,6 +8,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
@@ -120,6 +121,7 @@ def register_view(request):
                 'user': user,
                 'protocol': 'https' if not settings.DEBUG else 'http',
                 'domain': os.getenv('DOMAIN', 'velvady-app-b7f67234cb3b.herokuapp.com'),
+                'dashboard_url': f"{protocol}://{domain}{dashboard_url}"
             }
             html_content = render_to_string('accounts/welcome_email.html', context)
 
@@ -280,6 +282,8 @@ class CustomPasswordChangeView(PasswordChangeView):
 
     # Redirects user after successful password change
     success_url = reverse_lazy('password_change_done')
+
+    form_class = PasswordChangeForm
 
     def form_valid(self, form):
         """
