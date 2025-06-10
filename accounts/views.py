@@ -1,5 +1,6 @@
 import os
 from .models import CustomUser
+from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -12,6 +13,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import authenticate, login, logout
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.shortcuts import render, redirect, get_object_or_404
@@ -114,15 +116,24 @@ def register_view(request):
             # Save the user to the database
             user = form.save()
 
+            # Prepare the full dashboard URL
+            protocol = 'https' if not settings.DEBUG else 'http'
+            domain = os.getenv('DOMAIN', get_current_site(request).domain)
+            dashboard_path = reverse('dashboard')
+            full_dashboard_url = f"{protocol}://{domain}{dashboard_path}"
+
             # Prepare email details
             subject = 'Welcome to VelVady'
             from_email = settings.DEFAULT_FROM_EMAIL
             to_email = user.email
             context = {
                 'user': user,
-                'protocol': 'https' if not settings.DEBUG else 'http',
-                'domain': os.getenv('DOMAIN', 'velvady-app-b7f67234cb3b.herokuapp.com'),
-                'dashboard_url': f"{protocol}://{domain}{dashboard_url}"
+                'service': service,
+                'amount_paid': purchase.amount_paid,
+                'purchase': purchase,
+                'dashboard_url': f"{protocol}://{domain}{reverse('dashboard')}",
+                'protocol': protocol,
+                'domain': domain,
             }
             html_content = render_to_string('accounts/welcome_email.html', context)
 
