@@ -1,5 +1,6 @@
 from . import views
 from django.urls import path
+from .views import stripe_webhook
 from .views import product_list_view
 from .views import create_checkout_session
 
@@ -24,4 +25,7 @@ urlpatterns = [
 
     # Route for thank you on checkout success
     path('thank-you/', views.checkout_success, name='checkout_success'),
+
+    # Route for webhook
+    path('webhook/stripe/', stripe_webhook, name='stripe_webhook'),
 ]

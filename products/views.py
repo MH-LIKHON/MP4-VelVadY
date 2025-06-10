@@ -122,6 +122,7 @@ def create_checkout_session(request, service_id):
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
             mode="payment",
+            customer_email=request.user.email,
             line_items=[{
                 "price_data": {
                     "currency": "gbp",
@@ -232,3 +233,82 @@ def checkout_success(request):
     except Exception as e:
         print(f"Error in checkout_success: {e}")
         return redirect('home')
+
+
+
+
+
+
+# =======================================================
+# STRIPE WEBHOOK HANDLER
+# =======================================================
+
+@csrf_exempt
+def stripe_webhook(request):
+    """
+    Handles Stripe webhook events for completed checkout sessions.
+    Verifies the Stripe signature, parses the event, and records
+    a new purchase if the payment was successful.
+    """
+
+    # Get the raw request body from Stripe
+    payload = request.body
+
+    # Get the Stripe signature header
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+
+    # Get the Stripe webhook secret from environment variables
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        # Validate and construct the event using Stripe's library
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+
+    except ValueError as e:
+        # Return 400 if payload is invalid
+        return HttpResponseBadRequest("Invalid payload")
+
+    except stripe.error.SignatureVerificationError as e:
+        # Return 400 if signature is invalid
+        return HttpResponseBadRequest("Invalid signature")
+
+    if event['type'] == 'checkout.session.completed':
+
+        # Extract the session object from the webhook event
+        session = event['data']['object']
+
+        # Get the session ID
+        session_id = session.get('id')
+
+        # Retrieve metadata set during session creation (e.g. service ID)
+        service_id = session['metadata'].get('service_id')
+
+        # Get the email of the Stripe customer
+        user_email = session.get('customer_email')
+
+        # Convert the amount from pence to pounds
+        amount_paid = session.get('amount_total', 0) / 100
+
+        try:
+            # Fetch the user based on their email address
+            user = User.objects.get(email=user_email)
+
+            # Fetch the service that was purchased
+            service = Service.objects.get(id=service_id)
+
+            # Create the purchase record if it does not already exist
+            Purchase.objects.get_or_create(
+                stripe_session_id=session_id,
+                defaults={
+                    'user': user,
+                    'service': service,
+                    'amount_paid': amount_paid,
+                }
+            )
+
+        except Exception as e:
+            # Log any error for debugging
+            print(f"Webhook error: {e}")
+
+    # Respond to Stripe with success to avoid repeated webhook calls
+    return JsonResponse({'status': 'success'})
