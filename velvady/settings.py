@@ -216,7 +216,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # I am keeping default English and UTC time zone for a UK-based project
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Europe/London'
 USE_I18N = True
 USE_TZ = True
 
