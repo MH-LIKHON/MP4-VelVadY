@@ -36,7 +36,7 @@
                 <p style="font-size: 14px; color: #777; margin-top: 20px;">
                     Explore our productivity tools, digital services, and more.
                     <br>
-                    <a href="https://your-site-url.com/accounts/dashboard" style="color: #d4af37; font-weight: bold;">
+                    <a href="{{ protocol }}://{{ domain }}/accounts/dashboard" style="color: #d4af37; font-weight: bold;">
                         Go to your dashboard
                     </a>
                 </p>
@@ -45,7 +45,9 @@
                 <p style="font-size: 12px; margin-top: 30px; color: #aaa;">
                     You are receiving this email because you created an account on VelVady.
                     <br>
-                    <a href="https://your-site-url.com/terms" style="color: #888;">Terms & Conditions</a>
+                    <a href="{{ protocol }}://{{ domain }}/terms/" style="color: #999; text-decoration: underline;">
+                        Terms & Conditions
+                    </a>
                 </p>
 
             </td>
