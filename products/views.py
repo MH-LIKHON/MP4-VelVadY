@@ -214,6 +214,8 @@ def checkout_success(request):
                 'purchase': purchase,
                 'service': service,
                 'amount_paid': amount_paid,
+                'protocol': 'https' if not settings.DEBUG else 'http',
+                'domain': os.getenv('DOMAIN', 'velvady-app-b7f67234cb3b.herokuapp.com'),
             }
 
             html_content = render_to_string('accounts/order_confirmation_email.html', context)

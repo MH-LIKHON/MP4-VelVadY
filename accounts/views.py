@@ -116,7 +116,11 @@ def register_view(request):
             subject = 'Welcome to VelVady'
             from_email = settings.DEFAULT_FROM_EMAIL
             to_email = user.email
-            context = {'user': user}
+            context = {
+                'user': user,
+                'protocol': 'https' if not settings.DEBUG else 'http',
+                'domain': os.getenv('DOMAIN', 'velvady-app-b7f67234cb3b.herokuapp.com'),
+            }
             html_content = render_to_string('accounts/welcome_email.html', context)
 
             # Create the email
