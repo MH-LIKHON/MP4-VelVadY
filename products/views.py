@@ -163,48 +163,51 @@ def checkout_success(request):
     """
     Handles a successful Stripe checkout by retrieving the session,
     verifying the payment, and recording the purchase in the database.
+    Sends a confirmation email only if the purchase is new.
     """
 
+    # Retrieve session ID from query string
     session_id = request.GET.get('session_id')
 
     if not session_id:
-        # No session ID found in query string
+        # If no session ID is provided, redirect to homepage
         return redirect('home')
 
     try:
-        # Set API key for Stripe API calls
+        # Set the API key to use Stripe
         stripe.api_key = settings.STRIPE_SECRET_KEY
 
-        # Retrieve the Stripe checkout session object by session_id
+        # Retrieve the full Stripe checkout session
         session = stripe.checkout.Session.retrieve(session_id)
 
-        # Retrieve line items for the session to get service details
+        # Retrieve line items to extract the service purchased
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         line_item = line_items.data[0]
 
-        # Extract service_id from metadata (set during checkout creation)
+        # Extract service ID and calculate paid amount
         service_id = session.metadata.get('service_id')
-        amount_paid = session.amount_total / 100  # Convert pence to pounds
+        amount_paid = session.amount_total / 100  # Convert from pence to pounds
 
-        # Check if purchase already exists to avoid duplicates
-        if not Purchase.objects.filter(stripe_session_id=session_id).exists():
-            # Get the Service object from database
-            service = Service.objects.get(id=service_id)
+        # Retrieve the service object
+        service = Service.objects.get(id=service_id)
 
-            # Create Purchase record for this successful transaction
-            purchase = Purchase.objects.create(
-                user=request.user,
-                service=service,
-                amount_paid=amount_paid,
-                stripe_session_id=session_id
-            )
+        # Create or retrieve the purchase record
+        purchase, created = Purchase.objects.get_or_create(
+            stripe_session_id=session_id,
+            defaults={
+                'user': request.user,
+                'service': service,
+                'amount_paid': amount_paid,
+            }
+        )
 
-            # Prepare email subject and sender
+        # Only send confirmation email if the purchase was newly created
+        if created:
+            # Prepare email content
             subject = f"Order Confirmation - {service.title}"
             from_email = settings.DEFAULT_FROM_EMAIL
-            to_email = request.user.email  # Send to logged-in user email
+            to_email = request.user.email
 
-            # Prepare context for rendering email template
             context = {
                 'user': request.user,
                 'purchase': purchase,
@@ -212,26 +215,20 @@ def checkout_success(request):
                 'amount_paid': amount_paid,
             }
 
-            # Render HTML content from the email template
             html_content = render_to_string('accounts/order_confirmation_email.html', context)
 
-            # Create the email message object
             email = EmailMultiAlternatives(subject, '', from_email, [to_email])
-
-            # Attach the HTML content as alternative
             email.attach_alternative(html_content, "text/html")
-
-            # Send the email
             email.send()
 
-            # --- END: Send Order Confirmation Email ---
-
-        # Redirect user to thank you page after success
-        return redirect('thank_you')
+        # Render the thank you page with purchase summary
+        return render(request, 'core/thank_you.html', {
+            'user': request.user,
+            'purchase': purchase,
+            'service': service,
+            'amount_paid': amount_paid,
+        })
 
     except Exception as e:
-        # Log or print the exception (optional)
         print(f"Error in checkout_success: {e}")
-
-        # Redirect to home page on failure
         return redirect('home')
