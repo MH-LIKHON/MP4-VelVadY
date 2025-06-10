@@ -34,9 +34,6 @@ urlpatterns = [
     # Route to service list
     path('services/', product_list_view, name='services'),
 
-    # Route to thank you page
-    path('thank-you/', views.thank_you_view, name='thank_you'),
-
     # Password change views
     path('password/change/', views.CustomPasswordChangeView.as_view(), name='password_change'),
     path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),

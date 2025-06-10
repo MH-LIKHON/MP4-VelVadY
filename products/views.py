@@ -137,7 +137,7 @@ def create_checkout_session(request, service_id):
             metadata={
                 "service_id": service.id
             },
-            success_url = domain_url + "/thank-you/?session_id={CHECKOUT_SESSION_ID}",
+            success_url = domain_url + "/products/thank-you/?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=f"{domain_url}/cancelled/",
         )
 

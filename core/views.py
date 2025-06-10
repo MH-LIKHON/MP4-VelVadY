@@ -81,27 +81,6 @@ def contact_view(request):
 
 
 # =======================================================
-# THANK YOU VIEWS
-# =======================================================
-
-# Post purchase thank you views
-@login_required
-def thank_you_view(request):
-    """
-    Renders the thank you page after a successful payment.
-    Displays the latest purchase made by the logged-in user.
-    """
-    last_purchase = Purchase.objects.filter(user=request.user).order_by('-timestamp').first()
-
-    return render(request, 'core/thank_you.html', {
-        'purchase': last_purchase
-    })
-
-
-
-
-
-# =======================================================
 # CANCELLED VIEWS
 # =======================================================
 
@@ -142,13 +121,3 @@ def custom_404(request, exception=None):
     Handles 404 errors with a custom template and proper status code.
     """
     return render(request, 'core/404.html', status=404)
-
-
-
-
-
-# =======================================================
-# CONTACT FORM EMAIL SENDING LOGIC
-# =======================================================
-
-# This section sends an email to the site admin when the contact form is submitted

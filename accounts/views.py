@@ -309,33 +309,3 @@ class CustomPasswordResetView(PasswordResetView):
             email_message.attach_alternative(html_email, 'text/html')
 
         email_message.send()
-
-
-
-
-
-# =======================================================
-# THANK YOU VIEW
-# =======================================================
-
-@login_required
-def thank_you_view(request):
-    """
-    Renders the thank you page displaying the user's latest purchase summary.
-    Redirects to home if no purchase found.
-    """
-    # Get the latest purchase for the logged-in user
-    purchase = Purchase.objects.filter(user=request.user).order_by('-timestamp').first()
-
-    if not purchase:
-        # No purchase found, redirect to home page
-        return redirect('home')
-
-    # Pass purchase and user info to the template context
-    context = {
-        'purchase': purchase,
-        'user': request.user,
-    }
-
-    # Render the thank you template with the context
-    return render(request, 'core/thank_you.html', context)
