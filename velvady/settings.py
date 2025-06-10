@@ -96,7 +96,6 @@ INSTALLED_APPS = [
     "products",
     'cloudinary',
     'cloudinary_storage',
-    'django_extensions',
 ]
 
 # I am setting Django to use my custom user model from the 'accounts' app

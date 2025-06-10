@@ -607,6 +607,7 @@ The scan was executed using:
 
 ```bash
 flake8 . --exclude=migrations,venv,__pycache__ --max-line-length=120 > python_pep8_report.txt
+```
 
 ---
 
