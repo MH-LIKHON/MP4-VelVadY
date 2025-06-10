@@ -129,7 +129,8 @@ def register_view(request):
             context = {
                 'user': user,
                 'dashboard_url': full_dashboard_url,
-                'domain': f"{protocol}://{domain}",
+                'protocol': protocol,
+                'domain': domain,
             }
 
             html_content = render_to_string('accounts/welcome_email.html', context)
