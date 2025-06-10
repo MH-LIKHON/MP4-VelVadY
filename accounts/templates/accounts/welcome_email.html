@@ -43,24 +43,24 @@
 
                 <!-- Footer message -->
                 <p style="font-size: 12px; margin-top: 30px; color: #aaa;">
-                    You are receiving this email because you created an account on VelVady.</p>
+                    You are receiving this email because you created an account on VelVady.
+                </p>
 
-                 <br>
+            </td>
+        </tr>
 
-                <!-- Footer and legal -->
-                <tr>
-                    <td align="center" style="padding-top: 40px; font-size: 12px; color: #999;">
-                        <hr style="border: none; border-top: 1px solid #ddd; margin-bottom: 10px;">
-                        <p style="margin: 0;">
-                            <a href="{{ protocol }}://{{ domain }}/terms/" style="color: #999; text-decoration: underline;">
-                                Terms & Conditions
-                            </a>
-                        </p>
-                        <p style="margin-top: 8px;">
-                            &copy; {{ year|default:"2025" }} VelVady. All rights reserved.
-                        </p>
-                    </td>
-                </tr>
+        <!-- Footer and legal (must be in its own row) -->
+        <tr>
+            <td align="center" style="padding-top: 40px; font-size: 12px; color: #999;">
+                <hr style="border: none; border-top: 1px solid #ddd; margin-bottom: 10px;">
+                <p style="margin: 0;">
+                    <a href="{{ domain }}/terms/" style="color: #999; text-decoration: underline;">
+                        Terms & Conditions
+                    </a>
+                </p>
+                <p style="margin-top: 8px;">
+                    &copy; {{ year|default:"2025" }} VelVady. All rights reserved.
+                </p>
             </td>
         </tr>
 
