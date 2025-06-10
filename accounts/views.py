@@ -128,13 +128,11 @@ def register_view(request):
             to_email = user.email
             context = {
                 'user': user,
-                'service': service,
-                'amount_paid': purchase.amount_paid,
-                'purchase': purchase,
-                'dashboard_url': f"{protocol}://{domain}{reverse('dashboard')}",
+                'dashboard_url': full_dashboard_url,
                 'protocol': protocol,
                 'domain': domain,
             }
+
             html_content = render_to_string('accounts/welcome_email.html', context)
 
             # Create the email
