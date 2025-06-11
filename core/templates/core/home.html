@@ -56,7 +56,7 @@
 
         <!-- Search Form -->
         <div class="col-12 col-md-8">
-            <form method="get" action="{% url 'services' %}">
+            <form method="get" action="{% url 'product_list' %}">
                 <div class="input-group">
                     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search for services...">
                     <button class="btn btn-dark" type="submit">Search</button>
@@ -69,15 +69,15 @@
             <div class="d-flex flex-wrap justify-content-center gap-2">
 
                 <!-- All Button -->
-                <a href="{% url 'services' %}{% if query %}?q={{ query }}{% endif %}"
-                   class="btn btn-outline-secondary {% if not category %}active{% endif %}">
+                <a href="{% url 'product_list' %}{% if query %}?q={{ query }}{% endif %}"
+                class="btn btn-outline-secondary {% if not category %}active{% endif %}">
                     All
                 </a>
 
                 <!-- Category Loop -->
                 {% for value, label in category_choices %}
-                    <a href="{% url 'services' %}?{% if query %}q={{ query }}&{% endif %}category={{ value }}"
-                       class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
+                    <a href="{% url 'product_list' %}?{% if query %}q={{ query }}&{% endif %}category={{ value }}"
+                    class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
                         {{ label }}
                     </a>
                 {% endfor %}

@@ -297,6 +297,19 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     border-color: #d4af37;
 }
 
+/* Ensures each card body fills full height and aligns content properly */
+.help-section .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Makes the paragraph flexible to allow space for consistent alignment */
+.help-section .card-text {
+    flex-grow: 1;
+}
+
 /* ------------------------------- CTA ------------------------------- */
 
 /* CTA section backgorund*/
