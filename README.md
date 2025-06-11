@@ -180,171 +180,225 @@ This prioritisation ensures that critical features related to authentication, pa
 ---
 ---
 
-### Page-by-Page Feature Summary
+## Page-by-Page Feature Summary
 
-Each HTML page in VelVady serves a unique function in the user journey. Below is a breakdown of every key page, its implemented features, and the associated screenshot placeholder.
+Each page in VelVady plays a specific role in guiding users through the platform, from discovery to purchase. Below is a detailed breakdown of each page’s function, feature set, and linked screenshot for visual reference.
 
 ---
 
-#### Home Page (`home.html`)
+### Home Page (`home.html`)
 
-- Hero video section with marketing tagline and CTA
-- Search input for future category filtering
-- Featured services grid (from database)
-- Testimonials section
-- Value highlights with icons
-- Resource/help cards
-- Final call-to-action footer
+The homepage acts as the gateway to the platform and is designed to attract, inform, and convert visitors.
+
+- Hero section with tagline and two call-to-action buttons: "Explore Services" and "Join VelVady"
+- Dynamic search input with keyword filter and category buttons (Design, Business, Tech, Writing, Marketing)
+- Featured services loaded from the database
+- Trust/benefits section: Secure Payments, Instant Access, Vetted Experts, 24/7 Support
+- Testimonials carousel with user quotes
+- Help & Resources block with support cards
+- Final full-width call-to-action banner encouraging sign-up
 
 **Screenshot:**  
 ![Home Page](core/static/core/images/home.png)
 
 ---
 
-#### Login Page (`login.html`)
+### Login Page (`login.html`)
 
-- Email and password-based login
-- CSRF-protected form
-- Flash message on success or failure
-- Auto-redirect to dashboard on login
-- Link to registration and password reset
+Allows existing users to log into their accounts securely.
+
+- Login form with fields for email and password
+- CSRF protection enabled
+- Error and success flash messages
+- Redirects to user dashboard upon success
+- Links to registration and password reset flows
 
 **Screenshot:**  
 ![Login Page](core/static/core/images/login.png)
 
 ---
 
-#### Register Page (`register.html`)
+### Register Page (`register.html`)
 
-- Full registration form (first name, last name, email, password, terms agreement)
-- Validation with error feedback
-- Required Terms & Conditions checkbox
-- On success: user redirected to dashboard
-- Welcome email automatically sent
+Allows new users to create an account with email and secure password.
+
+- Full form: first name, last name, email, address, password, confirm password
+- Password validation with visible policy enforcement
+- Required checkbox to accept Terms & Privacy Policy (linked)
+- Sends HTML welcome email on success
+- Redirects new users to dashboard
 
 **Screenshot:**  
 ![Register Page](core/static/core/images/register.png)
 
 ---
 
-#### Dashboard Page (`dashboard.html`)
+### Dashboard Page (`dashboard.html`)
 
-- Dynamic greeting with user name
-- Summary cards: total services purchased, total spend, most recent purchase
-- Purchase history table: service, price, date
-- Buttons for profile edit and password change
+Gives logged-in users an overview of their account and purchases.
+
+- Personalised greeting using user’s first name
+- Three key summary cards:
+  - Total Services Purchased
+  - Total Amount Spent
+  - Last Purchase Timestamp
+- Purchase history table with service name, price, and purchase date
+- Buttons for profile view/edit and service browsing
 
 **Screenshot:**  
 ![Dashboard](core/static/core/images/dashboard.png)
 
 ---
 
-#### Profile Page (`profile.html`)
+### Profile Page (`profile.html`)
 
-- Displays current user data
-- Button to edit personal details
+Displays personal information for the logged-in user.
+
+- Shows: first name, last name, email, address
+- Buttons to edit profile, change password, or return to dashboard
 
 **Screenshot:**  
 ![Profile Page](core/static/core/images/profile.png)
 
 ---
 
-#### Profile Update Page (`profile_update.html`)
+### Edit Profile Page (`profile_update.html`)
 
-- Form for updating name, email, address
-- Pre-populated with current user data
-- Save and cancel buttons
+Enables users to update their personal information.
+
+- Form pre-filled with user’s current data
+- Editable fields: first name, last name, email, address
+- Buttons to save changes or cancel and return
 
 **Screenshot:**  
-![Profile Update](core/static/core/images/profile_update.png)
+![Profile Update](core/static/core/images/profile_edit.png)
 
 ---
 
-#### Password Management Pages  
-(`password_change.html`, `password_reset_*.html`)
+### Password Management
 
-- Password change form (in-dashboard)
-- Password reset via email (external)
-- New password entry and reset confirmation
-- Secure token-based process
+Includes secure options for changing or resetting passwords using Django's built-in system.
 
-**Screenshot:**  
-![Password Pages](core/static/core/images/password_reset.png)
+- `password_change.html`: Authenticated password update form
+- `password_reset_email.html`: Email sent to user with reset link
+- `password_reset.html`: Form for setting a new password via secure token
+- Password validation shown inline with Django’s recommended rules
+
+**Screenshots:**  
+![Password Change](core/static/core/images/password_change.png)  
+![Password Reset Email](core/static/core/images/password_reset_email.png)  
+![Password Reset Form](core/static/core/images/password_reset.png)
 
 ---
 
-#### Service List Page (`product_list.html`)
+### Service List Page (`product_list.html`)
 
-- Grid of services loaded dynamically
-- Title, price, and image for each service
-- ‘Buy Now’ button for each service
-- Slug-based URLs for SEO-friendly links
+Displays all services offered by the platform.
+
+- Dynamic grid layout from database entries
+- Category filtering via buttons
+- SEO-friendly slug URLs for each service
+- 'Buy Now' button initiates Stripe checkout flow
 
 **Screenshot:**  
 ![Service List](core/static/core/images/product_list.png)
 
 ---
 
-#### Service Detail Page (`product_detail.html`)
+### Service Detail Page (`product_detail.html`)
 
-- Displays full service details
-- Review section with star ratings
-- Review form (only visible if purchased)
-- ‘Buy Now’ button launches Stripe checkout
+Provides complete details for an individual service.
+
+- Displays: service title, image, description, and price
+- User reviews listed with star ratings and feedback
+- Logged-in purchasers can submit a review via form
+- Stripe ‘Buy Now’ button triggers checkout session
 
 **Screenshot:**  
 ![Service Detail](core/static/core/images/service_detail.png)
 
 ---
 
-#### Thank You Page (`thank_you.html`)
+### Thank You Page (`thank_you.html`)
 
-- Confirmation message after successful purchase
-- Service title and amount displayed
+Confirmation page shown after a successful payment.
+
+- Displays service name, amount paid, and timestamp
+- Notice about email receipt
+- Button to return to dashboard
 
 **Screenshot:**  
 ![Thank You](core/static/core/images/thank_you.png)
 
 ---
 
-#### Payment Cancelled Page (`payment_cancelled.html`)
+### Payment Cancelled Page (`payment_cancelled.html`)
 
-- Message confirming no charge occurred
-- Link back to service list
+Page shown when the Stripe payment process is cancelled.
+
+- Displays confirmation that no payment was processed
+- Offers link back to Services page
 
 **Screenshot:**  
-![Payment Cancelled](core/static/core/images/payment_cancelled.png)
+![Payment Cancelled](core/static/core/images/cancelled.png)
 
 ---
 
-#### Contact Us Page (`contact.html`)
+### Contact Us Page (`contact.html`)
 
-- Contact form: name, email, message
-- Flash message confirmation on submit
-- Message saved in admin panel for review
+Allows users to send a message to the site administrator.
+
+- Form fields: name, email, and message
+- Flash message shown after successful submission
+- Triggers HTML email notification to admin inbox
 
 **Screenshot:**  
 ![Contact Page](core/static/core/images/contact.png)
 
 ---
 
-#### Terms and Conditions Page (`terms_and_policy.html`)
+### Terms and Conditions Page (`terms_and_policy.html`)
 
-- Legal disclaimer and site usage terms
-- Required agreement checkbox linked here
+Outlines legal responsibilities and data handling policies.
+
+- Terms of use for the platform
+- Digital service disclaimers
+- Intellectual property and liability clauses
+- Privacy policy with data rights
+- Linked in the registration form as required reading
 
 **Screenshot:**  
 ![Terms Page](core/static/core/images/terms_and_policy.png)
 
 ---
 
-#### Custom 404 Error Page (`404.html`)
+### 404 Error Page (`404.html`)
 
-- Styled error page with friendly message
-- ‘Go Home’ button
+Custom error page shown for broken or invalid URLs.
+
+- Friendly "Looks like you're lost" design
+- Button to return to homepage
 
 **Screenshot:**  
 ![404 Error](core/static/core/images/404.png)
+
+---
+
+### Email Notifications
+
+Automated transactional emails generated by platform events.
+
+- **Welcome Email**: Sent immediately after registration  
+  ![Welcome Email](core/static/core/images/welcome_email.png)
+
+- **Password Reset Email**: Contains secure token link for new password setup  
+  ![Password Reset Email](core/static/core/images/password_reset_email.png)
+
+- **Order Confirmation Email**: Sent after successful Stripe payment  
+  ![Order Confirmation](core/static/core/images/order_email.png)
+
+- **Contact Message Email**: Admin receives message sent from contact form  
+  ![Contact Email](core/static/core/images/contact_email.png)
 
 ---
 ---
