@@ -58,29 +58,20 @@
         <div class="col-12 col-md-8">
             <form method="get" action="{% url 'product_list' %}">
                 <div class="input-group">
-                    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search for services...">
+                    <input type="text" name="q" class="form-control" placeholder="Search for services...">
                     <button class="btn btn-dark" type="submit">Search</button>
                 </div>
             </form>
         </div>
 
-        <!-- Category Buttons -->
+        <!-- Category Buttons (Hardcoded) -->
         <div class="col-12">
             <div class="d-flex flex-wrap justify-content-center gap-2">
 
-                <!-- All Button -->
-                <a href="{% url 'product_list' %}{% if query %}?q={{ query }}{% endif %}"
-                class="btn btn-outline-secondary {% if not category %}active{% endif %}">
-                    All
-                </a>
-
-                <!-- Category Loop -->
-                {% for value, label in category_choices %}
-                    <a href="{% url 'product_list' %}?{% if query %}q={{ query }}&{% endif %}category={{ value }}"
-                    class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
-                        {{ label }}
-                    </a>
-                {% endfor %}
+                <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">All</a>
+                <a href="{% url 'product_list' %}?category=Design" class="btn btn-outline-secondary">Design</a>
+                <a href="{% url 'product_list' %}?category=Business" class="btn btn-outline-secondary">Business</a>
+                <a href="{% url 'product_list' %}?category=Tech" class="btn btn-outline-secondary">Tech</a>
 
             </div>
         </div>
