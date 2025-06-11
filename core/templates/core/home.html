@@ -51,33 +51,33 @@
         <p class="text-muted">Browse by category or search by keywords.</p>
     </div>
 
-    <!-- Search & Filter Row -->
-    <div class="row align-items-center justify-content-center gx-2 gy-3">
+    <!-- Search and Filter Block -->
+    <div class="row justify-content-center gy-3">
 
-        <!-- Search Input -->
-        <div class="col-12 col-md-6">
+        <!-- Search Form -->
+        <div class="col-12 col-md-8">
             <form method="get" action="{% url 'services' %}">
                 <div class="input-group">
                     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search for services...">
-                    <button class="btn-custom" type="submit">Search</button>
+                    <button class="btn btn-dark" type="submit">Search</button>
                 </div>
             </form>
         </div>
 
-        <!-- Category Filters -->
-        <div class="col-12 col-md-6 text-center text-md-start">
-            <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+        <!-- Category Buttons -->
+        <div class="col-12">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
 
-                <!-- All button -->
+                <!-- All Button -->
                 <a href="{% url 'services' %}{% if query %}?q={{ query }}{% endif %}"
-                class="btn btn-outline-secondary {% if not category %}active{% endif %}">
+                   class="btn btn-outline-secondary {% if not category %}active{% endif %}">
                     All
                 </a>
 
-                <!-- Loop dynamically through category choices -->
+                <!-- Category Loop -->
                 {% for value, label in services.first.CATEGORY_CHOICES %}
                     <a href="{% url 'services' %}?{% if query %}q={{ query }}&{% endif %}category={{ value }}"
-                    class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
+                       class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
                         {{ label }}
                     </a>
                 {% endfor %}
