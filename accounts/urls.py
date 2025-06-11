@@ -3,6 +3,7 @@ from django.urls import path
 from .views import CustomPasswordResetView
 from products.views import product_list_view
 from django.views.generic import TemplateView
+from .views import CustomPasswordChangeDoneView
 from django.contrib.auth import views as auth_views
 
 
@@ -34,9 +35,11 @@ urlpatterns = [
     # Route to service list
     path('services/', product_list_view, name='services'),
 
+    # Route to password reset done page
+    path('password/change/done/', CustomPasswordChangeDoneView.as_view(), name='password_change_done'),
+
     # Password change views
     path('password/change/', views.CustomPasswordChangeView.as_view(), name='password_change'),
-    path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
 
     # Form to enter email
     path('password-reset/', CustomPasswordResetView.as_view(

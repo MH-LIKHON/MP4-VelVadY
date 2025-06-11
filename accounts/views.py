@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordChangeDoneView
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProfileUpdateForm, CustomUserRegistrationForm
@@ -333,3 +334,14 @@ class CustomPasswordResetView(PasswordResetView):
             email_message.attach_alternative(html_email, 'text/html')
 
         email_message.send()
+
+
+
+
+
+# =======================================================
+# CUSTOM PASSWORD CHANGE DONE VIEW
+# =======================================================
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'accounts/password_change_done.html'
