@@ -292,14 +292,18 @@ Enables users to update their personal information.
 Includes secure options for changing or resetting passwords using Django's built-in system.
 
 - `password_change.html`: Authenticated password update form
+- `password_change_done.html`: Confirmation page after password update
 - `password_reset_email.html`: Email sent to user with reset link
 - `password_reset.html`: Form for setting a new password via secure token
+- `password_reset_done.html`: Confirmation page after requesting a password reset
 - Password validation shown inline with Django’s recommended rules
 
 **Screenshots:**  
 ![Password Change](core/static/core/images/password_change.png)  
+![Password Change Done](core/static/core/images/password_change_done.png)  
 ![Password Reset Email](core/static/core/images/password_reset_email.png)  
-![Password Reset Form](core/static/core/images/password_reset.png)
+![Password Reset Form](core/static/core/images/password_reset.png)  
+![Password Reset Request Confirmed](core/static/core/images/password_reset_done.png)
 
 ---
 
