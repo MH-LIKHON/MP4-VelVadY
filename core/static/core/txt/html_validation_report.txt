@@ -1,0 +1,16 @@
+"file:/workspaces/VelVadY/rendered_pages/contact.html":40.9-40.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/contact.html":71.9-71.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/contact.html":121.5-121.12: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/contact.html":195.9-195.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/contact.html":203.9-203.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/home.html":40.9-40.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/home.html":71.9-71.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/home.html":121.5-121.12: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/home.html":357.17-357.116: error: Attribute “c” not allowed on element “img” at this point.
+"file:/workspaces/VelVadY/rendered_pages/home.html":524.9-524.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/home.html":532.9-532.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/terms.html":40.9-40.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/terms.html":71.9-71.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/terms.html":121.5-121.12: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/terms.html":207.9-207.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.
+"file:/workspaces/VelVadY/rendered_pages/terms.html":215.9-215.16: info warning: The document is not mappable to XML 1.0 due to two consecutive hyphens in a comment.

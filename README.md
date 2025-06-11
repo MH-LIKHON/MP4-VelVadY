@@ -2,7 +2,7 @@
 
 VelVady is a modern, full-stack e-commerce platform developed using Django, Stripe, and PostgreSQL. Designed as a digital service marketplace, it enables users to explore, review, and securely purchase personalised services online. From CV optimisation to design work, VelVady offers a streamlined solution for discovering and managing high-quality, one-time digital services.
 
-The platform focuses on delivering a responsive, secure, and user-friendly experience. It integrates a dynamic dashboard, Stripe-powered payments, an automated order confirmation system, and a full review engine. VelVady is fully responsive and meets distinction-level criteria for Code Institute’s final milestone project (MP4).
+The platform focuses on delivering a responsive, secure, and user-friendly experience. It integrates a dynamic dashboard, Stripe-powered payments, an automated order confirmation system, and a full review engine. VelVady has been developed using best practices in full-stack development and is fully responsive across devices.
 
 ---
 ---
@@ -98,6 +98,18 @@ The platform was also intended to demonstrate proficiency in Django model design
 
 ---
 
+### Wireframes
+
+As part of the early UX design process, wireframes were created to map out the intended structure and layout of each major page on VelVady. These visual plans guided the implementation of the homepage, dashboard, service detail pages, and forms.
+
+Each wireframe helped establish consistency, mobile responsiveness, and an intuitive user flow for customers, from discovery to purchase.
+
+**Wireframe Collection:**
+
+![VelVady Wireframes](core/static/core/images/wf_velvady.png)
+
+---
+
 ### Feature Prioritisation
 
 Feature development followed a priority-based structure:
@@ -150,31 +162,31 @@ The following tools, libraries, and platforms were used throughout development:
 
 ## Features
 
-### Feature Importance Overview
+## Feature Importance Overview
 
-The following table outlines the key features implemented in VelVady and their relative importance based on security, user value, and project requirements. Each feature has been prioritised to ensure the project meets both Code Institute’s MP4 specification and real-world usability standards.
+The following table outlines the most important features implemented in VelVady, prioritised by their value to the user experience, data security, and real-world application readiness.
 
-| No. | Feature Description                                  | Importance Level |
-|-----|------------------------------------------------------|------------------|
-| 1   | Secure User Authentication with Email Login          | ⭐⭐⭐⭐⭐           |
-| 2   | Stripe Checkout Integration                          | ⭐⭐⭐⭐⭐           |
-| 3   | Webhook for Post-Purchase Saving                     | ⭐⭐⭐⭐⭐           |
-| 4   | Custom User Dashboard with Purchase History          | ⭐⭐⭐⭐            |
-| 5   | Dynamic Service Detail Pages with Reviews            | ⭐⭐⭐⭐            |
-| 6   | Review Submission and Star Ratings                   | ⭐⭐⭐⭐            |
-| 7   | Welcome and Order Confirmation Emails                | ⭐⭐⭐⭐            |
-| 8   | Contact Form with Admin Logging                      | ⭐⭐⭐⭐            |
-| 9   | Admin Panel for Managing Services and Purchases      | ⭐⭐⭐⭐            |
-| 10  | Password Reset and Change Workflow                   | ⭐⭐⭐             |
-| 11  | Terms & Conditions Agreement in Registration         | ⭐⭐⭐             |
-| 12  | Page-Level Flash Messaging (Bootstrap Alerts)        | ⭐⭐⭐             |
-| 13  | Image Uploads with Fallback for Missing Media        | ⭐⭐⭐             |
-| 14  | Custom 404 Error Page                                | ⭐⭐⭐             |
-| 15  | Mobile-Friendly Layout and CSS Grid Usage            | ⭐⭐⭐             |
-| 16  | Static Home Page Sections (CTA, Testimonials, Icons) | ⭐⭐              |
-| 17  | Basic Search Input on Homepage                       | ⭐⭐              |
+| No. | Feature Description                                        | Importance Level |
+|-----|------------------------------------------------------------|------------------|
+| 1   | Secure User Authentication with Email Login                | ⭐⭐⭐⭐⭐           |
+| 2   | Stripe Checkout Integration for Paid Services              | ⭐⭐⭐⭐⭐           |
+| 3   | Webhook Handling to Store Purchase Data Post-Checkout      | ⭐⭐⭐⭐⭐           |
+| 4   | Custom Dashboard with Metrics and Purchase History         | ⭐⭐⭐⭐⭐           |
+| 5   | Dynamic Service Detail Page with Review System             | ⭐⭐⭐⭐⭐           |
+| 6   | Review Submission Form with Validation and Display         | ⭐⭐⭐⭐            |
+| 7   | Automated HTML Emails (Welcome, Order Confirmation, Reset) | ⭐⭐⭐⭐            |
+| 8   | Contact Form with Admin Email Notification                 | ⭐⭐⭐⭐            |
+| 9   | Profile View and Edit Pages with Inline Validation         | ⭐⭐⭐⭐            |
+| 10  | Password Reset and Change Workflows                        | ⭐⭐⭐⭐            |
+| 11  | Terms & Privacy Policy Linked and Enforced at Signup       | ⭐⭐⭐             |
+| 12  | Flash Messaging for Login, Form Submissions, and Errors    | ⭐⭐⭐             |
+| 13  | Custom 404 Error Page with Branded Navigation              | ⭐⭐⭐             |
+| 14  | Responsive Layout and Mobile-Friendly UI                   | ⭐⭐⭐             |
+| 15  | Static Homepage Features (Testimonials, Icons, CTA Cards)  | ⭐⭐              |
+| 16  | Search Input and Category Filters on Home/Products Page    | ⭐⭐              |
+| 17  | Admin Panel for Service and Purchase Management (Django)   | ⭐⭐              |
 
-This prioritisation ensures that critical features related to authentication, payments, and data integrity were implemented first, followed by dashboard logic, UI enhancements, and non-critical improvements.
+This prioritisation ensures that core features related to account security, e-commerce flow, and user transparency were implemented first, followed by dashboard logic, frontend layout, and auxiliary enhancements.
 
 ---
 ---
@@ -186,7 +198,7 @@ Each page in VelVady plays a specific role in guiding users through the platform
 
 ---
 
-### Home Page (`home.html`)
+### Home Page
 
 The homepage acts as the gateway to the platform and is designed to attract, inform, and convert visitors.
 
@@ -203,7 +215,7 @@ The homepage acts as the gateway to the platform and is designed to attract, inf
 
 ---
 
-### Login Page (`login.html`)
+### Login Page
 
 Allows existing users to log into their accounts securely.
 
@@ -218,7 +230,7 @@ Allows existing users to log into their accounts securely.
 
 ---
 
-### Register Page (`register.html`)
+### Register Page
 
 Allows new users to create an account with email and secure password.
 
@@ -233,7 +245,7 @@ Allows new users to create an account with email and secure password.
 
 ---
 
-### Dashboard Page (`dashboard.html`)
+### Dashboard Page
 
 Gives logged-in users an overview of their account and purchases.
 
@@ -250,7 +262,7 @@ Gives logged-in users an overview of their account and purchases.
 
 ---
 
-### Profile Page (`profile.html`)
+### Profile Page
 
 Displays personal information for the logged-in user.
 
@@ -262,7 +274,7 @@ Displays personal information for the logged-in user.
 
 ---
 
-### Edit Profile Page (`profile_update.html`)
+### Edit Profile Page
 
 Enables users to update their personal information.
 
@@ -291,7 +303,7 @@ Includes secure options for changing or resetting passwords using Django's built
 
 ---
 
-### Service List Page (`product_list.html`)
+### Product List Page
 
 Displays all services offered by the platform.
 
@@ -301,11 +313,11 @@ Displays all services offered by the platform.
 - 'Buy Now' button initiates Stripe checkout flow
 
 **Screenshot:**  
-![Service List](core/static/core/images/product_list.png)
+![Product List](core/static/core/images/product_list.png)
 
 ---
 
-### Service Detail Page (`product_detail.html`)
+### Product Detail Page
 
 Provides complete details for an individual service.
 
@@ -315,11 +327,11 @@ Provides complete details for an individual service.
 - Stripe ‘Buy Now’ button triggers checkout session
 
 **Screenshot:**  
-![Service Detail](core/static/core/images/service_detail.png)
+![Product Detail](core/static/core/images/product_detail.png)
 
 ---
 
-### Thank You Page (`thank_you.html`)
+### Thank You Page
 
 Confirmation page shown after a successful payment.
 
@@ -332,7 +344,7 @@ Confirmation page shown after a successful payment.
 
 ---
 
-### Payment Cancelled Page (`payment_cancelled.html`)
+### Payment Cancelled Page
 
 Page shown when the Stripe payment process is cancelled.
 
@@ -344,7 +356,7 @@ Page shown when the Stripe payment process is cancelled.
 
 ---
 
-### Contact Us Page (`contact.html`)
+### Contact Us Page
 
 Allows users to send a message to the site administrator.
 
@@ -357,7 +369,7 @@ Allows users to send a message to the site administrator.
 
 ---
 
-### Terms and Conditions Page (`terms_and_policy.html`)
+### Terms and Conditions Page
 
 Outlines legal responsibilities and data handling policies.
 
@@ -372,7 +384,7 @@ Outlines legal responsibilities and data handling policies.
 
 ---
 
-### 404 Error Page (`404.html`)
+### 404 Error Page
 
 Custom error page shown for broken or invalid URLs.
 
@@ -568,7 +580,7 @@ VelVady was tested on the following environments:
 
  ### Bugs and Fixes
 
-The following **major bugs and fixes** were encountered during the development of VelVady. These issues were addressed to ensure that the project meets distinction-level quality, with all functionality working as expected and with robust error handling.
+The following **major bugs and fixes** were encountered during the development of VelVady. These issues were addressed to ensure all functionality works as expected, with robust error handling and a reliable user experience across the platform.
 
 | No. | Issue Description                                      | Fix Applied                                           |
 |-----|--------------------------------------------------------|------------------------------------------------------|
@@ -613,7 +625,7 @@ To ensure VelVady adheres to best practices in accessibility, SEO, and overall p
 
 #### Lighthouse Audit Results (Desktop)
 
-| Page                     | Performance | Accessibility | Best Practices | SEO  |
+| Page                     | Performance | Accessibility  | Best Practices | SEO  |
 |--------------------------|-------------|----------------|----------------|------|
 | Home (`/`)               | 98          | 100            | 100            | 100  |
 | Products (`/products/`)  | 96          | 100            | 100            | 100  |
@@ -625,24 +637,84 @@ Lighthouse audits were generated using Chrome DevTools and exported as PDFs for 
 
 ---
 
-### Validation Evidence and Audit Reports
+## Validation Evidence and Audit Reports
 
-The following automated validations and manual reviews were conducted. All reports are included in the `/core/static/core/pdfs/` directory for reference.
+The following automated audits and manual validation reports were conducted to ensure the quality, accessibility, performance, and maintainability of the VelVady project. All evidence is stored in the `/core/static/core/pdfs/` directory for assessment.
 
-| Validation Type           | Description                                            | File Path                                               |
-|---------------------------|--------------------------------------------------------|----------------------------------------------------------|
-| **Lighthouse – Home**     | Performance, accessibility, SEO and practices audit   | `core/static/core/pdfs/lighthouse_home.pdf`             |
-| **Lighthouse – Products** | Audit of the product list view                        | `core/static/core/pdfs/lighthouse_products.pdf`         |
-| **Lighthouse – Dashboard**| Audit of user dashboard                               | `core/static/core/pdfs/lighthouse_dashboard.pdf`        |
-| **HTML Validation**       | W3C validation of all core templates                  | `core/static/core/pdfs/html_validation_report.pdf`      |
-| **CSS Validation**        | Validation of global stylesheet                       | `core/static/core/pdfs/css_validation_report.pdf`       |
-| **JavaScript Review**     | Manual review of inline scripts and event listeners   | `core/static/core/pdfs/js_validation_notes.pdf`         |
-| **Python (PEP8)**         | Flake8 validation across all Python files             | `core/static/core/pdfs/python_pep8_report.pdf`          |
+### Lighthouse Reports (One Per Page)
+
+| Page                    | Audit Description                                   | Report Path                                   |
+|-------------------------|-----------------------------------------------------|-----------------------------------------------|
+| Home Page               | Performance, accessibility, SEO and best practices  | `core/static/core/pdfs/lh_home.pdf`           |
+| Login Page              | Lighthouse audit of login form                      | `core/static/core/pdfs/lh_login.pdf`          |
+| Register Page           | Audit of full registration and validation workflow  | `core/static/core/pdfs/lh_register.pdf`       |
+| Dashboard Page          | User dashboard UI and performance review            | `core/static/core/pdfs/lh_dashboard.pdf`      |
+| Profile Page            | Profile display page audit                          | `core/static/core/pdfs/lh_profile.pdf`        |
+| Edit Profile Page       | Validation on form update workflow                  | `core/static/core/pdfs/lh_profile_edit.pdf`   |
+| Password Change Page    | Lighthouse test on authenticated password updates   | `core/static/core/pdfs/lh_password_change.pdf`|
+| Password Reset Page     | Reset form from secure token link                   | `core/static/core/pdfs/lh_password_reset.pdf` |
+| Password Forgot Page    | Public reset request form                           | `core/static/core/pdfs/lh_pasword_forgot.pdf` |
+| Contact Page            | Form accessibility and email submission flow        | `core/static/core/pdfs/lh_contact.pdf`        |
+| Product List Page       | Dynamic grid with filter/search load test           | `core/static/core/pdfs/lh_product_list.pdf`   |
+| Product Details Page    | Review system, Stripe button, layout audit          | `core/static/core/pdfs/lh_product_details.pdf`|
+| Thank You Page          | Stripe confirmation result and feedback audit       | `core/static/core/pdfs/lh_thank_you.pdf`      |
+| Payment Cancelled Page  | Cancelled payment logic and feedback display        | `core/static/core/pdfs/lh_cancelled.pdf`      |
+| 404 Error Page          | Branded lost page and fallback test                 | `core/static/core/pdfs/lh_404.pdf`            |
+| Terms & Conditions Page | Legal and policy compliance audit                   | `core/static/core/pdfs/lh_terms_policy.pdf`   |
+
+---
+
+### Additional Validation Reports
+
+| Validation Type       | Description                                              | File Path                                           |
+|-----------------------|----------------------------------------------------------|-----------------------------------------------------|
+| HTML Validation       | W3C validation of all major templates                    | `core/static/core/pdfs/html_validation_report.pdf`  |
+| CSS Validation        | Validation of global stylesheet                          | `core/static/core/pdfs/css_validation_report.pdf`   |
+| Python (PEP8) Check   | Flake8 style validation across all Python files          | `core/static/core/pdfs/python_pep8_report.pdf`      |
+
+---
+
+### HTML Validation – W3C Compliance
+
+All rendered HTML pages were exported and submitted to the official W3C validator (https://validator.w3.org/) for syntax and structure validation.
+
+**Pages Validated:**
+- home.html
+- product_list.html
+- product_detail.html
+- login.html
+- register.html
+- dashboard.html
+- profile.html
+- contact.html
+- password change / reset templates
+- 404.html and static terms page
+
+**Validation Method:**
+
+- Pages were saved using `right-click > Save As` from the browser
+- Batch tested using W3C HTML Validator
+- Issues flagged were either info-level or warnings (e.g. `--` inside comments)
+
+**Key Results:**
+- No critical HTML errors detected
+- Minor warnings (comment syntax, non-critical metadata order)
+- All resolved during development and confirmed in final `.html` renderings
+
+- **Report PDF**: [`html_validation_report.pdf`](core/static/core/pdfs/html_validation_report.pdf)
+
+---
 
 **Validation Outcome:**  
 - No critical HTML or CSS errors were identified.  
 - Minor issues such as missing `alt` attributes or `label` associations were resolved early in development.  
 - Python files passed PEP8 standards with no critical warnings or unused imports.
+
+---
+
+> **Note:** JavaScript usage in VelVady is limited to inline scripts embedded directly within Django templates.  
+> These are primarily used for Bootstrap behaviour and Stripe checkout handling.  
+> No standalone `.js` files or custom JavaScript modules were included in this project.
 
 ---
 
@@ -662,6 +734,8 @@ The scan was executed using:
 ```bash
 flake8 . --exclude=migrations,venv,__pycache__ --max-line-length=120 > python_pep8_report.txt
 ```
+
+- **Report:** [Python PEP8 Compliance Report (PDF)](core/static/core/pdfs/python_pep8_report.pdf)
 
 ---
 
@@ -877,7 +951,7 @@ VelVady is now fully deployed and operational on Heroku:
 
 ## Credits
 
-VelVady was developed independently as part of the Code Institute Level 5 Diploma in Full Stack Software Development. The following credits acknowledge the open-source tools, educational resources, and content providers that supported the project’s completion.
+This project represents the final milestone submission for the Diploma in Full Stack Software Development with Code Institute. The following credits acknowledge the open-source tools, educational resources, and content providers that supported the project’s completion.
 
 ---
 
