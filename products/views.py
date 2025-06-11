@@ -117,7 +117,11 @@ def create_checkout_session(request, service_id):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         service = Service.objects.get(id=service_id)
 
-        domain = os.getenv("DOMAIN", "https://velvady-app-b7f67234cb3b.herokuapp.com")
+        raw_domain = os.getenv("DOMAIN", "velvady-app-b7f67234cb3b.herokuapp.com")
+        if not raw_domain.startswith("http"):
+            domain = f"https://{raw_domain}"
+        else:
+            domain = raw_domain
 
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
