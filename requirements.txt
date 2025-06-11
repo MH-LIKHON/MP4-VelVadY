@@ -42,6 +42,7 @@ ipython==9.0.2
 ipython_pygments_lexers==1.1.1
 isoduration==20.11.0
 jedi==0.19.2
+Jinja2==3.1.6
 joblib==1.4.2
 json5==0.10.0
 jsonpointer==3.0.0
@@ -59,6 +60,7 @@ jupyterlab_git==0.51.0
 jupyterlab_pygments==0.3.0
 jupyterlab_server==2.27.3
 kiwisolver==1.4.8
+MarkupSafe==3.0.2
 matplotlib==3.10.1
 matplotlib-inline==0.1.7
 mistune==3.1.2
