@@ -68,16 +68,17 @@
         <div class="col-12 col-md-6 text-center text-md-start">
             <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
 
-                <!-- All button (resets category filter) -->
-                <a href="{% url 'services' %}{% if query %}?q={{ query }}{% endif %}" 
+                <!-- All button -->
+                <a href="{% url 'services' %}{% if query %}?q={{ query }}{% endif %}"
                 class="btn btn-outline-secondary {% if not category %}active{% endif %}">
                     All
                 </a>
 
-                {% for cat in ['Design', 'Business', 'Tech', 'Writing', 'Marketing'] %}
-                    <a href="{% url 'services' %}?{% if query %}q={{ query }}&{% endif %}category={{ cat }}"
-                    class="btn btn-outline-secondary {% if category == cat %}active{% endif %}">
-                        {{ cat }}
+                <!-- Loop dynamically through category choices -->
+                {% for value, label in services.first.CATEGORY_CHOICES %}
+                    <a href="{% url 'services' %}?{% if query %}q={{ query }}&{% endif %}category={{ value }}"
+                    class="btn btn-outline-secondary {% if category == value %}active{% endif %}">
+                        {{ label }}
                     </a>
                 {% endfor %}
 
