@@ -118,7 +118,13 @@ def register_view(request):
 
             # Prepare the full dashboard URL
             protocol = 'https' if not settings.DEBUG else 'http'
-            domain = os.getenv('DOMAIN', get_current_site(request).domain)
+            protocol = 'https' if not settings.DEBUG else 'http'
+            domain = os.getenv('DOMAIN')
+            if not domain:
+                domain = request.get_host()
+
+            dashboard_path = reverse('dashboard')
+            full_dashboard_url = f"{protocol}://{domain}{dashboard_path}"
             dashboard_path = reverse('dashboard')
             full_dashboard_url = f"{protocol}://{domain}{dashboard_path}"
 
