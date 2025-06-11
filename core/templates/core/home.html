@@ -58,7 +58,7 @@
         <div class="col-12 col-md-6">
             <form method="get" action="{% url 'services' %}">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search for services...">
+                    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search for services...">
                     <button class="btn-custom" type="submit">Search</button>
                 </div>
             </form>
@@ -67,12 +67,20 @@
         <!-- Category Filters -->
         <div class="col-12 col-md-6 text-center text-md-start">
             <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
-                <a href="{% url 'services' %}" class="btn btn-outline-secondary {% if not category %}active{% endif %}">All</a>
-                <a href="{% url 'services' %}?category=Design" class="btn btn-outline-secondary {% if category == 'Design' %}active{% endif %}">Design</a>
-                <a href="{% url 'services' %}?category=Business" class="btn btn-outline-secondary {% if category == 'Business' %}active{% endif %}">Business</a>
-                <a href="{% url 'services' %}?category=Tech" class="btn btn-outline-secondary {% if category == 'Tech' %}active{% endif %}">Tech</a>
-                <a href="{% url 'services' %}?category=Writing" class="btn btn-outline-secondary {% if category == 'Writing' %}active{% endif %}">Writing</a>
-                <a href="{% url 'services' %}?category=Marketing" class="btn btn-outline-secondary {% if category == 'Marketing' %}active{% endif %}">Marketing</a>
+
+                <!-- All button (resets category filter) -->
+                <a href="{% url 'services' %}{% if query %}?q={{ query }}{% endif %}" 
+                class="btn btn-outline-secondary {% if not category %}active{% endif %}">
+                    All
+                </a>
+
+                {% for cat in ['Design', 'Business', 'Tech', 'Writing', 'Marketing'] %}
+                    <a href="{% url 'services' %}?{% if query %}q={{ query }}&{% endif %}category={{ cat }}"
+                    class="btn btn-outline-secondary {% if category == cat %}active{% endif %}">
+                        {{ cat }}
+                    </a>
+                {% endfor %}
+
             </div>
         </div>
 
@@ -260,7 +268,7 @@
                         <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
                         <p class="card-text">VelVady helped me turn my side hustle into a full-time business. I love how smooth everything is.</p>
                         <hr class="bg-light">
-                        <img src="{% static 'core/images/user1.jpg' %}" alt="User 1" class="rounded-circle mb-3" width="60" height="60">
+                        <img src="{% static 'core/images/user1.jpg' %}" alt="User 1" class="rounded-circle mb-3 testimonial-img" width="60" height="60">
                         <h6 class="mb-0">Amira K.</h6>
                         <small>Web Developer</small>
                     </div>
@@ -274,7 +282,7 @@
                         <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
                         <p class="card-text">I found my design team through VelVady. They nailed it — quick, professional, and secure.</p>
                         <hr class="bg-light">
-                        <img src="{% static 'core/images/user2.jpg' %}" alt="User 2" class="rounded-circle mb-3" width="60" height="60">
+                        <img src="{% static 'core/images/user2.jpg' %}" alt="User 2" class="rounded-circle mb-3 testimonial-img" width="60" height="60">
                         <h6 class="mb-0">Jordan R.</h6>
                         <small>Startup Founder</small>
                     </div>
@@ -288,7 +296,7 @@
                         <i class="fas fa-quote-left fa-2x mb-3 text-light"></i>
                         <p class="card-text">Selling templates on VelVady is effortless. My passive income has grown every month.</p>
                         <hr class="bg-light">
-                        <img src="{% static 'core/images/user3.jpg' %}" alt="User 3" class="rounded-circle mb-3" width="60" height="60">
+                        <img src="{% static 'core/images/user3.jpg' %}" alt="User 3" class="rounded-circle mb-3 testimonial-img" width="60" height="60">
                         <h6 class="mb-0">Sara P.</h6>
                         <small>Digital Seller</small>
                     </div>

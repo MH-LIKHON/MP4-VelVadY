@@ -244,6 +244,13 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transform: scale(1.05);
 }
 
+/* Align Image */
+.testimonial-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* ------------------------------- Help & Resources ------------------------------- */
 
 /* This sets the default icon colour in the Help & Resources section */
