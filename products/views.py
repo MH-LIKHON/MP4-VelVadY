@@ -52,6 +52,7 @@ def product_list_view(request):
         'services': services,
         'query': query,
         'category': category,
+        'category_choices': Service.CATEGORY_CHOICES,
     }
 
     # Render the product list template with filtered services
