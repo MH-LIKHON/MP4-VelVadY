@@ -102,7 +102,7 @@ The platform was also intended to demonstrate proficiency in Django model design
 
 As part of the early UX design process, wireframes were created to map out the intended structure and layout of each major page on VelVady. These visual plans guided the implementation of the homepage, dashboard, service detail pages, and forms.
 
-I designed the wireframe set using Figma, focusing on UX layout planning before developing the actual templates in Django. Each wireframe prioritises functionality, clarity, and mobile responsiveness.
+I developed the wireframe set to focus on structural layout planning before designing and building the actual templates in Django. Each wireframe prioritises functionality and clarity.
 
 **Wireframe Collection:**
 
