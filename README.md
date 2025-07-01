@@ -100,7 +100,7 @@ The platform was also intended to demonstrate proficiency in Django model design
 
 ### Wireframes
 
-As part of the early UX design process, wireframes were created to map out the intended structure and layout of each major page on VelVady. These visual plans guided the implementation of the homepage, dashboard, service detail pages, and forms.
+As part of the early UX design process, wireframes were created using Figma to map out the intended structure and layout of each major page on VelVady. These visual plans guided the implementation of the homepage, dashboard, service detail pages, and forms.
 
 I developed the wireframe set to focus on structural layout planning before designing and building the actual templates in Django. Each wireframe prioritises functionality and clarity.
 
@@ -293,19 +293,21 @@ Enables users to update their personal information.
 
 Includes secure options for changing or resetting passwords using Django's built-in system.
 
-- `password_change.html`: Authenticated password update form
-- `password_change_done.html`: Confirmation page after password update
-- `password_reset_email.html`: Email sent to user with reset link
-- `password_reset.html`: Form for setting a new password via secure token
-- `password_reset_done.html`: Confirmation page after requesting a password reset
-- Password validation shown inline with Django’s recommended rules
+- Authenticated users can change their password via a secure form  
+- Unauthenticated users can reset their password via email token flow  
+- Password reset includes email link, secure token form, and confirmation steps  
+- Final confirmation screen appears after successfully resetting the password  
+- Password validation is shown inline using Django’s recommended rules
 
 **Screenshots:**  
-![Password Change](core/static/core/images/password_change.png)  
+![Password Change](core/static/core/images/password_change.png)
 ![Password Change Done](core/static/core/images/password_change_done.png)  
+![Password Change Done](core/static/core/images/password_reset.png)
+![Password Change Done](core/static/core/images/password_reset_done.png)
 ![Password Reset Email](core/static/core/images/password_reset_email.png)  
-![Password Reset Form](core/static/core/images/password_reset.png)  
-![Password Reset Request Confirmed](core/static/core/images/password_reset_done.png)
+![Password Reset Form](core/static/core/images/password_set.png)  
+![Password Change Complete](core/static/core/images/password_reset_complete.png)
+
 
 ---
 
@@ -359,6 +361,33 @@ Page shown when the Stripe payment process is cancelled.
 
 **Screenshot:**  
 ![Payment Cancelled](core/static/core/images/cancelled.png)
+
+---
+
+### Stripe Checkout (Hosted Payment Page)
+
+This application uses Stripe’s hosted Checkout form to securely collect and process payments. It handles card validation, 3D Secure, and compliance requirements automatically.
+
+**Screenshot:**  
+![Stripe Checkout](core/static/core/images/stripe_checkout_entry.png)
+
+---
+
+### Stripe Webhooks
+
+A webhook is configured in the Stripe Dashboard to receive event notifications after payment. It ensures the backend can validate transactions before updating user status.
+
+Webhook endpoint:  
+`https://velvady-app-b7f67234cb3b.herokuapp.com/webhook/stripe/`
+
+Monitored events include:
+
+- `checkout.session.completed`
+- `payment_intent.succeeded`
+
+**Screenshots:**  
+![Webhook Configuration](core/static/core/images/stripe_webhook_config.png)
+![Webhook Event Log](core/static/core/images/stripe_webhook_events.png)
 
 ---
 
@@ -535,6 +564,17 @@ VelVady is fully responsive across major devices and screen sizes. Bootstrap’s
 All accessibility choices align with best practice recommendations for public-facing web platforms.
 
 ---
+
+### JavaScript Validation
+
+VelVady does not use standalone JavaScript files. All JavaScript logic is embedded inline within Django templates and used primarily for Stripe Checkout handling, dynamic button behaviour, and small user interface enhancements.
+
+Although external linting tools such as JSHint were not required for this project’s scale, the JavaScript was manually validated using browser developer tools and console inspection during development. No errors or warnings were reported in any supported browser (Chrome, Firefox, Safari, Edge).
+
+All JavaScript performs as expected and adheres to modern standards. Behaviour was tested across multiple devices and screen sizes to ensure compatibility and performance.
+
+
+---
 ---
 ---
 
@@ -562,6 +602,21 @@ Each core feature of VelVady was manually tested against its expected behaviour 
 | Duplicate Review Block               | Try to review same service twice                    | Form hidden, message shown             | Pass    |
 | Logout                               | Click logout from navbar                            | Redirect to homepage                   | Pass    |
 | Access Dashboard (Unauthenticated)   | Visit dashboard without login                       | Redirect to login                      | Pass    |
+
+---
+
+### Test-Driven Development (TDD)
+
+Although this project did not include formal unit test files, a test-driven approach was followed during development. Key logic such as Stripe payment processing, form validation, and webhook handling was implemented incrementally, with testing performed at each stage before proceeding to the next.
+
+This workflow is reflected in the project's Git commit history. Examples include:
+
+- Initial commits focused on creating models and forms in isolation before connecting them to views and templates.
+- Review functionality and purchase tracking were developed by first validating input logic and error handling, then applying templates.
+- Stripe webhook behaviour was tested using Stripe’s test dashboard and mock events before persisting data to the database.
+- Each bug fix and validation enhancement was committed separately, following an iterative cycle of test, adjust, and confirm.
+
+The commit history includes over 88 individual commits, showing consistent version control with small, scoped updates. This structure aligns with the principles of test-driven development and demonstrates a methodical approach to feature implementation and stability.
 
 ---
 
@@ -975,7 +1030,39 @@ VelVady is now fully deployed and operational on Heroku:
 [https://velvady-app-b7f67234cb3b.herokuapp.com/](https://velvady-app-b7f67234cb3b.herokuapp.com/)
 
 ---
+---  
 ---
+
+## Security Summary
+
+VelVady follows robust security best practices:
+
+- User authentication and password hashing using Django's built-in system
+- Sensitive keys stored in environment variables (`.env` and Heroku config vars)
+- CSRF protection on all forms
+- Admin panel access restricted to staff users only
+- Secure password reset via expiring email tokens
+- HTTPS enforced in production environments
+
+---
+
+## Coding Style
+
+The project adheres to industry-standard coding conventions:
+
+- Python code follows PEP8, validated with Flake8
+- HTML and CSS validated using official W3C tools
+- Code is modular with clear separation into Django apps
+- Comments and commit messages follow consistent style guidelines
+
+---
+
+## Originality
+
+This project is an original work developed solely by the author for the Diploma in Full Stack Software Development with Code Institute. All third-party libraries and resources are acknowledged in the Credits section.
+
+---
+---  
 ---
 
 ## Credits
@@ -996,6 +1083,7 @@ This project represents the final milestone submission for the Diploma in Full S
 - **Heroku** – Deployment platform: https://www.heroku.com/
 - **FontAwesome** – Icons used across the site: https://fontawesome.com/
 - **Google Fonts** – Custom typography: https://fonts.google.com/
+- **Figma** – UI/UX design and wireframing tool: https://www.figma.com/
 
 ---
 
