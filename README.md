@@ -302,12 +302,11 @@ Includes secure options for changing or resetting passwords using Django's built
 **Screenshots:**  
 ![Password Change](core/static/core/images/password_change.png)
 ![Password Change Done](core/static/core/images/password_change_done.png)  
-![Password Change Done](core/static/core/images/password_reset.png)
-![Password Change Done](core/static/core/images/password_reset_done.png)
+![Password Reset](core/static/core/images/password-reset.png)
+![Password Reset Done](core/static/core/images/password_reset_done.png)
 ![Password Reset Email](core/static/core/images/password_reset_email.png)  
-![Password Reset Form](core/static/core/images/password_set.png)  
-![Password Change Complete](core/static/core/images/password_reset_complete.png)
-
+![Password Reset Form](core/static/core/images/password-set.png)  
+![Password Reset Complete](core/static/core/images/password_reset_complete.png)
 
 ---
 
