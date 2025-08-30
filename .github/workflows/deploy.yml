@@ -21,10 +21,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: |
-            ./**
-            !./.git/**
-            !./venv/**
+          source: "**/*"
           target: /srv/django/apps/mp4-velvady/src/
           strip_components: 0
           overwrite: true
@@ -44,15 +41,7 @@ jobs:
               echo "DJANGO_SETTINGS_MODULE=${{ secrets.DJANGO_SETTINGS_MODULE }}" >> /etc/velvady.env && \
               echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /etc/velvady.env && \
               echo "DEBUG=${{ secrets.DEBUG }}" >> /etc/velvady.env && \
-              echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> /etc/velvady.env && \
-              [ -n "${{ secrets.STRIPE_SECRET_KEY }}" ] && echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.STRIPE_PUBLISHABLE_KEY }}" ] && echo "STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.STRIPE_WEBHOOK_SECRET }}" ] && echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.EMAIL_HOST_USER }}" ] && echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.EMAIL_HOST_PASSWORD }}" ] && echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.CLOUDINARY_CLOUD_NAME }}" ] && echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.CLOUDINARY_API_KEY }}" ] && echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> /etc/velvady.env || true && \
-              [ -n "${{ secrets.CLOUDINARY_API_SECRET }}" ] && echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> /etc/velvady.env || true \
+              echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> /etc/velvady.env \
             '
             sudo chmod 600 /etc/velvady.env
             sudo chown root:root /etc/velvady.env
