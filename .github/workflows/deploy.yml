@@ -45,8 +45,8 @@ jobs:
           script: |
             set -euo pipefail
 
-            # Build env file from separate secrets
-            sudo tee /etc/velvady.env >/dev/null <<EOF
+            # 1) Build env file from separate secrets
+            sudo bash -lc 'cat > /etc/velvady.env <<EOF
 DJANGO_SETTINGS_MODULE=${{ secrets.DJANGO_SETTINGS_MODULE }}
 SECRET_KEY=${{ secrets.SECRET_KEY }}
 DEBUG=${{ secrets.DEBUG }}
@@ -60,21 +60,20 @@ EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}
 CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
 CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
 CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
-EOF
-
+EOF'
             sudo chmod 600 /etc/velvady.env
             sudo chown root:root /etc/velvady.env
 
-            # Install/upgrade deps into existing venv
+            # 2) Install/upgrade deps into existing venv
             source /srv/django/apps/mp4-velvady/venv/bin/activate
             pip install --upgrade pip
             pip install -r /srv/django/apps/mp4-velvady/src/requirements.txt
 
-            # Run Django tasks
+            # 3) Django management tasks
             cd /srv/django/apps/mp4-velvady/src
             python manage.py collectstatic --noinput
             python manage.py migrate --noinput
 
-            # Restart app
+            # 4) Restart app
             sudo systemctl restart gunicorn-velvady
             sudo systemctl --no-pager status gunicorn-velvady || true
