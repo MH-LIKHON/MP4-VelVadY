@@ -45,13 +45,12 @@ jobs:
           script: |
             set -euo pipefail
 
-            # 1) Build env file from separate secrets
-            sudo bash -lc 'cat > /etc/velvady.env <<EOF
+            # Rebuild /etc/velvady.env (no DATABASE_URL for now)
+            sudo sh -c 'cat > /etc/velvady.env' <<EOL
 DJANGO_SETTINGS_MODULE=${{ secrets.DJANGO_SETTINGS_MODULE }}
 SECRET_KEY=${{ secrets.SECRET_KEY }}
 DEBUG=${{ secrets.DEBUG }}
 ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
-DATABASE_URL=${{ secrets.DATABASE_URL }}
 STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
 STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}
 STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
@@ -60,20 +59,21 @@ EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}
 CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
 CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
 CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
-EOF'
+EOL
+
             sudo chmod 600 /etc/velvady.env
             sudo chown root:root /etc/velvady.env
 
-            # 2) Install/upgrade deps into existing venv
+            # Install/upgrade deps
             source /srv/django/apps/mp4-velvady/venv/bin/activate
             pip install --upgrade pip
             pip install -r /srv/django/apps/mp4-velvady/src/requirements.txt
 
-            # 3) Django management tasks
+            # Django management
             cd /srv/django/apps/mp4-velvady/src
             python manage.py collectstatic --noinput
             python manage.py migrate --noinput
 
-            # 4) Restart app
+            # Restart app
             sudo systemctl restart gunicorn-velvady
             sudo systemctl --no-pager status gunicorn-velvady || true
