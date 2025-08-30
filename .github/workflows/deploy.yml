@@ -22,15 +22,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: |
-            accounts/**
-            core/**
-            products/**
-            velvady/**
-            media/**
-            manage.py
-            requirements.txt
-            Procfile
-            README.md
+            ./accounts/**
+            ./core/**
+            ./products/**
+            ./velvady/**
+            ./media/**
+            ./manage.py
+            ./requirements.txt
+            ./Procfile
+            ./README.md
           target: /srv/django/apps/mp4-velvady/src/
           strip_components: 0
           overwrite: true
