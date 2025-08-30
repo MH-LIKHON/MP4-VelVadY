@@ -45,35 +45,35 @@ jobs:
           script: |
             set -euo pipefail
 
-            # Rebuild /etc/velvady.env (no DATABASE_URL for now)
-            sudo sh -c 'cat > /etc/velvady.env' <<EOL
-DJANGO_SETTINGS_MODULE=${{ secrets.DJANGO_SETTINGS_MODULE }}
-SECRET_KEY=${{ secrets.SECRET_KEY }}
-DEBUG=${{ secrets.DEBUG }}
-ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
-STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
-STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}
-STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
-EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}
-EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}
-CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
-CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
-CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
-EOL
-
+            # 1) Build /etc/velvady.env without heredocs
+            sudo sh -lc ' \
+              : > /etc/velvady.env && \
+              echo "DJANGO_SETTINGS_MODULE=${{ secrets.DJANGO_SETTINGS_MODULE }}" >> /etc/velvady.env && \
+              echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /etc/velvady.env && \
+              echo "DEBUG=${{ secrets.DEBUG }}" >> /etc/velvady.env && \
+              echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> /etc/velvady.env && \
+              echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /etc/velvady.env && \
+              echo "STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}" >> /etc/velvady.env && \
+              echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> /etc/velvady.env && \
+              echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> /etc/velvady.env && \
+              echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> /etc/velvady.env && \
+              echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> /etc/velvady.env && \
+              echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> /etc/velvady.env && \
+              echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> /etc/velvady.env \
+            '
             sudo chmod 600 /etc/velvady.env
             sudo chown root:root /etc/velvady.env
 
-            # Install/upgrade deps
+            # 2) Install/upgrade deps
             source /srv/django/apps/mp4-velvady/venv/bin/activate
             pip install --upgrade pip
             pip install -r /srv/django/apps/mp4-velvady/src/requirements.txt
 
-            # Django management
+            # 3) Django management
             cd /srv/django/apps/mp4-velvady/src
             python manage.py collectstatic --noinput
             python manage.py migrate --noinput
 
-            # Restart app
+            # 4) Restart app
             sudo systemctl restart gunicorn-velvady
             sudo systemctl --no-pager status gunicorn-velvady || true
