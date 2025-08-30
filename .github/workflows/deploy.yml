@@ -1,0 +1,60 @@
+name: Deploy VelVady
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*"
+      - ".github/workflows/deploy.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload code to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: |
+            accounts/**
+            core/**
+            products/**
+            velvady/**
+            media/**
+            manage.py
+            requirements.txt
+            Procfile
+            README.md
+          target: /srv/django/apps/mp4-velvady/src/
+          strip_components: 0
+          overwrite: true
+
+      - name: Remote deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            echo "${{ secrets.ENV_VELVADY }}" | sudo tee /etc/velvady.env >/dev/null
+            sudo chmod 600 /etc/velvady.env
+            sudo chown root:root /etc/velvady.env
+
+            source /srv/django/apps/mp4-velvady/venv/bin/activate
+            pip install --upgrade pip
+            pip install -r /srv/django/apps/mp4-velvady/src/requirements.txt
+
+            cd /srv/django/apps/mp4-velvady/src
+            python manage.py collectstatic --noinput
+            python manage.py migrate --noinput
+
+            sudo systemctl restart gunicorn-velvady
+            sudo systemctl --no-pager status gunicorn-velvady || true
