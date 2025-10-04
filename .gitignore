@@ -28,3 +28,4 @@ core.python*
 # OTHER FILES TO IGNORE
 # =======================================================
 NOTES
+db.sqlite3
