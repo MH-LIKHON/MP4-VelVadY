@@ -10,7 +10,7 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
 
 ## Live Site
 
-[https://10.40.40.51:30004/](https://10.40.40.51:30004/)
+[https://178.255.91.3:30004/](https://178.255.91.3:30004/)
 
 ## Repository
 
