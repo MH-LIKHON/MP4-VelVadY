@@ -10,41 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+
+
+
+# =======================================================
+# IMPORTS
+# =======================================================
+
 import os
 import sys
 import logging
 import dj_database_url
 from pathlib import Path
-from dotenv import load_dotenv
 from django.urls import reverse_lazy
-
-load_dotenv()
-
-# Secret key for stripe
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-placeholder")
-
-
-
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'stream': sys.stdout,
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
-}
-
-
+from dotenv import load_dotenv
 
 
 
@@ -61,17 +41,58 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # =======================================================
-# DEVELOPMENT MODE SETTINGS
+# ENVIRONMENT VARIABLES
 # =======================================================
 
+# Load values from .env located at the project root
+load_dotenv(dotenv_path=BASE_DIR / '.env')
+
+
+
+
+
+
+# Secret key for stripe
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-placeholder")
+
+
+
+
+
 # Development settings
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',') if h.strip()]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
 
-ALLOWED_HOSTS = ['velvady-app-b7f67234cb3b.herokuapp.com', 'localhost', '127.0.0.1']
+LOG_LEVEL = 'DEBUG' if DEBUG else 'INFO'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://didactic-parakeet-v945gq97vgj2pgrg-8000.app.github.dev',
-]
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': LOG_LEVEL,
+    },
+}
+
+
+
+
+
+
+# =======================================================
+# BASE DIRECTORY
+# =======================================================
+
+# I am using BASE_DIR to construct full paths relative to the project root
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
@@ -112,15 +133,14 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Middleware is used to process requests globally before reaching a view
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
-
 
 
 
@@ -175,10 +195,23 @@ WSGI_APPLICATION = "velvady.wsgi.application"
 # DATABASE CONFIGURATION
 # =======================================================
 
-# PostSQL
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-}
+# Database configuration
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=not DEBUG
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 
@@ -225,20 +258,6 @@ USE_TZ = True
 
 
 # =======================================================
-# STATIC FILES CONFIGURATION
-# =======================================================
-
-# Static files such as CSS and JavaScript are served from this URL
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-
-
-
-# =======================================================
 # PRIMARY KEY FIELD TYPE
 # =======================================================
 
@@ -278,17 +297,11 @@ LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 
 # =======================================================
-# MEDIA FILES
+# STATIC & MEDIA FILES
 # =======================================================
 
 # Static files such as CSS and JavaScript are served from this URL
 STATIC_URL = '/static/'
-
-# This defines the base URL for serving user-uploaded media
-MEDIA_URL = '/media/'
-
-# This sets the directory where uploaded files will be stored during development
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # This tells Django where to find static files in development
 STATICFILES_DIRS = [
@@ -297,6 +310,18 @@ STATICFILES_DIRS = [
 
 # This is used only when running collectstatic for deployment
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# This defines the base URL for serving user-uploaded media
+MEDIA_URL = '/media/'
+
+# This sets the directory where uploaded files will be stored during development
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Use Django 5 STORAGES API for media & static backends
+STORAGES = {
+    "default": {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+}
 
 
 
@@ -337,10 +362,23 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # CLOUDINARY MEDIA STORAGE
 # =======================================================
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
+
+
+
+
+
+# =======================================================
+# PRODUCTION SECURITY (applies when DEBUG=False)
+# =======================================================
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True

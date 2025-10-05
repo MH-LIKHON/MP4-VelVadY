@@ -5,6 +5,7 @@ from products.views import product_list_view
 from django.views.generic import TemplateView
 from .views import CustomPasswordChangeDoneView
 from django.contrib.auth import views as auth_views
+from products.views import product_list_view, service_detail_view
 
 
 
@@ -34,6 +35,9 @@ urlpatterns = [
 
     # Route to service list
     path('services/', product_list_view, name='services'),
+
+    # Alias: detail under accounts prefix (for existing links)
+    path('services/products/<slug:slug>/', service_detail_view, name='service_detail_alias'),
 
     # Route to password reset done page
     path('password/change/done/', CustomPasswordChangeDoneView.as_view(), name='password_change_done'),
