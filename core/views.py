@@ -64,7 +64,7 @@ def contact_view(request):
             )
 
             messages.success(request, "We’ve received your message. A member of our team will be in touch shortly.")
-            return redirect('contact')
+            return redirect('core:contact')
         else:
             # If the form is invalid, show errors
             messages.error(request, 'Please correct the errors below.')

@@ -185,7 +185,7 @@ def logout_view(request):
     messages.success(request, "You have been logged out successfully.")
 
     # Redirect to the home page
-    return redirect("home")
+    return redirect("core:home")
 
 
 

@@ -4,6 +4,7 @@ from .forms import ReviewForm
 from django.db.models import Q
 from django.urls import reverse
 from django.conf import settings
+from products.utils import get_base_url
 from .models import Service, Review, Purchase
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
@@ -14,7 +15,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 
-DOMAIN = os.getenv("DOMAIN", "http://127.0.0.1:8000")
 
 
 
@@ -118,11 +118,8 @@ def create_checkout_session(request, service_id):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         service = Service.objects.get(id=service_id)
 
-        raw_domain = os.getenv("DOMAIN", "velvady-app-b7f67234cb3b.herokuapp.com")
-        if not raw_domain.startswith("http"):
-            domain = f"https://{raw_domain}"
-        else:
-            domain = raw_domain
+        # Build a correct absolute base (prefers settings.DOMAIN, then request host)
+        base = get_base_url(request)
 
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -142,8 +139,9 @@ def create_checkout_session(request, service_id):
             metadata={
                 "service_id": service.id
             },
-            success_url = f"{domain}/products/thank-you/?session_id={{CHECKOUT_SESSION_ID}}",
-            cancel_url = f"{domain}/cancelled/",
+            # Use named URLs so paths stay correct even if routes change
+            success_url = f"{base}{reverse('checkout_success')}?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url  = f"{base}{reverse('core:payment_cancelled')}",
         )
 
         return JsonResponse({'id': session.id})
@@ -177,7 +175,7 @@ def checkout_success(request):
 
     if not session_id:
         # If no session ID is provided, redirect to homepage
-        return redirect('home')
+        return redirect('core:home')
 
     try:
         # Set the API key to use Stripe
@@ -220,7 +218,7 @@ def checkout_success(request):
                 'service': service,
                 'amount_paid': amount_paid,
                 'protocol': 'https' if not settings.DEBUG else 'http',
-                'domain': os.getenv('DOMAIN', 'velvady-app-b7f67234cb3b.herokuapp.com'),
+                'domain': get_base_url(request),
             }
 
             html_content = render_to_string('accounts/order_confirmation_email.html', context)
@@ -239,7 +237,7 @@ def checkout_success(request):
 
     except Exception as e:
         print(f"Error in checkout_success: {e}")
-        return redirect('home')
+        return redirect('core:home')
 
 
 

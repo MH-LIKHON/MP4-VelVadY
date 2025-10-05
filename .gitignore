@@ -3,27 +3,63 @@
 # =======================================================
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 db.sqlite3
+*.sqlite3
+*.sqlite
+*.db
+*.log
+*.pid
+.coverage
+.pytest_cache/
 
 # =======================================================
 # LOCAL ENVIRONMENT / SECRETS
 # =======================================================
 .env
+.env.*
 cloudinary_python.txt.env
 env.py
+*.key
+*.pem
+*.bak
+*.backup
+*.orig
+
 
 # =======================================================
 # THIRD-PARTY & PACKAGE FOLDERS
 # =======================================================
+venv/
+.venv/
 node_modules/
 core.Microsoft*
 core.mongo*
 core.python*
 
 # =======================================================
+# DJANGO BUILD / RUNTIME ARTEFACTS
+# =======================================================
+staticfiles/
+media/
+collectstatic/
+__debug__/
+
+# =======================================================
 # GITHUB / CI ARTIFACTS
 # =======================================================
 .github/
+.gitlab/
+*.yml
+
+# =======================================================
+# EDITOR / OS SPECIFIC FILES
+# =======================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
 
 # =======================================================
 # OTHER FILES TO IGNORE

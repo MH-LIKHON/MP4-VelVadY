@@ -4,6 +4,10 @@ from .views import stripe_webhook
 from .views import product_list_view
 from .views import create_checkout_session
 
+
+
+
+
 # =======================================================
 # URL PATTERNS FOR PRODUCTS APP
 # =======================================================

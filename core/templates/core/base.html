@@ -74,7 +74,7 @@
             <div class="container">
 
                 <!-- Brand logo linking to home -->
-                <a class="navbar-brand" href="{% url 'home' %}">
+                <a class="navbar-brand" href="{% url 'core:home' %}">
                     <img src="{% static 'core/images/velvady_logo.png' %}" alt="VelVady Logo" class="navbar-logo">
                 </a>
 
@@ -90,12 +90,12 @@
 
                     <!-- Always show Home -->
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active-page{% endif %}" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active-page{% endif %}" href="{% url 'core:home' %}">Home</a>
                     </li>
 
                     <!-- Always show Contact Us -->
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active-page{% endif %}" href="{% url 'contact' %}">Contact Us</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active-page{% endif %}" href="{% url 'core:contact' %}">Contact Us</a>
                     </li>
 
                     {% if user.is_authenticated %}
@@ -162,7 +162,7 @@
         <!-- ------------------------------- Footer Logo ------------------------------- -->
 
         <div>
-            <a class="navbar-brand" href="{% url 'home' %}">
+            <a class="navbar-brand" href="{% url 'core:home' %}">
                 <img src="{% static 'core/images/velvady_logo.png' %}" alt="VelVady Logo" class="navbar-logo">
             </a>
         </div>

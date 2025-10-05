@@ -6,8 +6,11 @@ from django.urls import path
 
 
 # =======================================================
-# CORE APP ROUTES
+# CORE APP ROUTES (namespaced)
 # =======================================================
+
+# Allows reverse('core:payment_cancelled') etc.
+app_name = 'core'
 
 # This file defines the URL patterns for the core app.
 urlpatterns = [
@@ -21,7 +24,7 @@ urlpatterns = [
     path('legal/', views.terms_and_policy, name='terms_and_policy'),
 
     # Alias for Stripe or external links using /terms
-    path('terms/', views.terms_and_policy),
+    path('terms/', views.terms_and_policy, name='terms'),
 
     # Route to payment cancelled
     path('cancelled/', views.payment_cancelled_view, name='payment_cancelled'),

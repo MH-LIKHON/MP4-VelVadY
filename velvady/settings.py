@@ -86,18 +86,6 @@ LOGGING = {
 
 
 
-
-# =======================================================
-# BASE DIRECTORY
-# =======================================================
-
-# I am using BASE_DIR to construct full paths relative to the project root
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-
-
-
 # =======================================================
 # INSTALLED APPLICATIONS
 # =======================================================
@@ -141,6 +129,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+
+
+# =======================================================
+# Authentication Redirects
+# =======================================================
+LOGIN_REDIRECT_URL  = 'core:home'
+LOGOUT_REDIRECT_URL = 'core:home'
+
 
 
 

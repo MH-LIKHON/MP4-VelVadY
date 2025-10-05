@@ -10,7 +10,7 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
 
 ## Live Site
 
-[https://velvady-app-b7f67234cb3b.herokuapp.com/](https://velvady-app-b7f67234cb3b.herokuapp.com/)
+[https://10.40.40.51:30004/](https://10.40.40.51:30004/)
 
 ## Repository
 
@@ -51,9 +51,8 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
    - [Entity Relationships](#entity-relationships)  
 
 8. [Deployment](#deployment)  
-   - [Local Setup](#local-setup)  
-   - [Production Deployment](#production-deployment)  
-   - [Environment Variables and Stripe Keys](#environment-variables-and-stripe-keys)  
+   - [Local Setup Instructions](#local-setup-instructions)  
+   - [VM Deployment (Production)](#vm-deployment-production)  
 
 9. [Credits](#credits)  
 10. [Acknowledgements](#acknowledgements)
@@ -151,9 +150,9 @@ The following tools, libraries, and platforms were used throughout development:
 | Frontend Framework | Bootstrap 5                                     |
 | Authentication     | Django AllAuth (CustomUser model)               |
 | Email Integration  | Django `EmailMultiAlternatives`                 |
-| Deployment         | Heroku (with `gunicorn` and `dj-database-url`)  |
+| Deployment         | Ubuntu VM (Nginx + Gunicorn + systemd)          |
 | Media Storage      | Django ImageField with `/media/products/`       |
-| Environment Config | `python-dotenv`, Heroku config vars             |
+| Environment Config | `.env` + systemd `EnvironmentFile`              |
 | Developer Tools    | Git, GitHub, VSCode, Chrome DevTools            |
 
 ---
@@ -162,7 +161,7 @@ The following tools, libraries, and platforms were used throughout development:
 
 ## Features
 
-## Feature Importance Overview
+### Feature Importance Overview
 
 The following table outlines the most important features implemented in VelVady, prioritised by their value to the user experience, data security, and real-world application readiness.
 
@@ -377,7 +376,7 @@ This application uses Stripe’s hosted Checkout form to securely collect and pr
 A webhook is configured in the Stripe Dashboard to receive event notifications after payment. It ensures the backend can validate transactions before updating user status.
 
 Webhook endpoint:  
-`https://velvady-app-b7f67234cb3b.herokuapp.com/webhook/stripe/`
+`https://10.40.40.51:30004/webhook/stripe/`
 
 Monitored events include:
 
@@ -459,7 +458,7 @@ VelVady integrates Stripe to enable secure, real-time payment processing for dig
 1. When a logged-in user clicks "Buy Now" on a service page, JavaScript dynamically retrieves the service ID and triggers a view that creates a Stripe checkout session.
 2. The user is redirected to Stripe's secure hosted checkout page.
 3. Upon successful payment, Stripe redirects the user to the `/thank-you/` page.
-4. If the user cancels, they are redirected to the `/payment-cancelled/` page.
+4. If the user cancels, they are redirected to the `/cancelled/` page.
 
 **Implementation Details:**
 
@@ -582,7 +581,7 @@ All JavaScript performs as expected and adheres to modern standards. Behaviour w
 
 ### Manual Testing
 
-Each core feature of VelVady was manually tested against its expected behaviour using local development and Heroku deployment. The following table outlines the results:
+Each core feature of VelVady was manually tested against its expected behaviour using local development and VM deployment. The following table outlines the results:
 
 | Feature Tested                        | Test Description                                    | Expected Result                        | Outcome |
 |--------------------------------------|-----------------------------------------------------|----------------------------------------|---------|
@@ -683,7 +682,7 @@ To ensure **VelVady** adheres to the highest standards in **performance**, **acc
 
 All tests were performed under realistic conditions:
 
-- **Hosting**: Free-tier dynos on Heroku
+- **Hosting**: Self-hosted Ubuntu VM (Nginx + Gunicorn)
 - **Network**: Mobile data connection (variable latency)
 - **Tools**: Chrome DevTools (v12.6.0), Lighthouse desktop emulation
 
@@ -828,7 +827,7 @@ flake8 . --exclude=migrations,venv,__pycache__ --max-line-length=120 > python_pe
 - **Password Reset Token Expiry:** Reset links may expire after Django’s default timeout. The system handles this gracefully with a fallback message.
 - **Search Filter System:** A service search/filter feature is designed for future enhancement but is not included in this release.
 
-All testing and validations were performed in both the local Django environment and live Heroku deployment to simulate real-world behaviour.
+All testing and validations were performed in both the local Django environment and the live VM deployment to simulate real-world behaviour.
 
 ---
 ---
@@ -913,7 +912,7 @@ The database schema fully supports CRUD operations, Stripe integration, user acc
 
 ## Deployment
 
-VelVady was developed locally using Git and GitHub, then deployed to Heroku for production using a PostgreSQL database and secure environment configuration.
+VelVady was developed locally using Git and GitHub, then deployed to an Ubuntu VM for production using a PostgreSQL database and secure environment configuration.
 
 ---
 
@@ -968,65 +967,108 @@ To run this project locally:
 
 ---
 
-### Heroku Deployment
+### VM Deployment (Production)
 
-1. **Set up a new Heroku app** (with PostgreSQL):
+VelVady is deployed on a self-hosted **Ubuntu 22.04 VM** using **Nginx + Gunicorn + systemd** for production hosting.
 
-    ```bash
-    heroku create velvady-app
-    heroku addons:create heroku-postgresql:hobby-dev
-    ```
+#### 1. Install core packages
+```bash
+sudo apt update
+sudo apt install -y python3 python3-venv python3-pip nginx git
+```
 
-2. **Add buildpacks:**
+#### 2. Clone the repository
+```bash
+git clone https://github.com/MH-LIKHON/VelVady.git
+cd VelVady
+```
 
-    ```bash
-    heroku buildpacks:add heroku/python
-    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-apt
-    ```
+#### 3. Create and activate a virtual environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-3. **Configure production environment variables:**
+#### 4. Create environment file
+Create `/etc/velvady.env` (for production) or a local `.env` (for dev):
 
-    ```bash
-    heroku config:set SECRET_KEY=your-secret-key
-    heroku config:set STRIPE_PUBLIC_KEY=pk_test_...
-    heroku config:set STRIPE_SECRET_KEY=sk_test_...
-    heroku config:set STRIPE_WEBHOOK_SECRET=whsec_...
-    heroku config:set DEBUG=False
-    ```
+```env
+SECRET_KEY=your-django-secret-key
+DEBUG=False
+DOMAIN=https://10.40.40.51:30004
+STRIPE_PUBLIC_KEY=your-publishable-key
+STRIPE_SECRET_KEY=your-secret-key
+STRIPE_WEBHOOK_SECRET=your-webhook-signing-secret
+EMAIL_HOST_USER=your-email@example.com
+```
 
-4. **Push to Heroku:**
+#### 5. Create systemd service for Gunicorn
+File: `/etc/systemd/system/velvady.service`
 
-    ```bash
-    git push heroku main
-    ```
+```ini
+[Unit]
+Description=VelVady Django App
+After=network.target
 
-5. **Apply migrations and create a superuser:**
+[Service]
+User=opsengine_admin
+WorkingDirectory=/srv/mp4-velvady
+EnvironmentFile=/etc/velvady.env
+ExecStart=/srv/mp4-velvady/venv/bin/gunicorn -b 127.0.0.1:8004 velvady.wsgi
+Restart=always
 
-    ```bash
-    heroku run python manage.py migrate
-    heroku run python manage.py createsuperuser
-    ```
+[Install]
+WantedBy=multi-user.target
+```
+
+#### 6. Configure Nginx reverse proxy
+File: `/etc/nginx/sites-available/velvady`
+
+```nginx
+server {
+    listen 30004 ssl;
+    server_name 10.40.40.51;
+
+    ssl_certificate     /etc/ssl/certs/velvady.crt;
+    ssl_certificate_key /etc/ssl/private/velvady.key;
+
+    location / {
+        proxy_pass http://127.0.0.1:8004;
+        include proxy_params;
+    }
+}
+```
+
+#### 7. Enable site and start services
+```bash
+sudo ln -s /etc/nginx/sites-available/velvady /etc/nginx/sites-enabled/
+sudo systemctl enable --now velvady
+sudo systemctl reload nginx
+```
 
 ---
 
 ### Media and Static Files
 
-- **Static files** are managed via `collectstatic` and stored using Django’s `whitenoise` middleware for Heroku.
-- **Uploaded media (product images)** are served from the `/media/products/` directory in development. In production, the same path is used assuming Heroku's ephemeral file system is temporary — persistent media hosting (e.g. AWS S3) is recommended for future scale.
+- **Static files** are collected with `python manage.py collectstatic` and served through **Nginx** from `/srv/mp4-velvady/static/`.  
+- **Uploaded media** (e.g. product images) are stored under `/srv/mp4-velvady/media/` and mapped via Nginx for persistent access.  
+- During development, media is served locally from `/media/products/`.  
+- For scalability, an external store such as AWS S3 or Cloudinary can be configured.
 
 ---
 
 ### Notes
 
-- All secret keys are stored securely via `.env` (locally) or Heroku config vars (production).
-- PostgreSQL is used on Heroku while SQLite is used locally for ease of testing.
-- The `dj-database-url` and `gunicorn` packages are used for production compatibility.
-- Deployment was tested multiple times, including fresh rebuilds and database resets to ensure reliability.
+- All sensitive keys are stored securely via `.env` (dev) or `/etc/velvady.env` (production).  
+- **PostgreSQL** is used on the VM; **SQLite** is kept for local testing.  
+- `gunicorn` and `nginx` are managed by **systemd** for auto-restart and uptime reliability.  
+- Deployment was validated through full rebuilds and migrations to ensure consistent behaviour.
 
-VelVady is now fully deployed and operational on Heroku:
+---
 
-**Live App:**  
-[https://velvady-app-b7f67234cb3b.herokuapp.com/](https://velvady-app-b7f67234cb3b.herokuapp.com/)
+#### Live App
+[https://10.40.40.51:30004/](https://10.40.40.51:30004/)
 
 ---
 ---  
@@ -1037,7 +1079,7 @@ VelVady is now fully deployed and operational on Heroku:
 VelVady follows robust security best practices:
 
 - User authentication and password hashing using Django's built-in system
-- Sensitive keys stored in environment variables (`.env` and Heroku config vars)
+- Sensitive keys stored in environment variables (`.env` locally or `/etc/velvady.env` on the VM)
 - CSRF protection on all forms
 - Admin panel access restricted to staff users only
 - Secure password reset via expiring email tokens
@@ -1075,14 +1117,16 @@ This project represents the final milestone submission for the Diploma in Full S
 - **Django (5.2.1)** – Main web framework: https://www.djangoproject.com/
 - **Bootstrap (v5)** – Front-end grid and responsive layout: https://getbootstrap.com/
 - **Stripe Checkout API** – Payment processing: https://stripe.com/docs/checkout
-- **PostgreSQL** – Heroku production database: https://www.postgresql.org/
-- **Gunicorn** – WSGI HTTP server for Heroku: https://gunicorn.org/
+- **PostgreSQL** – Production database (Ubuntu VM): https://www.postgresql.org/
+- **Gunicorn** – WSGI HTTP server managed by systemd: https://gunicorn.org/
 - **dj-database-url** – For managing database URLs in production: https://pypi.org/project/dj-database-url/
 - **python-dotenv** – Environment variable management: https://pypi.org/project/python-dotenv/
-- **Heroku** – Deployment platform: https://www.heroku.com/
+- **Nginx** – Reverse proxy and static/media file server: https://nginx.org/
+- **Ubuntu 22.04 VM** – Self-hosted production environment (Nginx + Gunicorn + systemd)
 - **FontAwesome** – Icons used across the site: https://fontawesome.com/
 - **Google Fonts** – Custom typography: https://fonts.google.com/
 - **Figma** – UI/UX design and wireframing tool: https://www.figma.com/
+**Infrastructure Setup (VM):** Self-hosted Ubuntu 22.04, Nginx, Gunicorn, and systemd configuration prepared and documented by the project author.
 
 ---
 
@@ -1109,7 +1153,7 @@ Special recognition is given to the following:
 
 - **Stack Overflow** – Used extensively for troubleshooting errors, especially around Django migrations, Stripe integration, and JavaScript click event binding.
 
-- **Technical Documentation Teams** – Including Django, Stripe, Heroku, Bootstrap, and PostgreSQL — whose detailed official documentation supported the implementation of each framework and tool with clarity and reliability.
+- **Technical Documentation Teams** – Including Django, Stripe, Bootstrap, and PostgreSQL — whose detailed official documentation supported the implementation of each framework and tool with clarity and reliability.
 
 - **Slack Community and Fellow Peers** – Acknowledged for maintaining a collaborative learning environment throughout the course, even if not directly used in this project.
 
