@@ -384,5 +384,9 @@ if not DEBUG:
 
 
 
-# --- Trust reverse proxy for HTTPS detection ---
+
+# Trust reverse proxy for HTTPS detection
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Honor proxy-provided Host header (so :30004 is preserved)
+USE_X_FORWARDED_HOST = os.getenv('USE_X_FORWARDED_HOST', 'False').lower() in ('1', 'true', 'yes')
