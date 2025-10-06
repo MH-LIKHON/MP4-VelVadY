@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
 
     # Custom project apps
     "core",
@@ -109,6 +110,11 @@ INSTALLED_APPS = [
 
 # I am setting Django to use my custom user model from the 'accounts' app
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Sites framework (used for absolute URLs without a request)
+SITE_ID = int(os.getenv('SITE_ID', '1'))
+SITE_URL = os.getenv('SITE_URL', 'https://178.255.91.3:30004')
+
 
 
 
