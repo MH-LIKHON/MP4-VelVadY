@@ -376,7 +376,7 @@ This application uses Stripe’s hosted Checkout form to securely collect and pr
 A webhook is configured in the Stripe Dashboard to receive event notifications after payment. It ensures the backend can validate transactions before updating user status.
 
 Webhook endpoint:  
-`https://10.40.40.51:30004/webhook/stripe/`
+`https://your-server-ip:EXTERNAL_PORT/webhook/stripe/`
 
 Monitored events include:
 
@@ -945,11 +945,13 @@ To run this project locally:
 
     ```env
     SECRET_KEY=your-django-secret-key
-    DEBUG=True
+    DEBUG=False
+    DOMAIN=https://your-server-ip:EXTERNAL_PORT
+    ALLOWED_HOSTS=localhost,127.0.0.1,your-server-ip
+    CSRF_TRUSTED_ORIGINS=https://your-server-ip:EXTERNAL_PORT
     STRIPE_PUBLIC_KEY=your-publishable-key
     STRIPE_SECRET_KEY=your-secret-key
     STRIPE_WEBHOOK_SECRET=your-webhook-signing-secret
-    DATABASE_URL=sqlite:///db.sqlite3  # for local testing
     EMAIL_HOST_USER=your-email@example.com
     ```
 
@@ -996,7 +998,9 @@ Create `/etc/velvady.env` (for production) or a local `.env` (for dev):
 ```env
 SECRET_KEY=your-django-secret-key
 DEBUG=False
-DOMAIN=https://10.40.40.51:30004
+DOMAIN=https://your-server-ip:EXTERNAL_PORT
+ALLOWED_HOSTS=localhost,127.0.0.1,your-server-ip
+CSRF_TRUSTED_ORIGINS=https://your-server-ip:EXTERNAL_PORT
 STRIPE_PUBLIC_KEY=your-publishable-key
 STRIPE_SECRET_KEY=your-secret-key
 STRIPE_WEBHOOK_SECRET=your-webhook-signing-secret
@@ -1004,7 +1008,7 @@ EMAIL_HOST_USER=your-email@example.com
 ```
 
 #### 5. Create systemd service for Gunicorn
-File: `/etc/systemd/system/velvady.service`
+File: `/etc/systemd/system/<project-name>.service`
 
 ```ini
 [Unit]
@@ -1012,10 +1016,10 @@ Description=VelVady Django App
 After=network.target
 
 [Service]
-User=opsengine_admin
-WorkingDirectory=/srv/mp4-velvady
-EnvironmentFile=/etc/velvady.env
-ExecStart=/srv/mp4-velvady/venv/bin/gunicorn -b 127.0.0.1:8004 velvady.wsgi
+User=appuser
+WorkingDirectory=/srv/<project-name>
+EnvironmentFile=/etc/<project-name>.env
+ExecStart=/srv/<project-name>/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:INTERNAL_PORT velvady.wsgi:application
 Restart=always
 
 [Install]
@@ -1023,27 +1027,62 @@ WantedBy=multi-user.target
 ```
 
 #### 6. Configure Nginx reverse proxy
-File: `/etc/nginx/sites-available/velvady`
+File: `/etc/nginx/sites-available/<project-name>_nginx.conf`
 
 ```nginx
+# HTTP → HTTPS redirect (local)
 server {
-    listen 30004 ssl;
-    server_name 10.40.40.51;
+    listen EXTERNAL_HTTP_PORT;
+    server_name _;
+    return 301 https://$host:EXTERNAL_HTTPS_PORT$request_uri;
+}
 
-    ssl_certificate     /etc/ssl/certs/velvady.crt;
-    ssl_certificate_key /etc/ssl/private/velvady.key;
+# Main HTTPS proxy
+server {
+    listen EXTERNAL_HTTP_PORT;
+    server_name _;
+    return 301 https://$host:EXTERNAL_PORT$request_uri;
+}
+
+# Main HTTPS proxy
+server {
+    listen EXTERNAL_PORT ssl;
+    server_name your-server-ip;
+
+    ssl_certificate     /etc/ssl/certs/example.crt;
+    ssl_certificate_key /etc/ssl/private/example.key;
 
     location / {
-        proxy_pass http://127.0.0.1:8004;
-        include proxy_params;
+        proxy_pass http://127.0.0.1:INTERNAL_PORT;
+        proxy_set_header Host              $host:$server_port;
+        proxy_set_header X-Forwarded-Host  $host:$server_port;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP         $remote_addr;
     }
+
+    location /static/ { alias /srv/<project-name>/staticfiles/; }
+    location /media/  { alias /srv/<project-name>/media/; }
+}
+
+# Public 80/443 redirect stubs (optional)
+server {
+    listen 80 default_server;
+    server_name your-server-ip;
+    return 301 https://$host:EXTERNAL_PORT$request_uri;
+}
+server {
+    listen 443 ssl default_server;
+    server_name your-server-ip;
+    ssl_certificate     /etc/ssl/certs/example.crt;
+    ssl_certificate_key /etc/ssl/private/example.key;
+    return 301 https://$host:EXTERNAL_PORT$request_uri;
 }
 ```
 
 #### 7. Enable site and start services
 ```bash
-sudo ln -s /etc/nginx/sites-available/velvady /etc/nginx/sites-enabled/
-sudo systemctl enable --now velvady
+sudo ln -s /etc/nginx/sites-available/<project-name>_EXTERNAL_HTTP_PORT_EXTERNAL_HTTPS_PORT /etc/nginx/sites-enabled/
+sudo systemctl enable --now <project-name>
 sudo systemctl reload nginx
 ```
 
@@ -1051,8 +1090,8 @@ sudo systemctl reload nginx
 
 ### Media and Static Files
 
-- **Static files** are collected with `python manage.py collectstatic` and served through **Nginx** from `/srv/mp4-velvady/static/`.  
-- **Uploaded media** (e.g. product images) are stored under `/srv/mp4-velvady/media/` and mapped via Nginx for persistent access.  
+- **Static files** are collected with `python manage.py collectstatic` and served through **Nginx** from `/srv/<project-name>/static/`.  
+- **Uploaded media** (e.g. product images) are stored under `/srv/<project-name>/media/` and mapped via Nginx for persistent access.  
 - During development, media is served locally from `/media/products/`.  
 - For scalability, an external store such as AWS S3 or Cloudinary can be configured.
 
@@ -1068,7 +1107,8 @@ sudo systemctl reload nginx
 ---
 
 #### Live App
-[https://10.40.40.51:30004/](https://10.40.40.51:30004/)
+[https://your-server-ip:EXTERNAL_PORT/](https://your-server-ip:EXTERNAL_PORT/)
+*(self-signed certificate; browser warning expected)*
 
 ---
 ---  
