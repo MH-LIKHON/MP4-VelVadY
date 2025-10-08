@@ -113,7 +113,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Sites framework (used for absolute URLs without a request)
 SITE_ID = int(os.getenv('SITE_ID', '1'))
-SITE_URL = os.getenv('SITE_URL', 'https://178.255.91.3:30004')
+SITE_URL = os.getenv('SITE_URL', 'https://localhost:30004')
 
 
 
@@ -135,15 +135,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-
-
-
-# =======================================================
-# Authentication Redirects
-# =======================================================
-LOGIN_REDIRECT_URL  = 'core:home'
-LOGOUT_REDIRECT_URL = 'core:home'
 
 
 
@@ -294,7 +285,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 
 # Redirect to homepage after logout
-LOGOUT_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('core:home')
 
 
 

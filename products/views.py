@@ -4,8 +4,10 @@ from .forms import ReviewForm
 from django.db.models import Q
 from django.urls import reverse
 from django.conf import settings
+from urllib.parse import urlsplit
 from products.utils import get_base_url
 from .models import Service, Review, Purchase
+from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +16,8 @@ from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
+
+User = get_user_model()
 
 
 
@@ -212,13 +216,23 @@ def checkout_success(request):
             from_email = settings.DEFAULT_FROM_EMAIL
             to_email = request.user.email
 
+            # Normalise protocol and host for email links (dynamic: prefers DOMAIN env, then request host)
+            raw = os.getenv('DOMAIN') or request.get_host()   # e.g. "https://example.com:EXTERNAL_HTTPS_PORT" or "example.com:EXTERNAL_HTTPS_PORT"
+            p = urlsplit(raw)
+
+            # Host (optionally with port), no scheme
+            domain = p.netloc or raw.strip('/')
+
+            # Choose https in production, or if the incoming request is already secure
+            protocol = p.scheme or ('https' if not settings.DEBUG or request.is_secure() else 'http')
+
             context = {
                 'user': request.user,
                 'purchase': purchase,
                 'service': service,
                 'amount_paid': amount_paid,
-                'protocol': 'https' if not settings.DEBUG else 'http',
-                'domain': get_base_url(request),
+                'protocol': protocol,
+                'domain': domain,
             }
 
             html_content = render_to_string('accounts/order_confirmation_email.html', context)

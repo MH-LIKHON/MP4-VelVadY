@@ -2,6 +2,7 @@ import os
 from .models import CustomUser
 from django.urls import reverse
 from django.conf import settings
+from urllib.parse import urlsplit
 from django.contrib import messages
 from django.urls import reverse_lazy
 from products.models import Purchase
@@ -117,17 +118,17 @@ def register_view(request):
             # Save the user to the database
             user = form.save()
 
-            # Prepare the full dashboard URL
-            protocol = 'https' if not settings.DEBUG else 'http'
-            protocol = 'https' if not settings.DEBUG else 'http'
-            domain = os.getenv('DOMAIN')
-            if not domain:
-                domain = request.get_host()
+            # Build absolute links for emails (dynamic: prefers DOMAIN env, then request host)
+            raw = os.getenv('DOMAIN') or request.get_host()  # e.g. "https://example.com:30004" or "example.com:30004"
+            p = urlsplit(raw)
 
-            dashboard_path = reverse('dashboard')
-            full_dashboard_url = f"{protocol}://{domain}{dashboard_path}"
-            dashboard_path = reverse('dashboard')
-            full_dashboard_url = f"{protocol}://{domain}{dashboard_path}"
+            # Host (optionally with port), no scheme
+            domain = p.netloc or raw.strip('/')
+
+            # Choose https in production (or if the incoming request is already secure)
+            protocol = p.scheme or ('https' if not settings.DEBUG or request.is_secure() else 'http')
+
+            dashboard_url = f"{protocol}://{domain}{reverse('dashboard')}"
 
             # Prepare email details
             subject = 'Welcome to VelVady'
@@ -135,7 +136,7 @@ def register_view(request):
             to_email = user.email
             context = {
                 'user': user,
-                'dashboard_url': full_dashboard_url,
+                'dashboard_url': dashboard_url,
                 'protocol': protocol,
                 'domain': domain,
             }
@@ -283,10 +284,6 @@ def profile_update_view(request):
 # =======================================================
 # PASSWORD CHANGE VIEW
 # =======================================================
-
-# Handles password update for logged-in users
-from django.contrib.auth.views import PasswordChangeView
-from django.urls import reverse_lazy
 
 # Password change views
 class CustomPasswordChangeView(PasswordChangeView):
