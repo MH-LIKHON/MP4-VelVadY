@@ -10,7 +10,7 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
 
 ## Live Site
 
-[https://178.255.91.3:30004/](https://178.255.91.3:30004/)
+[**MP4-VelVadY**](https://www.sovcore.com/mp4-velvady)
 
 ## Repository
 
@@ -50,9 +50,9 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
    - [Model Structure](#model-structure)  
    - [Entity Relationships](#entity-relationships)  
 
-8. [Deployment](#deployment)  
-   - [Local Setup Instructions](#local-setup-instructions)  
-   - [VM Deployment (Production)](#vm-deployment-production)  
+8. [Deployment](#deployment)
+   - [Local Setup Instructions](#local-setup-instructions)
+   - [Deployment (Ubuntu Server + Gunicorn + Nginx)](#deployment-ubuntu-server--gunicorn--nginx) 
 
 9. [Credits](#credits)  
 10. [Acknowledgements](#acknowledgements)
@@ -154,6 +154,7 @@ The following tools, libraries, and platforms were used throughout development:
 | Media Storage      | Django ImageField with `/media/products/`       |
 | Environment Config | `.env` + systemd `EnvironmentFile`              |
 | Developer Tools    | Git, GitHub, VSCode, Chrome DevTools            |
+| Edge / CDN         | CDN (TLS + caching)                             |
 
 ---
 ---
@@ -376,7 +377,7 @@ This application uses Stripe’s hosted Checkout form to securely collect and pr
 A webhook is configured in the Stripe Dashboard to receive event notifications after payment. It ensures the backend can validate transactions before updating user status.
 
 Webhook endpoint:  
-`https://your-server-ip:EXTERNAL_PORT/webhook/stripe/`
+`https://www.sovcore.com/mp4-velvady/stripe/webhook/`
 
 Monitored events include:
 
@@ -479,7 +480,7 @@ VelVady integrates Stripe to enable secure, real-time payment processing for dig
 To ensure reliability, VelVady uses a Stripe webhook to confirm payment success and persist data even if the user exits the browser before redirection.
 
 **Webhook Endpoint:**  
-`/webhook/stripe/`
+`/mp4-velvady/stripe/webhook/`
 
 **Webhook Process:**
 
@@ -912,203 +913,102 @@ The database schema fully supports CRUD operations, Stripe integration, user acc
 
 ## Deployment
 
-VelVady was developed locally using Git and GitHub, then deployed to an Ubuntu VM for production using a PostgreSQL database and secure environment configuration.
+### Deployment (Ubuntu Server + Gunicorn + Nginx)
+*(Active deployment)*
+
+```
+VelVady runs on an Ubuntu 22.04 VM using Gunicorn (WSGI) behind Nginx (reverse proxy).  
+The application is served under a single canonical URL and subpath, with a CDN providing TLS termination and caching.
+```
+
+---
+
+```
+OVERVIEW
+App Server  : Gunicorn (Django WSGI)
+Reverse Proxy : Nginx
+Edge      : CDN (TLS + caching)
+URL Scheme  : https://www.sovcore.com/mp4-velvady
+Database   : PostgreSQL
+```
+
+---
+
+```
+SYSTEMD SERVICE (/etc/<project-name>.service)
+- Service unit present for Gunicorn (production).  
+- Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
+
+GUNICORN LAUNCHER (/usr/local/bin/run_gunicorn_<project-name>.sh)
+- Launcher script present for Gunicorn (production).  
+- Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
+
+NGINX CONFIGURATION (/etc/nginx/sites-available/<project-name>_nginx.conf)
+- Nginx reverse proxy routes the app under the canonical subpath.  
+- Static and media are served via Nginx aliases. (Details intentionally omitted.)
+```
+
+---
+
+```bash
+PUBLIC ACCESS
+HTTPS : https://www.sovcore.com/mp4-velvady
+```
 
 ---
 
 ### Local Setup Instructions
+*(For local testing and development)*
 
-To run this project locally:
-
-1. **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/MH-LIKHON/VelVady.git
-    cd VelVady
-    ```
-
-2. **Create a virtual environment and activate it:**
-
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3. **Install dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Set up environment variables:**  
-   Create a `.env` file in the project root with the following:
-
-    ```env
-    SECRET_KEY=your-django-secret-key
-    DEBUG=False
-    DOMAIN=https://your-server-ip:EXTERNAL_PORT
-    ALLOWED_HOSTS=localhost,127.0.0.1,your-server-ip
-    CSRF_TRUSTED_ORIGINS=https://your-server-ip:EXTERNAL_PORT
-    STRIPE_PUBLIC_KEY=your-publishable-key
-    STRIPE_SECRET_KEY=your-secret-key
-    STRIPE_WEBHOOK_SECRET=your-webhook-signing-secret
-    EMAIL_HOST_USER=your-email@example.com
-    ```
-
-5. **Run database migrations:**
-
-    ```bash
-    python manage.py migrate
-    ```
-
-6. **Start the development server:**
-
-    ```bash
-    python manage.py runserver
-    ```
-
----
-
-### VM Deployment (Production)
-
-VelVady is deployed on a self-hosted **Ubuntu 22.04 VM** using **Nginx + Gunicorn + systemd** for production hosting.
-
-#### 1. Install core packages
 ```bash
-sudo apt update
-sudo apt install -y python3 python3-venv python3-pip nginx git
-```
-
-#### 2. Clone the repository
-```bash
+CLONE THE REPOSITORY
 git clone https://github.com/MH-LIKHON/VelVady.git
 cd VelVady
 ```
 
-#### 3. Create and activate a virtual environment
 ```bash
+SET UP A VIRTUAL ENVIRONMENT
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate      # macOS/Linux
+# venv\Scripts\activate       # Windows
+```
+
+```bash
+INSTALL DEPENDENCIES
 pip install -r requirements.txt
 ```
 
-#### 4. Create environment file
-Create `/etc/velvady.env` (for production) or a local `.env` (for dev):
-
-```env
-SECRET_KEY=your-django-secret-key
-DEBUG=False
-DOMAIN=https://your-server-ip:EXTERNAL_PORT
-ALLOWED_HOSTS=localhost,127.0.0.1,your-server-ip
-CSRF_TRUSTED_ORIGINS=https://your-server-ip:EXTERNAL_PORT
-STRIPE_PUBLIC_KEY=your-publishable-key
-STRIPE_SECRET_KEY=your-secret-key
-STRIPE_WEBHOOK_SECRET=your-webhook-signing-secret
-EMAIL_HOST_USER=your-email@example.com
-```
-
-#### 5. Create systemd service for Gunicorn
-File: `/etc/systemd/system/<project-name>.service`
-
-```ini
-[Unit]
-Description=VelVady Django App
-After=network.target
-
-[Service]
-User=appuser
-WorkingDirectory=/srv/<project-name>
-EnvironmentFile=/etc/<project-name>.env
-ExecStart=/srv/<project-name>/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:INTERNAL_PORT velvady.wsgi:application
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
-
-#### 6. Configure Nginx reverse proxy
-File: `/etc/nginx/sites-available/<project-name>_nginx.conf`
-
-```nginx
-# HTTP → HTTPS redirect (local)
-server {
-    listen EXTERNAL_HTTP_PORT;
-    server_name _;
-    return 301 https://$host:EXTERNAL_HTTPS_PORT$request_uri;
-}
-
-# Main HTTPS proxy
-server {
-    listen EXTERNAL_HTTP_PORT;
-    server_name _;
-    return 301 https://$host:EXTERNAL_PORT$request_uri;
-}
-
-# Main HTTPS proxy
-server {
-    listen EXTERNAL_PORT ssl;
-    server_name your-server-ip;
-
-    ssl_certificate     /etc/ssl/certs/example.crt;
-    ssl_certificate_key /etc/ssl/private/example.key;
-
-    location / {
-        proxy_pass http://127.0.0.1:INTERNAL_PORT;
-        proxy_set_header Host              $host:$server_port;
-        proxy_set_header X-Forwarded-Host  $host:$server_port;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Real-IP         $remote_addr;
-    }
-
-    location /static/ { alias /srv/<project-name>/staticfiles/; }
-    location /media/  { alias /srv/<project-name>/media/; }
-}
-
-# Public 80/443 redirect stubs (optional)
-server {
-    listen 80 default_server;
-    server_name your-server-ip;
-    return 301 https://$host:EXTERNAL_PORT$request_uri;
-}
-server {
-    listen 443 ssl default_server;
-    server_name your-server-ip;
-    ssl_certificate     /etc/ssl/certs/example.crt;
-    ssl_certificate_key /etc/ssl/private/example.key;
-    return 301 https://$host:EXTERNAL_PORT$request_uri;
-}
-```
-
-#### 7. Enable site and start services
 ```bash
-sudo ln -s /etc/nginx/sites-available/<project-name>_EXTERNAL_HTTP_PORT_EXTERNAL_HTTPS_PORT /etc/nginx/sites-enabled/
-sudo systemctl enable --now <project-name>
-sudo systemctl reload nginx
+CONFIGURE ENVIRONMENT VARIABLES (.env file)
+SECRET_KEY=your-django-secret-key
+DEBUG=True
+DOMAIN=http://127.0.0.1:8000
+ALLOWED_HOSTS=localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=http://127.0.0.1:8000
 ```
 
----
+```bash
+RUN DATABASE MIGRATIONS
+python manage.py migrate
+```
 
-### Media and Static Files
+```bash
+RUN THE APPLICATION
+python manage.py runserver
+```
 
-- **Static files** are collected with `python manage.py collectstatic` and served through **Nginx** from `/srv/<project-name>/static/`.  
-- **Uploaded media** (e.g. product images) are stored under `/srv/<project-name>/media/` and mapped via Nginx for persistent access.  
-- During development, media is served locally from `/media/products/`.  
-- For scalability, an external store such as AWS S3 or Cloudinary can be configured.
+```bash
+ACCESS LOCALLY
+http://127.0.0.1:8000
+```
 
----
-
-### Notes
-
-- All sensitive keys are stored securely via `.env` (dev) or `/etc/velvady.env` (production).  
-- **PostgreSQL** is used on the VM; **SQLite** is kept for local testing.  
-- `gunicorn` and `nginx` are managed by **systemd** for auto-restart and uptime reliability.  
-- Deployment was validated through full rebuilds and migrations to ensure consistent behaviour.
-
----
-
-#### Live App
-[https://your-server-ip:EXTERNAL_PORT/](https://your-server-ip:EXTERNAL_PORT/)
-*(self-signed certificate; browser warning expected)*
+```bash
+DEPLOYMENT SUMMARY
+Live : Ubuntu VM + Gunicorn + Nginx (served under a canonical subpath)
+Local Dev  : Django built-in server
+Database   : PostgreSQL (production) / SQLite (local)
+Security   : CSRF protection, secure cookies, environment isolation
+```
 
 ---
 ---  
@@ -1124,6 +1024,7 @@ VelVady follows robust security best practices:
 - Admin panel access restricted to staff users only
 - Secure password reset via expiring email tokens
 - HTTPS enforced in production environments
+- All external requests pass through a secure CDN layer that enforces HTTPS and caches static assets.
 
 ---
 
@@ -1167,6 +1068,8 @@ This project represents the final milestone submission for the Diploma in Full S
 - **Google Fonts** – Custom typography: https://fonts.google.com/
 - **Figma** – UI/UX design and wireframing tool: https://www.figma.com/
 **Infrastructure Setup (VM):** Self-hosted Ubuntu 22.04, Nginx, Gunicorn, and systemd configuration prepared and documented by the project author.
+
+**Edge Delivery:** CDN layer provides TLS termination and static asset caching for global availability.
 
 ---
 
