@@ -317,10 +317,36 @@ class CustomPasswordChangeView(PasswordChangeView):
 # Sends email using both plain text and HTML templates
 class CustomPasswordResetView(PasswordResetView):
     """
-    Overrides send_mail() to send both HTML and plain versions of password reset email.
+    Overrides send_mail() to send both HTML and plain versions of password reset email
+    using the same domain logic as the other transactional emails.
     """
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
+
+    def get_extra_email_context(self):
+        raw = os.getenv("DOMAIN") or self.request.get_host()
+        p = urlsplit(raw)
+
+        # Host only, without scheme
+        domain = p.netloc or raw.strip("/")
+
+        # Prefer explicit scheme from DOMAIN, otherwise infer safely
+        protocol = p.scheme or ("https" if not settings.DEBUG or self.request.is_secure() else "http")
+
+        return {
+            "domain": domain,
+            "protocol": protocol,
+        }
+
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
+        context.update(self.get_extra_email_context())
+
         subject = render_to_string(subject_template_name, context).strip()
         body = render_to_string(email_template_name, context)
 
@@ -328,7 +354,7 @@ class CustomPasswordResetView(PasswordResetView):
 
         if html_email_template_name:
             html_email = render_to_string(html_email_template_name, context)
-            email_message.attach_alternative(html_email, 'text/html')
+            email_message.attach_alternative(html_email, "text/html")
 
         email_message.send()
 
