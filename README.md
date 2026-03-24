@@ -5,60 +5,66 @@ VelVady is a modern, full-stack e-commerce platform developed using Django, Stri
 The platform focuses on delivering a responsive, secure, and user-friendly experience. It integrates a dynamic dashboard, Stripe-powered payments, an automated order confirmation system, and a full review engine. VelVady has been developed using best practices in full-stack development and is fully responsive across devices.
 
 ---
+
 ---
+
 ---
 
 ## Live Site
 
-[**MP4-VelVadY**](https://www.sovcore.com/mp4-velvady)
+[**MP4-VelVadY**](https://mp4-velvady.sovcore.com/)
 
 ## Repository
 
 [https://github.com/MH-LIKHON/VelVady](https://github.com/MH-LIKHON/VelVady)
 
 ---
+
 ---
+
 ---
 
 ## Table of Contents
 
-1. [Project Overview](#velvady--digital-service-marketplace)  
-2. [User Experience (UX)](#user-experience-ux)  
-   - [Project Goals](#project-goals)  
-   - [User Stories](#user-stories)  
-   - [Feature Prioritisation](#feature-prioritisation)  
-   - [Technologies Used](#technologies-used)  
+1. [Project Overview](#velvady--digital-service-marketplace)
+2. [User Experience (UX)](#user-experience-ux)
+   - [Project Goals](#project-goals)
+   - [User Stories](#user-stories)
+   - [Feature Prioritisation](#feature-prioritisation)
+   - [Technologies Used](#technologies-used)
 
-3. [Features](#features)  
-   - [Page-by-Page Feature Summary](#page-by-page-feature-summary)  
-   - [Stripe Checkout Flow](#stripe-checkout-flow)  
-   - [Webhook Handling](#webhook-handling)  
-   - [Admin Panel Overview](#admin-panel-overview)  
-   - [Responsiveness and Accessibility](#responsiveness-and-accessibility)  
+3. [Features](#features)
+   - [Page-by-Page Feature Summary](#page-by-page-feature-summary)
+   - [Stripe Checkout Flow](#stripe-checkout-flow)
+   - [Webhook Handling](#webhook-handling)
+   - [Admin Panel Overview](#admin-panel-overview)
+   - [Responsiveness and Accessibility](#responsiveness-and-accessibility)
 
-4. [Media and Screenshot Index](#media-and-screenshot-index)  
-5. [Security and Performance Considerations](#security-and-performance-considerations)  
+4. [Media and Screenshot Index](#media-and-screenshot-index)
+5. [Security and Performance Considerations](#security-and-performance-considerations)
 
-6. [Testing](#testing)  
-   - [Manual Testing](#manual-testing)  
-   - [Device and Browser Testing](#device-and-browser-testing)  
-   - [Bugs and Fixes](#bugs-and-fixes)  
-   - [Lighthouse and Validation](#lighthouse-and-validation)  
-   - [Known Issues](#known-issues)  
+6. [Testing](#testing)
+   - [Manual Testing](#manual-testing)
+   - [Device and Browser Testing](#device-and-browser-testing)
+   - [Bugs and Fixes](#bugs-and-fixes)
+   - [Lighthouse and Validation](#lighthouse-and-validation)
+   - [Known Issues](#known-issues)
 
-7. [Models and Database Design](#models-and-database-design)  
-   - [Model Structure](#model-structure)  
-   - [Entity Relationships](#entity-relationships)  
+7. [Models and Database Design](#models-and-database-design)
+   - [Model Structure](#model-structure)
+   - [Entity Relationships](#entity-relationships)
 
 8. [Deployment](#deployment)
    - [Local Setup Instructions](#local-setup-instructions)
-   - [Deployment (Ubuntu Server + Gunicorn + Nginx)](#deployment-ubuntu-server--gunicorn--nginx) 
+   - [Deployment (Ubuntu Server + Gunicorn + Nginx)](#deployment-ubuntu-server--gunicorn--nginx)
 
-9. [Credits](#credits)  
+9. [Credits](#credits)
 10. [Acknowledgements](#acknowledgements)
 
 ---
+
 ---
+
 ---
 
 ## User Experience (UX)
@@ -68,6 +74,7 @@ The platform focuses on delivering a responsive, secure, and user-friendly exper
 VelVady was developed as a full-stack e-commerce platform with a specific focus on digital service delivery. The project was designed to simulate a real-world SaaS product offering personalised, one-time services that can be purchased securely and managed via a user dashboard.
 
 The core objectives were:
+
 - To create a responsive and intuitive interface suitable for both desktop and mobile users.
 - To implement a reliable Stripe-powered checkout experience for one-click purchases.
 - To ensure that each successful payment automatically stores a transaction and confirms it via email.
@@ -80,17 +87,20 @@ The platform was also intended to demonstrate proficiency in Django model design
 ### User Stories
 
 #### New Visitors
+
 - As a new visitor, I want to browse available services so that I can explore what VelVady offers.
 - As a new visitor, I want to register an account securely so that I can make purchases.
 - As a new visitor, I want to read reviews before deciding to purchase a service.
 
 #### Registered Users
+
 - As a logged-in user, I want to view my dashboard so that I can track purchases and manage my profile.
 - As a logged-in user, I want to see all services I have purchased so that I can keep a record.
 - As a logged-in user, I want to submit reviews so that I can share feedback on the services I use.
 - As a logged-in user, I want to receive confirmation emails after making a purchase.
 
 #### Administrators
+
 - As an admin, I want to manage services and prices via the Django admin panel.
 - As an admin, I want to access purchase and review data for operational oversight.
 - As an admin, I want to view contact messages submitted through the platform.
@@ -113,8 +123,8 @@ I developed the wireframe set to focus on structural layout planning before desi
 
 Feature development followed a priority-based structure:
 
-| Priority Level | Features                                                                 |
-|----------------|--------------------------------------------------------------------------|
+| Priority Level | Features                                                                |
+| -------------- | ----------------------------------------------------------------------- |
 | High           | User authentication, Stripe integration, service models, purchase flow  |
 | Medium         | Review system, profile editing, email confirmations, admin panel        |
 | Low            | Search input bar, frontend polish, image fallbacks, testimonial content |
@@ -127,9 +137,9 @@ This prioritisation ensured that the functional aspects of VelVady (such as paym
 
 Before selecting VelVady, several project concepts were considered and compared based on their complexity, value for portfolio demonstration, research effort, and alignment with real-world market demand.
 
-| Project Type               | Portfolio Weight | Complexity | Time to Research | Scalability & Market Demand | Total Score |
-|----------------------------|------------------|------------|------------------|-----------------------------|-------------|
-| Digital Service Marketplace (VelVady) | 10               | 9          | 7                | 10                          | **36**        |
+| Project Type                          | Portfolio Weight | Complexity | Time to Research | Scalability & Market Demand | Total Score |
+| ------------------------------------- | ---------------- | ---------- | ---------------- | --------------------------- | ----------- |
+| Digital Service Marketplace (VelVady) | 10               | 9          | 7                | 10                          | **36**      |
 | E-Commerce Store (Physical Products)  | 8                | 9          | 6                | 8                           | 31          |
 | Subscription Tracker / Finance Tool   | 8                | 8          | 7                | 6                           | 29          |
 | Event Planning & Ticketing App        | 7                | 7          | 5                | 7                           | 26          |
@@ -142,22 +152,24 @@ VelVady was chosen as the final concept due to its balance of technical depth, r
 
 The following tools, libraries, and platforms were used throughout development:
 
-| Category           | Technology                                      |
-|--------------------|-------------------------------------------------|
-| Backend Framework  | Django 5.2.1                                    |
-| Database           | SQLite (dev), PostgreSQL (deployment)           |
-| Payment Processing | Stripe Checkout API                             |
-| Frontend Framework | Bootstrap 5                                     |
-| Authentication     | Django AllAuth (CustomUser model)               |
-| Email Integration  | Django `EmailMultiAlternatives`                 |
-| Deployment         | Ubuntu VM (Nginx + Gunicorn + systemd)          |
-| Media Storage      | Django ImageField with `/media/products/`       |
-| Environment Config | `.env` + systemd `EnvironmentFile`              |
-| Developer Tools    | Git, GitHub, VSCode, Chrome DevTools            |
-| Edge / CDN         | CDN (TLS + caching)                             |
+| Category           | Technology                                |
+| ------------------ | ----------------------------------------- |
+| Backend Framework  | Django 5.2.1                              |
+| Database           | SQLite (dev), PostgreSQL (deployment)     |
+| Payment Processing | Stripe Checkout API                       |
+| Frontend Framework | Bootstrap 5                               |
+| Authentication     | Django AllAuth (CustomUser model)         |
+| Email Integration  | Django `EmailMultiAlternatives`           |
+| Deployment         | Ubuntu VM (Nginx + Gunicorn + systemd)    |
+| Media Storage      | Django ImageField with `/media/products/` |
+| Environment Config | `.env` + systemd `EnvironmentFile`        |
+| Developer Tools    | Git, GitHub, VSCode, Chrome DevTools      |
+| Edge / CDN         | CDN (TLS + caching)                       |
 
 ---
+
 ---
+
 ---
 
 ## Features
@@ -169,29 +181,31 @@ The following table outlines the most important features implemented in VelVady,
 > ⭐ = Feature Importance. 5 stars = Critical, 1 star = Optional.
 
 | No. | Feature Description                                        | Importance Level |
-|-----|------------------------------------------------------------|------------------|
-| 1   | Secure User Authentication with Email Login                | ⭐⭐⭐⭐⭐           |
-| 2   | Stripe Checkout Integration for Paid Services              | ⭐⭐⭐⭐⭐           |
-| 3   | Webhook Handling to Store Purchase Data Post-Checkout      | ⭐⭐⭐⭐⭐           |
-| 4   | Custom Dashboard with Metrics and Purchase History         | ⭐⭐⭐⭐⭐           |
-| 5   | Dynamic Service Detail Page with Review System             | ⭐⭐⭐⭐⭐           |
-| 6   | Review Submission Form with Validation and Display         | ⭐⭐⭐⭐            |
-| 7   | Automated HTML Emails (Welcome, Order Confirmation, Reset) | ⭐⭐⭐⭐            |
-| 8   | Contact Form with Admin Email Notification                 | ⭐⭐⭐⭐            |
-| 9   | Profile View and Edit Pages with Inline Validation         | ⭐⭐⭐⭐            |
-| 10  | Password Reset and Change Workflows                        | ⭐⭐⭐⭐            |
-| 11  | Terms & Privacy Policy Linked and Enforced at Signup       | ⭐⭐⭐             |
-| 12  | Flash Messaging for Login, Form Submissions, and Errors    | ⭐⭐⭐             |
-| 13  | Custom 404 Error Page with Branded Navigation              | ⭐⭐⭐             |
-| 14  | Responsive Layout and Mobile-Friendly UI                   | ⭐⭐⭐             |
-| 15  | Static Homepage Features (Testimonials, Icons, CTA Cards)  | ⭐⭐              |
-| 16  | Search Input and Category Filters on Home/Products Page    | ⭐⭐              |
-| 17  | Admin Panel for Service and Purchase Management (Django)   | ⭐⭐              |
+| --- | ---------------------------------------------------------- | ---------------- |
+| 1   | Secure User Authentication with Email Login                | ⭐⭐⭐⭐⭐       |
+| 2   | Stripe Checkout Integration for Paid Services              | ⭐⭐⭐⭐⭐       |
+| 3   | Webhook Handling to Store Purchase Data Post-Checkout      | ⭐⭐⭐⭐⭐       |
+| 4   | Custom Dashboard with Metrics and Purchase History         | ⭐⭐⭐⭐⭐       |
+| 5   | Dynamic Service Detail Page with Review System             | ⭐⭐⭐⭐⭐       |
+| 6   | Review Submission Form with Validation and Display         | ⭐⭐⭐⭐         |
+| 7   | Automated HTML Emails (Welcome, Order Confirmation, Reset) | ⭐⭐⭐⭐         |
+| 8   | Contact Form with Admin Email Notification                 | ⭐⭐⭐⭐         |
+| 9   | Profile View and Edit Pages with Inline Validation         | ⭐⭐⭐⭐         |
+| 10  | Password Reset and Change Workflows                        | ⭐⭐⭐⭐         |
+| 11  | Terms & Privacy Policy Linked and Enforced at Signup       | ⭐⭐⭐           |
+| 12  | Flash Messaging for Login, Form Submissions, and Errors    | ⭐⭐⭐           |
+| 13  | Custom 404 Error Page with Branded Navigation              | ⭐⭐⭐           |
+| 14  | Responsive Layout and Mobile-Friendly UI                   | ⭐⭐⭐           |
+| 15  | Static Homepage Features (Testimonials, Icons, CTA Cards)  | ⭐⭐             |
+| 16  | Search Input and Category Filters on Home/Products Page    | ⭐⭐             |
+| 17  | Admin Panel for Service and Purchase Management (Django)   | ⭐⭐             |
 
 This prioritisation ensures that core features related to account security, e-commerce flow, and user transparency were implemented first, followed by dashboard logic, frontend layout, and auxiliary enhancements.
 
 ---
+
 ---
+
 ---
 
 ## Page-by-Page Feature Summary
@@ -293,10 +307,10 @@ Enables users to update their personal information.
 
 Includes secure options for changing or resetting passwords using Django's built-in system.
 
-- Authenticated users can change their password via a secure form  
-- Unauthenticated users can reset their password via email token flow  
-- Password reset includes email link, secure token form, and confirmation steps  
-- Final confirmation screen appears after successfully resetting the password  
+- Authenticated users can change their password via a secure form
+- Unauthenticated users can reset their password via email token flow
+- Password reset includes email link, secure token form, and confirmation steps
+- Final confirmation screen appears after successfully resetting the password
 - Password validation is shown inline using Django’s recommended rules
 
 **Screenshots:**  
@@ -377,7 +391,7 @@ This application uses Stripe’s hosted Checkout form to securely collect and pr
 A webhook is configured in the Stripe Dashboard to receive event notifications after payment. It ensures the backend can validate transactions before updating user status.
 
 Webhook endpoint:  
-`https://www.sovcore.com/mp4-velvady/stripe/webhook/`
+`https://mp4-velvady.sovcore.com/stripe/webhook/`
 
 Monitored events include:
 
@@ -447,7 +461,9 @@ Automated transactional emails generated by platform events.
   ![Contact Email](core/static/core/images/contact_email.png)
 
 ---
+
 ---
+
 ---
 
 ### Stripe Checkout Flow
@@ -468,6 +484,7 @@ VelVady integrates Stripe to enable secure, real-time payment processing for dig
 - Stripe publishable and secret keys are managed through environment variables.
 
 **Files Involved:**
+
 - `products/views.py` – `create_checkout_session` function
 - `product_detail.html` – JavaScript to trigger checkout
 - `thank_you.html` – final confirmation template
@@ -499,6 +516,7 @@ To ensure reliability, VelVady uses a Stripe webhook to confirm payment success 
 - The event signature is validated using `stripe.Webhook.construct_event`.
 
 **Files Involved:**
+
 - `products/views.py` – `stripe_webhook` view
 - `urls.py` – route `/webhook/stripe/`
 - `models.py` – `Purchase` model
@@ -508,7 +526,9 @@ To ensure reliability, VelVady uses a Stripe webhook to confirm payment success 
 The webhook ensures that all purchases are logged to the database even if the client does not complete the redirection, making the system robust and payment-safe.
 
 ---
+
 ---
+
 ---
 
 ### Admin Panel Overview
@@ -529,12 +549,15 @@ VelVady includes a customised Django admin interface for efficient internal mana
 - Purchase model is readable via `list_display` and date-based sorting.
 
 **Files Involved:**
+
 - `products/admin.py`
 - `core/admin.py`
 - All model classes in `products/models.py`
 
 ---
+
 ---
+
 ---
 
 ### Responsiveness and Accessibility
@@ -572,11 +595,11 @@ Although external linting tools such as JSHint were not required for this projec
 
 All JavaScript performs as expected and adheres to modern standards. Behaviour was tested across multiple devices and screen sizes to ensure compatibility and performance.
 
-
----
----
 ---
 
+---
+
+---
 
 ## Testing
 
@@ -584,23 +607,23 @@ All JavaScript performs as expected and adheres to modern standards. Behaviour w
 
 Each core feature of VelVady was manually tested against its expected behaviour using local development and VM deployment. The following table outlines the results:
 
-| Feature Tested                        | Test Description                                    | Expected Result                        | Outcome |
-|--------------------------------------|-----------------------------------------------------|----------------------------------------|---------|
-| User Registration                    | Submit valid form data                              | Account created, redirected to dashboard | Pass    |
-| Invalid Registration (no password)   | Submit form with missing password                   | Error shown, no account created        | Pass    |
-| Login                                | Login with valid credentials                        | Redirect to dashboard                  | Pass    |
-| Invalid Login                        | Use incorrect password                              | Flash message shown                    | Pass    |
-| Buy Now (Logged-in User)             | Click Buy Now on service page                       | Redirected to Stripe checkout          | Pass    |
-| Buy Now (Not Logged-in)              | Click Buy Now as anonymous user                     | Redirected to login page               | Pass    |
-| Stripe Success Redirect              | Complete payment                                    | Redirect to thank-you page             | Pass    |
-| Stripe Webhook                       | Simulate completed event                            | Purchase saved in database             | Pass    |
-| Password Reset Flow                  | Use password reset via email                        | Reset email sent, new password accepted| Pass    |
-| Profile Update                       | Change user data via form                           | Data updated, flash shown              | Pass    |
-| Contact Form                         | Submit name, email, and message                     | Flash success shown, message saved     | Pass    |
-| Leave Review                         | Submit review for purchased service                 | Review added to page                   | Pass    |
-| Duplicate Review Block               | Try to review same service twice                    | Form hidden, message shown             | Pass    |
-| Logout                               | Click logout from navbar                            | Redirect to homepage                   | Pass    |
-| Access Dashboard (Unauthenticated)   | Visit dashboard without login                       | Redirect to login                      | Pass    |
+| Feature Tested                     | Test Description                    | Expected Result                          | Outcome |
+| ---------------------------------- | ----------------------------------- | ---------------------------------------- | ------- |
+| User Registration                  | Submit valid form data              | Account created, redirected to dashboard | Pass    |
+| Invalid Registration (no password) | Submit form with missing password   | Error shown, no account created          | Pass    |
+| Login                              | Login with valid credentials        | Redirect to dashboard                    | Pass    |
+| Invalid Login                      | Use incorrect password              | Flash message shown                      | Pass    |
+| Buy Now (Logged-in User)           | Click Buy Now on service page       | Redirected to Stripe checkout            | Pass    |
+| Buy Now (Not Logged-in)            | Click Buy Now as anonymous user     | Redirected to login page                 | Pass    |
+| Stripe Success Redirect            | Complete payment                    | Redirect to thank-you page               | Pass    |
+| Stripe Webhook                     | Simulate completed event            | Purchase saved in database               | Pass    |
+| Password Reset Flow                | Use password reset via email        | Reset email sent, new password accepted  | Pass    |
+| Profile Update                     | Change user data via form           | Data updated, flash shown                | Pass    |
+| Contact Form                       | Submit name, email, and message     | Flash success shown, message saved       | Pass    |
+| Leave Review                       | Submit review for purchased service | Review added to page                     | Pass    |
+| Duplicate Review Block             | Try to review same service twice    | Form hidden, message shown               | Pass    |
+| Logout                             | Click logout from navbar            | Redirect to homepage                     | Pass    |
+| Access Dashboard (Unauthenticated) | Visit dashboard without login       | Redirect to login                        | Pass    |
 
 ---
 
@@ -624,12 +647,14 @@ The commit history includes over 88 individual commits, showing consistent versi
 VelVady was tested on the following environments:
 
 **Browsers:**
+
 - Google Chrome (latest)
 - Firefox
 - Safari
 - Microsoft Edge
 
 **Devices:**
+
 - Windows 11 laptop
 - MacBook (Safari + Chrome)
 - Android phone (Chrome)
@@ -638,42 +663,42 @@ VelVady was tested on the following environments:
 
 ---
 
- ### Bugs and Fixes
+### Bugs and Fixes
 
 The following **major bugs and fixes** were encountered during the development of VelVady. These issues were addressed to ensure all functionality works as expected, with robust error handling and a reliable user experience across the platform.
 
-| No. | Issue Description                                      | Fix Applied                                           |
-|-----|--------------------------------------------------------|------------------------------------------------------|
-| 1   | `NoReverseMatch` for service detail page               | Changed URL to use `slug` instead of `pk` in `urls.py`|
-| 2   | Stripe session expired unexpectedly                    | Improved handling of session timeouts with better session management |
-| 3   | Review system crashed for new users                   | Added a condition to check if the user has already purchased the service before submitting a review |
-| 4   | User redirected to wrong page after login              | Fixed URL routing to ensure users are redirected to `/dashboard/` after login |
-| 5   | Flash messages not showing after form submission      | Corrected the Bootstrap classes for flash messages |
-| 6   | No error message when invalid form submission          | Added validation error messages for registration and login forms |
-| 7   | Payment not recorded in database                      | Integrated Stripe webhook correctly, adding payment confirmation to `Purchase` model |
-| 8   | Admin panel could be accessed by non-admin users      | Restricted admin panel access with staff-only permission check |
-| 9   | Image fallback not working in `Service` model         | Added a default image path if the service does not have an image |
-| 10  | `500 Server Error` on webhook callback                | Debugged Stripe webhook and ensured webhook signature validation was correct |
-| 11  | `Password reset token` expired too quickly            | Adjusted Django settings for `PASSWORD_RESET_TIMEOUT` to increase validity period |
-| 12  | Incorrect amount displayed during checkout            | Ensured `Service.price` was multiplied by 100 for Stripe in `create_checkout_session` |
-| 13  | Missing validation for password confirmation          | Added a match condition for password confirmation field in the registration form |
-| 14  | Users unable to leave reviews for purchased services   | Created a flag to check whether a user has purchased a service before showing review form |
-| 15  | Non-logged-in users could submit contact forms         | Added authentication check to prevent contact form submission by unauthenticated users |
-| 16  | Error on first-time login attempt                     | Fixed a bug with session handling on first-time user login |
-| 17  | Display of `Price` not consistent across services     | Used `Decimal` field properly for all prices to ensure consistent display format |
-| 18  | Missing `required` attribute for Terms & Conditions checkbox | Made the Terms checkbox `required` in the registration form |
-| 19  | JavaScript errors on mobile devices                   | Fixed responsive JavaScript issues related to `Buy Now` button click on mobile |
-| 20  | Redirect loop after user logout                       | Fixed session handling to ensure users are redirected to homepage after logout |
-| 21  | `404` error when searching for unavailable services   | Added error handling in the search function to show a message when no results are found |
-| 22  | `NameError` for undefined variable in template         | Defined all variables in views before passing them to templates |
-| 23  | Form not resetting after successful submission        | Fixed `form.reset()` in JavaScript to reset the form after submission |
-| 24  | User could purchase a service multiple times          | Prevented duplicate purchases by checking the `user_id` and `service_id` combination in the `Purchase` model |
-| 25  | Inconsistent data after service purchase              | Ensured the correct transaction data is stored in the database via webhook |
-| 26  | Errors displayed without CSS styling                  | Ensured error messages were styled properly using Bootstrap alert classes |
-| 27  | `POST` method not working for contact form submission | Fixed form submission by ensuring the method is `POST` and CSRF tokens are correctly passed |
-| 28  | Buttons not aligned correctly in mobile view         | Adjusted CSS to use Flexbox for button alignment on all screen sizes |
-| 29  | Service descriptions not fully displaying            | Increased the character limit for service descriptions and added `text-overflow` handling for UI consistency |
-| 30  | Missing service filters in admin panel               | Added `list_filter` functionality to filter services by active status and date of creation |
+| No. | Issue Description                                            | Fix Applied                                                                                                  |
+| --- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| 1   | `NoReverseMatch` for service detail page                     | Changed URL to use `slug` instead of `pk` in `urls.py`                                                       |
+| 2   | Stripe session expired unexpectedly                          | Improved handling of session timeouts with better session management                                         |
+| 3   | Review system crashed for new users                          | Added a condition to check if the user has already purchased the service before submitting a review          |
+| 4   | User redirected to wrong page after login                    | Fixed URL routing to ensure users are redirected to `/dashboard/` after login                                |
+| 5   | Flash messages not showing after form submission             | Corrected the Bootstrap classes for flash messages                                                           |
+| 6   | No error message when invalid form submission                | Added validation error messages for registration and login forms                                             |
+| 7   | Payment not recorded in database                             | Integrated Stripe webhook correctly, adding payment confirmation to `Purchase` model                         |
+| 8   | Admin panel could be accessed by non-admin users             | Restricted admin panel access with staff-only permission check                                               |
+| 9   | Image fallback not working in `Service` model                | Added a default image path if the service does not have an image                                             |
+| 10  | `500 Server Error` on webhook callback                       | Debugged Stripe webhook and ensured webhook signature validation was correct                                 |
+| 11  | `Password reset token` expired too quickly                   | Adjusted Django settings for `PASSWORD_RESET_TIMEOUT` to increase validity period                            |
+| 12  | Incorrect amount displayed during checkout                   | Ensured `Service.price` was multiplied by 100 for Stripe in `create_checkout_session`                        |
+| 13  | Missing validation for password confirmation                 | Added a match condition for password confirmation field in the registration form                             |
+| 14  | Users unable to leave reviews for purchased services         | Created a flag to check whether a user has purchased a service before showing review form                    |
+| 15  | Non-logged-in users could submit contact forms               | Added authentication check to prevent contact form submission by unauthenticated users                       |
+| 16  | Error on first-time login attempt                            | Fixed a bug with session handling on first-time user login                                                   |
+| 17  | Display of `Price` not consistent across services            | Used `Decimal` field properly for all prices to ensure consistent display format                             |
+| 18  | Missing `required` attribute for Terms & Conditions checkbox | Made the Terms checkbox `required` in the registration form                                                  |
+| 19  | JavaScript errors on mobile devices                          | Fixed responsive JavaScript issues related to `Buy Now` button click on mobile                               |
+| 20  | Redirect loop after user logout                              | Fixed session handling to ensure users are redirected to homepage after logout                               |
+| 21  | `404` error when searching for unavailable services          | Added error handling in the search function to show a message when no results are found                      |
+| 22  | `NameError` for undefined variable in template               | Defined all variables in views before passing them to templates                                              |
+| 23  | Form not resetting after successful submission               | Fixed `form.reset()` in JavaScript to reset the form after submission                                        |
+| 24  | User could purchase a service multiple times                 | Prevented duplicate purchases by checking the `user_id` and `service_id` combination in the `Purchase` model |
+| 25  | Inconsistent data after service purchase                     | Ensured the correct transaction data is stored in the database via webhook                                   |
+| 26  | Errors displayed without CSS styling                         | Ensured error messages were styled properly using Bootstrap alert classes                                    |
+| 27  | `POST` method not working for contact form submission        | Fixed form submission by ensuring the method is `POST` and CSRF tokens are correctly passed                  |
+| 28  | Buttons not aligned correctly in mobile view                 | Adjusted CSS to use Flexbox for button alignment on all screen sizes                                         |
+| 29  | Service descriptions not fully displaying                    | Increased the character limit for service descriptions and added `text-overflow` handling for UI consistency |
+| 30  | Missing service filters in admin panel                       | Added `list_filter` functionality to filter services by active status and date of creation                   |
 
 ---
 
@@ -693,26 +718,26 @@ These constraints reflect real-world low-resource scenarios, yet VelVady maintai
 
 #### Lighthouse Audit Summary (Desktop Tests)
 
-| Page                         | Performance | Accessibility | Best Practices | SEO  |
-|------------------------------|-------------|----------------|----------------|------|
-| Home (`/`)                   | 79          | 93             | 96             | 91   |
-| Dashboard (`/dashboard/`)    | 83          | 98             | 100            | 91   |
-| Edit Profile                 | 99          | 95             | 100            | 91   |
-| Profile                      | 69          | 95             | 100            | 91   |
-| Register                     | 98          | 95             | 100            | 91   |
-| Login                        | 98          | 90             | 100            | 91   |
-| Forgot Password              | 99          | 100            | 100            | 91   |
-| Password Reset (Token)       | 68          | 95             | 100            | 91   |
-| Password Reset Done          | 67          | 100            | 100            | 91   |
-| Password Change              | 97          | 95             | 100            | 91   |
-| Password Change Done         | 68          | 100            | 100            | 91   |
-| Product List (`/services/`)  | 71          | 98             | 100            | 91   |
-| Product Detail               | 73          | 98             | 100            | 91   |
-| Thank You (Stripe)           | 67          | 93             | 100            | 91   |
-| Payment Cancelled            | 67          | 95             | 100            | 91   |
-| Contact                      | 99          | 100            | 100            | 91   |
-| Terms & Policy               | 69          | 98             | 100            | 91   |
-| 404 Error                    | 91          | 85             | 78             | 80   |
+| Page                        | Performance | Accessibility | Best Practices | SEO |
+| --------------------------- | ----------- | ------------- | -------------- | --- |
+| Home (`/`)                  | 79          | 93            | 96             | 91  |
+| Dashboard (`/dashboard/`)   | 83          | 98            | 100            | 91  |
+| Edit Profile                | 99          | 95            | 100            | 91  |
+| Profile                     | 69          | 95            | 100            | 91  |
+| Register                    | 98          | 95            | 100            | 91  |
+| Login                       | 98          | 90            | 100            | 91  |
+| Forgot Password             | 99          | 100           | 100            | 91  |
+| Password Reset (Token)      | 68          | 95            | 100            | 91  |
+| Password Reset Done         | 67          | 100           | 100            | 91  |
+| Password Change             | 97          | 95            | 100            | 91  |
+| Password Change Done        | 68          | 100           | 100            | 91  |
+| Product List (`/services/`) | 71          | 98            | 100            | 91  |
+| Product Detail              | 73          | 98            | 100            | 91  |
+| Thank You (Stripe)          | 67          | 93            | 100            | 91  |
+| Payment Cancelled           | 67          | 95            | 100            | 91  |
+| Contact                     | 99          | 100           | 100            | 91  |
+| Terms & Policy              | 69          | 98            | 100            | 91  |
+| 404 Error                   | 91          | 85            | 78             | 80  |
 
 ---
 
@@ -724,36 +749,36 @@ Files are stored in:
 
 `/core/static/core/pdfs/`
 
-| Page                         | Audit Description                                     | Report Path                                     |
-|------------------------------|-------------------------------------------------------|-------------------------------------------------|
-| Home Page                    | Overall performance, SEO, accessibility               | [lh_home.pdf](core/static/core/pdfs/lh_home.pdf)             |
-| Login Page                   | Login form and structure audit                        | [lh_login.pdf](core/static/core/pdfs/lh_login.pdf)           |
-| Register Page                | Registration flow validation                          | [lh_register.pdf](core/static/core/pdfs/lh_register.pdf)     |
-| Dashboard Page               | User interface and loading checks                     | [lh_dashboard.pdf](core/static/core/pdfs/lh_dashboard.pdf)   |
-| Profile Page                 | Profile summary audit                                 | [lh_profile.pdf](core/static/core/pdfs/lh_profile.pdf)       |
-| Edit Profile Page            | Form validation and performance                       | [lh_profile_edit.pdf](core/static/core/pdfs/lh_profile_edit.pdf) |
-| Password Change Page         | Secure password update test                           | [lh_password_change.pdf](core/static/core/pdfs/lh_password_change.pdf) |
-| Password Reset Page          | Token reset and validation                            | [lh_password_reset.pdf](core/static/core/pdfs/lh_password_reset.pdf) |
-| Forgot Password Page         | Email request form accessibility                      | [lh_password_forgot.pdf](core/static/core/pdfs/lh_password_forgot.pdf) |
-| Password Change Done         | Confirmation screen review                            | [lh_password_change_done.pdf](core/static/core/pdfs/lh_password_change_done.pdf) |
-| Password Reset Done          | End-of-reset user feedback                            | [lh_password_reset_done.pdf](core/static/core/pdfs/lh_password_reset_done.pdf) |
-| Product List Page            | Dynamic listing, filters and load audit               | [lh_product_list.pdf](core/static/core/pdfs/lh_product_list.pdf) |
-| Product Details Page         | Stripe integration and layout checks                  | [lh_product_details.pdf](core/static/core/pdfs/lh_product_details.pdf) |
-| Thank You Page               | Post-checkout performance review                      | [lh_thank_you.pdf](core/static/core/pdfs/lh_thank_you.pdf)   |
-| Payment Cancelled Page       | User feedback and handling audit                      | [lh_cancelled.pdf](core/static/core/pdfs/lh_cancelled.pdf)   |
-| Contact Page                 | Form accessibility, validation, and UX                | [lh_contact.pdf](core/static/core/pdfs/lh_contact.pdf)       |
-| Terms & Conditions Page      | Legal compliance and content visibility               | [lh_terms_policy.pdf](core/static/core/pdfs/lh_terms_policy.pdf) |
-| 404 Error Page               | Custom fallback test and error handling               | [lh_404.pdf](core/static/core/pdfs/lh_404.pdf)               |
+| Page                    | Audit Description                       | Report Path                                                                      |
+| ----------------------- | --------------------------------------- | -------------------------------------------------------------------------------- |
+| Home Page               | Overall performance, SEO, accessibility | [lh_home.pdf](core/static/core/pdfs/lh_home.pdf)                                 |
+| Login Page              | Login form and structure audit          | [lh_login.pdf](core/static/core/pdfs/lh_login.pdf)                               |
+| Register Page           | Registration flow validation            | [lh_register.pdf](core/static/core/pdfs/lh_register.pdf)                         |
+| Dashboard Page          | User interface and loading checks       | [lh_dashboard.pdf](core/static/core/pdfs/lh_dashboard.pdf)                       |
+| Profile Page            | Profile summary audit                   | [lh_profile.pdf](core/static/core/pdfs/lh_profile.pdf)                           |
+| Edit Profile Page       | Form validation and performance         | [lh_profile_edit.pdf](core/static/core/pdfs/lh_profile_edit.pdf)                 |
+| Password Change Page    | Secure password update test             | [lh_password_change.pdf](core/static/core/pdfs/lh_password_change.pdf)           |
+| Password Reset Page     | Token reset and validation              | [lh_password_reset.pdf](core/static/core/pdfs/lh_password_reset.pdf)             |
+| Forgot Password Page    | Email request form accessibility        | [lh_password_forgot.pdf](core/static/core/pdfs/lh_password_forgot.pdf)           |
+| Password Change Done    | Confirmation screen review              | [lh_password_change_done.pdf](core/static/core/pdfs/lh_password_change_done.pdf) |
+| Password Reset Done     | End-of-reset user feedback              | [lh_password_reset_done.pdf](core/static/core/pdfs/lh_password_reset_done.pdf)   |
+| Product List Page       | Dynamic listing, filters and load audit | [lh_product_list.pdf](core/static/core/pdfs/lh_product_list.pdf)                 |
+| Product Details Page    | Stripe integration and layout checks    | [lh_product_details.pdf](core/static/core/pdfs/lh_product_details.pdf)           |
+| Thank You Page          | Post-checkout performance review        | [lh_thank_you.pdf](core/static/core/pdfs/lh_thank_you.pdf)                       |
+| Payment Cancelled Page  | User feedback and handling audit        | [lh_cancelled.pdf](core/static/core/pdfs/lh_cancelled.pdf)                       |
+| Contact Page            | Form accessibility, validation, and UX  | [lh_contact.pdf](core/static/core/pdfs/lh_contact.pdf)                           |
+| Terms & Conditions Page | Legal compliance and content visibility | [lh_terms_policy.pdf](core/static/core/pdfs/lh_terms_policy.pdf)                 |
+| 404 Error Page          | Custom fallback test and error handling | [lh_404.pdf](core/static/core/pdfs/lh_404.pdf)                                   |
 
 ---
 
 #### Validation Evidence and Audit Reports
 
-| Validation Type       | Description                                              | File Path                                           |
-|-----------------------|----------------------------------------------------------|-----------------------------------------------------|
-| HTML Validation       | W3C validation of all major templates                    | [html_validation_report.pdf](core/static/core/pdfs/html_validation_report.pdf)  |
-| CSS Validation        | Validation of global stylesheet                          | [css_validation_report.pdf](core/static/core/pdfs/css_validation_report.pdf)   |
-| Python (PEP8) Check   | Flake8 style validation across all Python files          | [python_pep8_report.pdf](core/static/core/pdfs/python_pep8_report.pdf)      |
+| Validation Type     | Description                                     | File Path                                                                      |
+| ------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------ |
+| HTML Validation     | W3C validation of all major templates           | [html_validation_report.pdf](core/static/core/pdfs/html_validation_report.pdf) |
+| CSS Validation      | Validation of global stylesheet                 | [css_validation_report.pdf](core/static/core/pdfs/css_validation_report.pdf)   |
+| Python (PEP8) Check | Flake8 style validation across all Python files | [python_pep8_report.pdf](core/static/core/pdfs/python_pep8_report.pdf)         |
 
 ---
 
@@ -762,6 +787,7 @@ Files are stored in:
 All rendered HTML pages were exported and submitted to the official W3C validator (https://validator.w3.org/) for syntax and structure validation.
 
 **Pages Validated:**
+
 - home.html
 - product_list.html
 - product_detail.html
@@ -780,6 +806,7 @@ All rendered HTML pages were exported and submitted to the official W3C validato
 - Issues flagged were either info-level or warnings (e.g. `--` inside comments)
 
 **Key Results:**
+
 - No critical HTML errors detected
 - Minor warnings (comment syntax, non-critical metadata order)
 - All resolved during development and confirmed in final `.html` renderings
@@ -788,9 +815,10 @@ All rendered HTML pages were exported and submitted to the official W3C validato
 
 ---
 
-**Validation Outcome:**  
-- No critical HTML or CSS errors were identified.  
-- Minor issues such as missing `alt` attributes or `label` associations were resolved early in development.  
+**Validation Outcome:**
+
+- No critical HTML or CSS errors were identified.
+- Minor issues such as missing `alt` attributes or `label` associations were resolved early in development.
 - Python files passed PEP8 standards with no critical warnings or unused imports.
 
 ---
@@ -806,6 +834,7 @@ All rendered HTML pages were exported and submitted to the official W3C validato
 The entire Python codebase was validated using `flake8` to ensure compliance with PEP8 standards.
 
 All relevant Python modules across the project were scanned, including:
+
 - `accounts/`
 - `core/`
 - `products/`
@@ -831,7 +860,9 @@ flake8 . --exclude=migrations,venv,__pycache__ --max-line-length=120 > python_pe
 All testing and validations were performed in both the local Django environment and the live VM deployment to simulate real-world behaviour.
 
 ---
+
 ---
+
 ---
 
 ## Models and Database Design
@@ -840,13 +871,13 @@ VelVady uses a relational database schema designed to support secure authenticat
 
 ### Models Overview
 
-| Model Name      | Purpose                                                 |
-|-----------------|----------------------------------------------------------|
-| `User` (Custom) | Stores user account details using Django’s AbstractUser |
-| `Service`       | Represents services listed for purchase                 |
-| `Purchase`      | Records successful Stripe transactions                  |
-| `Review`        | Stores user-submitted feedback for purchased services   |
-| `ContactMessage`| Logs contact form submissions for admin review          |
+| Model Name       | Purpose                                                 |
+| ---------------- | ------------------------------------------------------- |
+| `User` (Custom)  | Stores user account details using Django’s AbstractUser |
+| `Service`        | Represents services listed for purchase                 |
+| `Purchase`       | Records successful Stripe transactions                  |
+| `Review`         | Stores user-submitted feedback for purchased services   |
+| `ContactMessage` | Logs contact form submissions for admin review          |
 
 ---
 
@@ -908,16 +939,19 @@ The data structure was designed with future scalability in mind. Here's a simpli
 The database schema fully supports CRUD operations, Stripe integration, user account control, and review moderation — all of which are necessary for meeting MP4 e-commerce criteria.
 
 ---
+
 ---
+
 ---
 
 ## Deployment
 
 ### Deployment (Ubuntu Server + Gunicorn + Nginx)
-*(Active deployment)*
+
+_(Active deployment)_
 
 ```
-VelVady runs on an Ubuntu 22.04 VM using Gunicorn (WSGI) behind Nginx (reverse proxy).  
+VelVady runs on an Ubuntu 22.04 VM using Gunicorn (WSGI) behind Nginx (reverse proxy).
 The application is served under a single canonical URL and subpath, with a CDN providing TLS termination and caching.
 ```
 
@@ -928,7 +962,7 @@ OVERVIEW
 App Server  : Gunicorn (Django WSGI)
 Reverse Proxy : Nginx
 Edge      : CDN (TLS + caching)
-URL Scheme  : https://www.sovcore.com/mp4-velvady
+URL Scheme  : https://mp4-velvady.sovcore.com/
 Database   : PostgreSQL
 ```
 
@@ -936,15 +970,15 @@ Database   : PostgreSQL
 
 ```
 SYSTEMD SERVICE (/etc/<project-name>.service)
-- Service unit present for Gunicorn (production).  
+- Service unit present for Gunicorn (production).
 - Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
 
 GUNICORN LAUNCHER (/usr/local/bin/run_gunicorn_<project-name>.sh)
-- Launcher script present for Gunicorn (production).  
+- Launcher script present for Gunicorn (production).
 - Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
 
 NGINX CONFIGURATION (/etc/nginx/sites-available/<project-name>_nginx.conf)
-- Nginx reverse proxy routes the app under the canonical subpath.  
+- Nginx reverse proxy routes the app under the canonical subpath.
 - Static and media are served via Nginx aliases. (Details intentionally omitted.)
 ```
 
@@ -952,13 +986,14 @@ NGINX CONFIGURATION (/etc/nginx/sites-available/<project-name>_nginx.conf)
 
 ```bash
 PUBLIC ACCESS
-HTTPS : https://www.sovcore.com/mp4-velvady
+HTTPS : https://mp4-velvady.sovcore.com/
 ```
 
 ---
 
 ### Local Setup Instructions
-*(For local testing and development)*
+
+_(For local testing and development)_
 
 ```bash
 CLONE THE REPOSITORY
@@ -1011,7 +1046,9 @@ Security   : CSRF protection, secure cookies, environment isolation
 ```
 
 ---
----  
+
+---
+
 ---
 
 ## Security Summary
@@ -1044,7 +1081,9 @@ The project adheres to industry-standard coding conventions:
 This project is an original work developed solely by the author for the Diploma in Full Stack Software Development with Code Institute. All third-party libraries and resources are acknowledged in the Credits section.
 
 ---
----  
+
+---
+
 ---
 
 ## Credits
@@ -1067,7 +1106,7 @@ This project represents the final milestone submission for the Diploma in Full S
 - **FontAwesome** – Icons used across the site: https://fontawesome.com/
 - **Google Fonts** – Custom typography: https://fonts.google.com/
 - **Figma** – UI/UX design and wireframing tool: https://www.figma.com/
-**Infrastructure Setup (VM):** Self-hosted Ubuntu 22.04, Nginx, Gunicorn, and systemd configuration prepared and documented by the project author.
+  **Infrastructure Setup (VM):** Self-hosted Ubuntu 22.04, Nginx, Gunicorn, and systemd configuration prepared and documented by the project author.
 
 **Edge Delivery:** CDN layer provides TLS termination and static asset caching for global availability.
 
@@ -1081,7 +1120,9 @@ This project represents the final milestone submission for the Diploma in Full S
 - **Unsplash / Pexels** – Placeholder media and mock service thumbnails. All images used are royalty-free.
 
 ---
+
 ---
+
 ---
 
 ## Acknowledgements
